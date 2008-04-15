@@ -12,7 +12,8 @@ class Virtuals{
    * @static dirs()
    * @return Array
    */
-  static function dirs($url = ''){
+  static function dirs($url = '')
+  {
     if($_SERVER['REQUEST_URI'] <> '' and $url == '')
     {
       $url = $_SERVER['REQUEST_URI'];
@@ -25,4 +26,5 @@ class Virtuals{
     return explode('/', trim(strtr($_VIRTALS['path'],'\\','/'),'/'));
   }
 }
+//blablabla
 ?>
