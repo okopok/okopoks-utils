@@ -14,7 +14,8 @@ class CurlGetContent
   var $yaPasswd  = '';
   var $authLink  = '';
   var $authRefer = '';
-
+  public $debug     = false;
+  public $timeOut   = 10;
   public function addFile($key, $file)
   {
     $this->inputs[$key] = "@$file";
@@ -69,8 +70,7 @@ class CurlGetContent
       curl_setopt($this->curlSRC, CURLOPT_HTTPHEADER, $header);
       curl_setopt($this->curlSRC, CURLOPT_ENCODING, 'gzip,deflate');
       curl_setopt($this->curlSRC, CURLOPT_AUTOREFERER, true);
-      curl_setopt($this->curlSRC, CURLOPT_TIMEOUT, 10);
-      curl_setopt($this->curlSRC, CURLOPT_VERBOSE, true);
+
       curl_setopt($this->curlSRC, CURLOPT_COOKIEJAR,  $this->cookies.$this->yaLogin.'.cookie.txt');
       curl_setopt($this->curlSRC, CURLOPT_COOKIEFILE, $this->cookies.$this->yaLogin.'.cookie.txt');
       curl_setopt($this->curlSRC, CURLOPT_RETURNTRANSFER, 1);
@@ -81,12 +81,14 @@ class CurlGetContent
  /**
    * Отправляем посты на страницу
    *
-   * @param string $page
-   * @param string $refer
-   * @param array $inputs
+   * @param string $page  - url
+   * @param string $refer - referer
+   * @param array $inputs - inputs
+   * @param bool $follow  - follow redirects
+   * @param int $timeOut  - timeout
    * @return string
    */
-  public function getPage($page, $refer = '', $inputs = array(), $follow = false)
+  public function getPage($page, $refer = '', $inputs = array(), $follow = false, $timeOut = false)
   {
     if(!is_resource($this->curlSRC)) $this->getSrc();
     $this->inputs = array_merge($inputs, $this->inputs);
@@ -107,18 +109,15 @@ class CurlGetContent
       curl_setopt ($this->curlSRC, CURLOPT_FOLLOWLOCATION, true);
     }
 
+    curl_setopt($this->curlSRC, CURLOPT_TIMEOUT, $this->timeOut);
+    if($this->debug) curl_setopt($this->curlSRC, CURLOPT_VERBOSE, true);
+
     curl_setopt($this->curlSRC, CURLOPT_URL,        $page);
     $ret = curl_exec ($this->curlSRC);
     $this->inputs = array();
-
-    if(eregi('Нет прав для выполнения данной операции', $ret))
-    {
-      die('Нет прав для выполнения данной операции</br>Это значит, что вы где-то и что-то неправильно ввели!');
-    }else{
-      return $ret;
-    }
-
+    return $ret;
   }
+
 
 
   /**
