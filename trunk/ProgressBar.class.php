@@ -27,18 +27,16 @@
 
 class ProgressBar
 {
-  var $total;
-  var $oneProc;
-
-  var $every    = 5;
-  var $current  = 5;
-  var $currIter = 0;
-
-  var $lastIterTime       = 0;
-  var $lastIterTimeStamp  = 0;
-  var $midIterTime        = 0;
-  var $startTime          = 0;
-  var $printReady         = false;
+  protected $total              = 0;
+  protected $every              = 5;
+  protected $oneProc;
+  protected $current            = 5;
+  protected $currIter           = 0;
+  protected $lastIterTime       = 0;
+  protected $lastIterTimeStamp  = 0;
+  protected $midIterTime        = 0;
+  protected $startTime          = 0;
+  var $printReady               = false;
 
   function ProgressBar($total = 0, $every = 5)
   {
@@ -133,15 +131,15 @@ class ProgressBar
   }
 
   /**
-   *
    * prints template if procent exists
    *
-   * ::cp:: - get current procent
-   * ::pl:: - get procents left
-   * ::il:: - get iterations left
-   * ::tl:: - get time left
-   * ::ti:: - get this iteration time
-   * ::ft:: - get finish time
+   * ::CURRENTPROC::  - get current procent
+   * ::LEFTPROC::     - get procents left
+   * ::LEFTITERS::    - get iterations left
+   * ::LEFTTIME::     - get time left
+   * ::THISITERTIME:: - get this iteration time
+   * ::MIDITERTIME::  - get medium iteration time
+   * ::FINISHTIME::   - get finish time
    *
    * @param int $num
    * @param string $shab
@@ -149,13 +147,13 @@ class ProgressBar
    */
   function printOut($shab = '::cp::% - ::pl::% - ::il:: - ::tl:: - ::ti:: - ::ft::')
   {
-    $shab = str_replace('::cp::', $this->getCurrentProc($this->currIter), $shab);
-    $shab = str_replace('::pl::', $this->getLeftProc($this->currIter), $shab);
-    $shab = str_replace('::il::', $this->getLeftIters($this->currIter), $shab);
-    $shab = str_replace('::tl::', $this->getLeftTime($this->currIter), $shab);
-    $shab = str_replace('::ti::', $this->getThisIterTime($this->currIter), $shab);
-    $shab = str_replace('::mi::', $this->getMidIterTime(), $shab);
-    $shab = str_replace('::ft::', $this->getFinishTime($this->currIter), $shab);
+    $shab = str_ireplace('::CURRENTPROC::', $this->getCurrentProc($this->currIter), $shab);
+    $shab = str_ireplace('::LEFTPROC::',    $this->getLeftProc($this->currIter), $shab);
+    $shab = str_ireplace('::LEFTITERS::',   $this->getLeftIters($this->currIter), $shab);
+    $shab = str_ireplace('::LEFTTIME::',    $this->getLeftTime($this->currIter), $shab);
+    $shab = str_ireplace('::THISITERTIME::',$this->getThisIterTime($this->currIter), $shab);
+    $shab = str_ireplace('::MIDITERTIME::', $this->getMidIterTime(), $shab);
+    $shab = str_ireplace('::FINISHTIME::',  $this->getFinishTime($this->currIter), $shab);
     return $shab;
   }
 

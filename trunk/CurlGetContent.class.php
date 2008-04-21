@@ -16,6 +16,7 @@ class CurlGetContent
   var $authRefer = '';
   public $debug     = false;
   public $timeOut   = 10;
+  protected $proxyState = 0;
   public function addFile($key, $file)
   {
     $this->inputs[$key] = "@$file";
@@ -29,7 +30,7 @@ class CurlGetContent
    */
   public function auth()
   {
-    if(!is_resource($this->curlSRC)) $this->getSrc();
+    $this->getSrc();
 
     $inputs = array();
     $this->getPassFromIni();
@@ -50,31 +51,45 @@ class CurlGetContent
     }
   }
 
+
   /**
-   * Получаем ресурс соединения
-   * @return source
+   * Получение сурса. Если был, то просто возвращаем, если небыло, то создаём
+   *
+   * @return resourse
    */
   function getSrc()
   {
     if(!is_resource($this->curlSRC))
     {
-      if(!is_dir($this->cookies)) @mkdir(dirname(__FILE__).$this->cookies, 0777, true);
-      $header[] = "Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5";
-      $header[] = "Cache-Control: max-age=0";
-      $header[] = "Accept-Charset: windows-1251,utf-8;q=0.7,*;q=0.7";
-      $header[] = "Accept-Language: ru-ru,ru;q=0.8,en-us;q=0.5,en;q=0.3";
-      $header[] = "Pragma: "; // browsers keep this blank.
-
-      $this->curlSRC = curl_init();
-      curl_setopt($this->curlSRC, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 5.0; ru; rv:1.8.1.8) Gecko/20071008 Firefox/2.0.0.8');
-      curl_setopt($this->curlSRC, CURLOPT_HTTPHEADER, $header);
-      curl_setopt($this->curlSRC, CURLOPT_ENCODING, 'gzip,deflate');
-      curl_setopt($this->curlSRC, CURLOPT_AUTOREFERER, true);
-
-      curl_setopt($this->curlSRC, CURLOPT_COOKIEJAR,  $this->cookies.$this->yaLogin.'.cookie.txt');
-      curl_setopt($this->curlSRC, CURLOPT_COOKIEFILE, $this->cookies.$this->yaLogin.'.cookie.txt');
-      curl_setopt($this->curlSRC, CURLOPT_RETURNTRANSFER, 1);
+      $this->curlSRC = $this->getNewSrc();
     }
+    return $this->curlSRC;
+  }
+
+  /**
+   * Получаем новый ресурс соединения
+   * @return source
+   */
+  function getNewSrc()
+  {
+
+    if(!is_dir($this->cookies)) @mkdir(dirname(__FILE__).$this->cookies, 0777, true);
+    $header[] = "Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5";
+    $header[] = "Cache-Control: max-age=0";
+    $header[] = "Accept-Charset: windows-1251,utf-8;q=0.7,*;q=0.7";
+    $header[] = "Accept-Language: ru-ru,ru;q=0.8,en-us;q=0.5,en;q=0.3";
+    $header[] = "Pragma: "; // browsers keep this blank.
+
+    $this->curlSRC = curl_init();
+    curl_setopt($this->curlSRC, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows; U; Windows NT 5.0; ru; rv:1.8.1.8) Gecko/20071008 Firefox/2.0.0.8');
+    curl_setopt($this->curlSRC, CURLOPT_HTTPHEADER, $header);
+    curl_setopt($this->curlSRC, CURLOPT_ENCODING, 'gzip,deflate');
+    curl_setopt($this->curlSRC, CURLOPT_AUTOREFERER, true);
+
+    curl_setopt($this->curlSRC, CURLOPT_COOKIEJAR,  $this->cookies.$this->yaLogin.'.cookie.txt');
+    curl_setopt($this->curlSRC, CURLOPT_COOKIEFILE, $this->cookies.$this->yaLogin.'.cookie.txt');
+    curl_setopt($this->curlSRC, CURLOPT_RETURNTRANSFER, 1);
+
     return $this->curlSRC;
   }
 
@@ -90,7 +105,7 @@ class CurlGetContent
    */
   public function getPage($page, $refer = '', $inputs = array(), $follow = false, $timeOut = false)
   {
-    if(!is_resource($this->curlSRC)) $this->getSrc();
+    $this->getSrc();
     $this->inputs = array_merge($inputs, $this->inputs);
 
     if($refer != '')
@@ -112,7 +127,7 @@ class CurlGetContent
     curl_setopt($this->curlSRC, CURLOPT_TIMEOUT, $this->timeOut);
     if($this->debug) curl_setopt($this->curlSRC, CURLOPT_VERBOSE, true);
 
-    curl_setopt($this->curlSRC, CURLOPT_URL,        $page);
+    curl_setopt($this->curlSRC, CURLOPT_URL, $page);
     $ret = curl_exec ($this->curlSRC);
     $this->inputs = array();
     return $ret;
@@ -123,18 +138,24 @@ class CurlGetContent
   /**
    * Использовать прокси или нет
    *
-   * @param string $host адресс прокси сервера
+   * @param string $host адресс прокси сервера. Если 0, то работает новое собенение без прокси. Все сессии сбрасываются
    * @param string $user логин
    * @param string $pass пароль
    */
-  function useProxy($host, $user = '', $pass = '')
+  function useProxy($host = 0, $user = '', $pass = '')
   {
-    if(!is_resource($this->curlSRC)) $this->getSrc();
-    curl_setopt ($this->curlSRC, CURLOPT_PROXY,   $host);
-    if($user != '' and $pass!='')
+
+    if($host != '0')
     {
-      curl_setopt ($this->curlSRC, CURLOPT_PROXYUSERPWD, "$user:$pass");
+      curl_setopt ($this->getSrc(), CURLOPT_PROXY,   $host);
+      if($user != '' and $pass!='')
+      {
+        curl_setopt ($this->curlSRC, CURLOPT_PROXYUSERPWD, "$user:$pass");
+      }
+    }else{
+      $this->getNewSrc();
     }
+
   }
 }
 ?>
