@@ -400,11 +400,17 @@ class utils{
   }
 
 
-  // рекурсивное создание директорий
-  function RecursiveMkdir( $path ){
-    if( !file_exists( $path ) ){
-      $this->RecursiveMkdir( dirname( $path ) );
-      mkdir( $path );
+  /**
+   * рекурсивное создание директорий
+   *
+   * @param string $path
+   * @param int $rights
+   */
+  function RecursiveMkdir( $path, $rights = 0777 ){
+    if( !file_exists( $path ) )
+    {
+      if(!file_exists(dirname( $path ))) $this->RecursiveMkdir( dirname( $path ) );
+      mkdir( $path, $rights );
     }
   }
 
@@ -422,7 +428,7 @@ class utils{
         $scan_files = scandir($path);
         foreach($scan_files as $scan_file){
       	if($scan_file == '.' or $scan_file == '..') continue;
-     		if(is_dir($path.'/'.$scan_file) and $delete_sub_dirs == 1) $this->RecursiveRmdir( $path.'/'.$scan_file, $delete_sub_dirs, $delete_files  );
+     		if(is_dir($path.'/'.$scan_file) and $delete_sub_dirs == 1) self::RecursiveRmdir( $path.'/'.$scan_file, $delete_sub_dirs, $delete_files  );
      		if(is_file($path.'/'.$scan_file) and $delete_files) unlink($path.'/'.$scan_file);
      	  }
         if($delete_sub_dirs == 1) rmdir($path);

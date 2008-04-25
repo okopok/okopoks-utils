@@ -61,9 +61,10 @@ class CurlGetContent
   {
     if(!is_resource($this->curlSRC))
     {
-      $this->curlSRC = $this->getNewSrc();
+      return $this->getNewSrc();
+    }else{
+      return $this->curlSRC;
     }
-    return $this->curlSRC;
   }
 
   /**
@@ -72,7 +73,6 @@ class CurlGetContent
    */
   function getNewSrc()
   {
-
     if(!is_dir($this->cookies)) @mkdir(dirname(__FILE__).$this->cookies, 0777, true);
     $header[] = "Accept: text/xml,application/xml,application/xhtml+xml,text/html;q=0.9,text/plain;q=0.8,image/png,*/*;q=0.5";
     $header[] = "Cache-Control: max-age=0";
@@ -89,7 +89,6 @@ class CurlGetContent
     curl_setopt($this->curlSRC, CURLOPT_COOKIEJAR,  $this->cookies.$this->yaLogin.'.cookie.txt');
     curl_setopt($this->curlSRC, CURLOPT_COOKIEFILE, $this->cookies.$this->yaLogin.'.cookie.txt');
     curl_setopt($this->curlSRC, CURLOPT_RETURNTRANSFER, 1);
-
     return $this->curlSRC;
   }
 

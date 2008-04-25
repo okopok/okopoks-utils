@@ -4,7 +4,7 @@
  * @author  - Molodtsov Sasha <asid@mail.ru>
  * @package - utils
  * @since   - 28.11.2007
- * @version - 1.4
+ * @version - 1.5
  * @todo    - make graphical output, calculate time (estimate, finish, total, start, per proc, per iter)
  *
  * example:
@@ -36,6 +36,7 @@ class ProgressBar
   protected $lastIterTimeStamp  = 0;
   protected $midIterTime        = 0;
   protected $startTime          = 0;
+  protected $allItersTimes      = array();
   var $printReady               = false;
 
   function ProgressBar($total = 0, $every = 5)
