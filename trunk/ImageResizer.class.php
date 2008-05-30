@@ -1,7 +1,7 @@
 <?php
 /**
-* РЈРЅРёРІРµСЂСЃР°Р»СЊРЅС‹Р№ РєР»Р°СЃСЃ РґР»СЏ СЂРµСЃР°Р№Р·Р° РєР°СЂС‚РёРЅРѕРє
-* @author РЎР°С€Р° РњРѕР»РѕРґС†РѕРІ <asid@mail.ru>
+* Универсальный класс для ресайза картинок
+* @author Саша Молодцов <asid@mail.ru>
 * @since .09.2006
 * @version 1.04.03.2008
 *
@@ -12,9 +12,9 @@ class ImageResizer
 
   var $error = false;
   /**
-   * С„СѓРЅРєС†РёСЏ СЃРѕР·РґР°РЅРёСЏ РЅРѕРІС‹С… РґРёСЂРµРєС‚РѕСЂРёР№
+   * функция создания новых директорий
    *
-   * @param string $path РїСѓС‚СЊ
+   * @param string $path путь
    */
   function RecursiveMkdir( $path )
   {
@@ -26,9 +26,9 @@ class ImageResizer
   }
 
   /**
-   * РћРїСЂРµРґРµР»СЏРµС‚ С‚РёРї С„РѕС‚РєРё РїРѕ mime С‚РёРїСѓ
+   * Определяет тип фотки по mime типу
    *
-   * @param string $filename - РїСѓС‚СЊ РґРѕ С„РѕС‚РєРё
+   * @param string $filename - путь до фотки
    * @return string
    */
   function getType($filename)
@@ -46,10 +46,10 @@ class ImageResizer
 
 
   /**
-   * РџРѕР»СѓС‡Р°РµРј СЂРµСЃСѓСЂСЃ С„РѕС‚РєРё РёСЃС…РѕРґСЏ РёР· РµС‘ С‚РёРїР°
+   * Получаем ресурс фотки исходя из её типа
    *
-   * @param strinh $file - РїСѓС‚СЊ РґРѕ РєР°СЂС‚РёРЅРєРё
-   * @return resourse    - РїРѕР»СѓС‡РµРЅРЅС‹Р№ СЂРµСЃСѓСЂСЃ
+   * @param strinh $file - путь до картинки
+   * @return resourse    - полученный ресурс
    */
   function prepareIMGsrc($file)
   {
@@ -66,12 +66,12 @@ class ImageResizer
 
 
   /**
-   * Р’С‹РІРѕРґРёС‚ РІ С„Р°Р№Р» С‚РµРєСѓС‰РёР№ СЂРµСЃСѓСЂСЃ С„РѕС‚РєРё.
-   * Р—Р°РѕРґРЅРѕ РїСЂРѕРІРµСЂСЏРµС‚ СЂР°СЃС€РёСЂРµРЅРёРµ С„Р°Р№Р»Р° Рё РІС‹РґР°С‘С‚ РЅСѓР¶РЅС‹Р№ С„РѕСЂРјР°С‚
+   * Выводит в файл текущий ресурс фотки.
+   * Заодно проверяет расширение файла и выдаёт нужный формат
    *
-   * @param string $file     - РїСѓС‚СЊ РЅРѕРІРѕРіРѕ С„Р°Р№Р»Р°
-   * @param resourse $source - СЂРµСЃСѓСЂСЃ С„РѕС‚РєРё
-   * @param int $quality     - РєР°С‡РµСЃС‚РІРѕ С„РѕС‚РєРё РѕС‚ 0 РґРѕ 100
+   * @param string $file     - путь нового файла
+   * @param resourse $source - ресурс фотки
+   * @param int $quality     - качество фотки от 0 до 100
    * @return bool
    */
   function outputIMG($file, $source, $quality = '75')
@@ -100,21 +100,21 @@ class ImageResizer
   	return true;
   }
 
-  // С„СѓРЅРєС†РёСЏ РѕР±СЂР°Р±РѕС‚РєРё РєР°СЂС‚РёРЅРєРё
+  // функция обработки картинки
   /**
-   * С„СѓРЅРєС†РёСЏ РѕР±СЂР°Р±РѕС‚РєРё РєР°СЂС‚РёРЅРєРё (СЂРµСЃР°Р№Р·Р°)
+   * функция обработки картинки (ресайза)
    *
-   * @param int $resize_x С€РёСЂРёРЅР° РєР°СЂС‚РёРЅРєРё
-   * @param int $resize_y РІС‹СЃРѕС‚Р° РєР°СЂС‚РёРЅРєРё
-   * @param string $source_file РёСЃС…РѕРґРЅС‹Р№ РїСѓС‚СЊ РєР°СЂС‚РёРЅРєРё
-   * @param string $new_file РЅРѕРІС‹Р№ РїСѓС‚СЊ РєР°СЂС‚РёРЅРєРё
-   * @param array $array РїР°СЂР°РјРµС‚СЂС‹ (
-   *  quality     => (int) - РєР°С‡РµСЃС‚РІРѕ С„РѕС‚РєРё РѕС‚ 0 РґРѕ 100.                               default = 75
-   *  fill_in_box => (int) - 0 РёР»Рё 1. Р’РїРёСЃС‹РІР°С‚СЊ РІ РєРІР°РґСЂР°С‚ РёР»Рё РЅРµС‚.                     default = 0
-   *  color       => (str) - С†РІРµС‚ Р·Р°Р»РёРІРєРё РІ РєРІР°РґСЂР°С‚Рµ РІ 16С‡РЅРѕР№ СЃРёСЃС‚РµРјРµ.                 default = 'ffffff'
-   *  lowres      => (int) - РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ Р»Рё РЅРёР·РєРѕРµ СЂР°Р·СЂРµС€РµРЅРёРµ (РґР»СЏ СѓСЃРєРѕСЂРµРЅРёСЏ СЂР°Р±РѕС‚С‹). default = 0
-   *  size_check  => (int) - РїСЂРѕРІРµСЂСЏС‚СЊ РІС…РѕРґСЏС‰СѓСЋ РєР°СЂС‚РёРЅРєСѓ РЅР° СЂР°Р·РјРµСЂС‹. Р•СЃР»Рё РїРѕРґР°РІР°РµРјС‹Рµ СЂР°Р·РјРµСЂС‹ С‚Р°РєРёРµ Р¶Рµ РєР°Рє Рё РїРѕРґР°РІР°РµРјС‹Рµ РґР»СЏ СЂРµСЃР°Р№Р·Р°
-   *  С‚Рѕ РЅРµ РїСЂРѕРІРѕРґРёС‚СЊ СЂРµСЃР°Р№Р·, Р° РїСЂРѕСЃС‚Рѕ РєРѕРїРёСЂРѕРІР°С‚СЊ РёР·РѕР±СЂР°Р¶РµРЅРёРµ
+   * @param int $resize_x ширина картинки
+   * @param int $resize_y высота картинки
+   * @param string $source_file исходный путь картинки
+   * @param string $new_file новый путь картинки
+   * @param array $array параметры (
+   *  quality     => (int) - качество фотки от 0 до 100.                               default = 75
+   *  fill_in_box => (int) - 0 или 1. Вписывать в квадрат или нет.                     default = 0
+   *  color       => (str) - цвет заливки в квадрате в 16чной системе.                 default = 'ffffff'
+   *  lowres      => (int) - использовать ли низкое разрешение (для ускорения работы). default = 0
+   *  size_check  => (int) - проверять входящую картинку на размеры. Если подаваемые размеры такие же как и подаваемые для ресайза
+   *  то не проводить ресайз, а просто копировать изображение
    * )
    * @return bool
    *
@@ -181,7 +181,7 @@ class ImageResizer
   	if($fill_in_box == 1)
   	{
   	  $destin = imagecreatetruecolor( $resize_x, $resize_y );
-  	  sscanf($color, "%2x%2x%2x", $red, $green, $blue); // РІС‹С‡РёСЃР»СЏРµРј С†РІРµС‚ РёР· 16СЂРёС‡РЅРѕР№ СЃРёСЃС‚РµРјС‹ РІ Р Р“Р‘
+  	  sscanf($color, "%2x%2x%2x", $red, $green, $blue); // вычисляем цвет из 16ричной системы в РГБ
   	  $colorallocate  = imagecolorallocate($destin, $red, $green, $blue);
   	  imagefill($destin,0,0,$colorallocate);
   	  if($lowres == 1){
@@ -202,25 +202,25 @@ class ImageResizer
   }
 
   /**
-   * РџРѕР»СѓС‡Р°РµС‚ СЂР°Р·РјРµСЂ С„РѕС‚РѕРіСЂР°С„РёРё
+   * Получает размер фотографии
    *
-   * @param string $filename - РїСѓС‚СЊ РґРѕ С„РѕС‚РѕРіСЂР°С„РёРё
-   * @return array           - РјР°СЃСЃРёРІ СЃ СЂР°Р·РјРµСЂР°РјРё Рё РґР°РЅРЅС‹РјРё Рѕ РєР°СЂС‚РёРЅРєРµ
+   * @param string $filename - путь до фотографии
+   * @return array           - массив с размерами и данными о картинке
    */
   function getSize($filename){
     return getimagesize($filename);
   }
 
   /**
-   * РћС‚СЂРµР·Р°РµС‚ РѕС‚ СЃС‚РѕСЂРѕРЅ РєР°СЂС‚РёРЅРєРё Р·Р°РґР°РЅРЅРѕРµ РєРѕР»-РІРѕ РїРёРєСЃРµР»РµР№
+   * Отрезает от сторон картинки заданное кол-во пикселей
    *
-   * @param string $source_file - РёСЃС…РѕРґРЅС‹Р№ С„Р°Р№Р»
-   * @param string $new_file    - РєРѕРЅРµС‡РЅС‹Р№ С„Р°Р№Р»
-   * @param int $top            - СЃРєРѕР»СЊРєРѕ СЂРµР·Р°С‚СЊ СЃРІРµСЂС…Сѓ
-   * @param int $bottom         - СЃРєРѕР»СЊРєРѕ СЂРµР·Р°С‚СЊ СЃРЅРёР·Сѓ
-   * @param int $left           - СЃРєРѕР»СЊРєРѕ СЂРµР·Р°С‚СЊ СЃР»РµРІР°
-   * @param int $right          - СЃРєРѕР»СЊРєРѕ СЂРµР·Р°С‚СЊ СЃРїСЂР°РІРѕ
-   * @param int $quality_num    - РєР°С‡РµСЃС‚РІРѕ РєР°СЂС‚РёРЅРєРё
+   * @param string $source_file - исходный файл
+   * @param string $new_file    - конечный файл
+   * @param int $top            - сколько резать сверху
+   * @param int $bottom         - сколько резать снизу
+   * @param int $left           - сколько резать слева
+   * @param int $right          - сколько резать справо
+   * @param int $quality_num    - качество картинки
    */
   function crop($source_file, $new_file, $top = 0, $bottom = 0, $left = 0, $right = 0, $quality_num = 75){
     $source  = $this->prepareIMGsrc($source_file);
@@ -235,27 +235,27 @@ class ImageResizer
 
   /**
    * alpha version
-   * РјРµС‚РѕРґ РґР»СЏ СѓСЃС‚Р°РЅРѕРІРєРё СЂР°РјРєРё СЃ РєСЂСѓРіР»С‹РјРё РєСЂР°СЏРјРё :)
-   * @todo - СѓРЅРёРІРµСЂСЃР°Р»СЊРЅС‹Рµ РЅР°СЃС‚СЂРѕР№РєРё Р±РѕСЂРґРµСЂРѕРІ, РґРѕР±Р°РІР»РµРЅРёРµ СЂР°РјРѕРє РІ Р»СЋР±С‹Рµ С„РѕС‚РєРё (СЂРµСЃСѓСЂСЃС‹), РЅР°СЃС‚СЂРѕРєРё РєСЂРѕРїР°, Р·Р°Р»РёРІРєРё Рё С†РІРµС‚РѕРІ Р±РѕСЂРґРµСЂРѕРІ
-   * @param string $fileIn  - РёСЃС…РѕРґРЅС‹Р№ С„Р°Р№Р»
-   * @param string $fileOut - РІС‹С…РѕРґРЅРѕР№ С„Р°Р№Р»
-   * @param int    $size    - СЂР°Р·РјРµСЂ С„РѕС‚РєРё (РєРІР°РґСЂР°С‚РЅРѕР№ РїРѕРєР°-С‡С‚Рѕ)
-   * @param int    $margin  - СЂР°Р·РјРµСЂ РѕС‚СЃС‚СѓРїР° РІ С‚РѕС‡РєР°С…
+   * метод для установки рамки с круглыми краями :)
+   * @todo - универсальные настройки бордеров, добавление рамок в любые фотки (ресурсы), настроки кропа, заливки и цветов бордеров
+   * @param string $fileIn  - исходный файл
+   * @param string $fileOut - выходной файл
+   * @param int    $size    - размер фотки (квадратной пока-что)
+   * @param int    $margin  - размер отступа в точках
    *
    */
   function roundBorders($fileIn, $fileOut, $size = 100, $margin = 10, $text = '', $font = 'verdana.ttf')
   {
-    //Р·Р°РіСЂСѓР·РєР° РёР·РѕР±СЂР°Р¶РµРЅРёСЏ
+    //загрузка изображения
     $im_good = $this->prepareIMGsrc($fileIn);
 
-    // РїСЂРµРґСѓСЃС‚Р°РЅРѕРІР»РµРЅРЅС‹Рµ СЂР°Р·РјРµСЂС‹ / РєРІР°РґСЂР°С‚РЅС‹Рµ
+    // предустановленные размеры / квадратные
     $predef = $size;
     $width  = $predef;
     $height = $predef;
     $mx     = $predef;
 
 
-    // РёР·РјРµРЅРµРЅРёРµ СЂР°РґРёСѓСЃР° РґР»СЏ РјРµР»РєРёС… РёР·РѕР±СЂР°Р¶РµРЅРёР№
+    // изменение радиуса для мелких изображений
     if( $mx < 130 ){
       $radius = 11;
     }else{
@@ -318,20 +318,20 @@ class ImageResizer
 
 
   /**
-   * РџРѕР»СѓС‡Р°РµРј РєРѕРѕСЂРґРёРЅР°С‚С‹ РґР»СЏ С„РѕС‚РѕРіСЂР°С„РёРё РёР· РёСЃС…РѕРґРЅРѕР№ С„СЂР°Р·С‹
+   * Получаем координаты для фотографии из исходной фразы
    *
-   * @param string $place     - С„СЂР°Р·Р° РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ РєРѕРѕСЂРґРёРЅР°С‚ РґРµР№СЃС‚РІРёС‚РµР»СЊРЅС‹ СЃР»РµРґСѓСЋС‰РёРµ С„СЂР°Р·С‹.
+   * @param string $place     - фраза для получения координат действительны следующие фразы.
    * top-left, top-right, top, top-center, middle-left, left, middle, center, middle-right, center-right, right, bottom-left, bottom-right, bottom-center, bottom
-   * @param int $sizeX        - С€РёСЂРёРЅР° Р±РѕР»СЊС€РµР№ РєР°СЂС‚РёРЅРєРё
-   * @param int $sizeY        - РІС‹СЃРѕС‚Р° Р±РѕР»СЊС€РµР№ РєР°СЂС‚РёРЅРёРєРё
-   * @param int $sizeXL       - С€РёСЂРёРЅР° РЅРѕРІРѕРіРѕ СЃР»РѕСЏ
-   * @param int $sizeYL       - РІС‹СЃРѕС‚Р° РЅРѕРІРѕРіРѕ СЃР»РѕСЏ
-   * @param int $marginTop    - РѕС‚СЃС‚СѓРї СЃРІРµСЂС…Сѓ
-   * @param int $marginBottom - РѕС‚СЃС‚СѓРї СЃРЅРёР·Сѓ
-   * @param int $marginLeft   - РѕС‚СЃС‚СѓРї СЃР»РµРІР°
-   * @param int $marginRight  - РѕС‚СЃС‚СѓРї СЃРїСЂР°РІР°
+   * @param int $sizeX        - ширина большей картинки
+   * @param int $sizeY        - высота большей картиники
+   * @param int $sizeXL       - ширина нового слоя
+   * @param int $sizeYL       - высота нового слоя
+   * @param int $marginTop    - отступ сверху
+   * @param int $marginBottom - отступ снизу
+   * @param int $marginLeft   - отступ слева
+   * @param int $marginRight  - отступ справа
    *
-   * @return array [x] - РєРѕРѕСЂРґРёРЅР°С‚Р° РЅР° РѕСЃРё РҐ. [y] - РєРѕРѕСЂРґРёРЅР°С‚Р° РЅР° РѕСЃРё y
+   * @return array [x] - координата на оси Х. [y] - координата на оси y
    */
 
   function getCoords($place,$sizeX,$sizeY,$sizeXL,$sizeYL, $marginTop = 0, $marginBottom = 0, $marginLeft = 0, $marginRight = 0){
@@ -358,18 +358,18 @@ class ImageResizer
   }
 
   /**
-   * РќР°РєР»Р°РґС‹РІР°РµС‚ РѕРґРЅСѓ РєР°СЂС‚РёРЅРєСѓ РЅР° РґСЂСѓРіСѓСЋ.
+   * Накладывает одну картинку на другую.
    *
-   * @param string $source_file - С„РѕРЅ
-   * @param string $layer_file  - С‚Рѕ С‡С‚Рѕ РЅР°РєР»Р°РґС‹РІР°РµРј (РґРѕР»Р¶РЅР° Р±С‹С‚СЊ РјРµРЅСЊС€Рµ С‡РµРј С„РѕРЅ)
-   * @param string $new_file    - РєРѕРЅРµС‡РЅС‹Р№ С„Р°Р№Р»
-   * @param string $place       - РјРµСЃС‚Рѕ РґР»СЏ РЅР°Р»РѕР¶РµРЅРёСЏ
-   * @param int    $marginTop   - РѕС‚СЃС‚СѓРї СЃРІРµСЂС…Сѓ
-   * @param int    $marginBottom - РѕС‚СЃС‚СѓРї СЃРЅРёР·Сѓ
-   * @param int    $marginLeft  - РѕС‚СЃС‚СѓРї СЃР»РµРІР°
-   * @param int    $marginRight - РѕС‚СЃС‚СѓРї СЃРїСЂР°РІР°
-   * @param int    $alpha       - СЃС‚РµРїРµРЅСЊ РїСЂРѕР·СЂР°С‡РЅРѕСЃС‚Рё РѕС‚ 0 РґРѕ 100
-   * @param int    $quality_num - РєР°С‡РµСЃС‚РІРѕ
+   * @param string $source_file - фон
+   * @param string $layer_file  - то что накладываем (должна быть меньше чем фон)
+   * @param string $new_file    - конечный файл
+   * @param string $place       - место для наложения
+   * @param int    $marginTop   - отступ сверху
+   * @param int    $marginBottom - отступ снизу
+   * @param int    $marginLeft  - отступ слева
+   * @param int    $marginRight - отступ справа
+   * @param int    $alpha       - степень прозрачности от 0 до 100
+   * @param int    $quality_num - качество
    */
   function addLayer($source_file, $layer_file, $new_file, $place = 'top-left', $marginBottom = 0, $marginLeft = 0, $marginRight = 0, $alpha = 0, $quality_num = 75 ){
 
