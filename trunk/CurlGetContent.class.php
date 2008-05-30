@@ -3,53 +3,15 @@
 /**
  * @package utils
  * @copyright Molotdsov Sasha <asid@mail.ru>
- * @version 0.8.1
+ * @version 0.9
  */
 class CurlGetContent
 {
-  var $curlSRC   = null;
-  var $inputs    = array();
-  var $cookies   = '';
-  var $yaLogin   = '';
-  var $yaPasswd  = '';
-  var $authLink  = '';
-  var $authRefer = '';
-  public $debug     = false;
-  public $timeOut   = 10;
-  protected $proxyState = 0;
-  public function addFile($key, $file)
-  {
-    $this->inputs[$key] = "@$file";
-  }
-
-
-  /**
-   * Авторизация, если нужно
-   *
-   * @return string
-   */
-  public function auth()
-  {
-    $this->getSrc();
-
-    $inputs = array();
-    $this->getPassFromIni();
-    $inputs[] = "login={$this->yaLogin}";
-    $inputs[] = "passwd={$this->yaPasswd}";
-    $inputs[] = 'act=login';
-
-    curl_setopt($this->curlSRC, CURLOPT_POST, 1);
-    curl_setopt($this->curlSRC, CURLOPT_POSTFIELDS, implode('&',$inputs));
-    curl_setopt($this->curlSRC, CURLOPT_URL,        $this->authLink);
-
-    $text =  $this->getPage($this->authLink, $this->authRefer, $inputs, true);
-    if(eregi('Авторизоваться не удалось', $text))
-    {
-      die('Авторизоваться не удалось');
-    }else{
-      return $text;
-    }
-  }
+  protected $curlSRC   = null;     // курл сурс
+  protected $inputs    = array();  // посты
+  public    $cookies   = '';       // путь до кук
+  public    $debug     = false;    // печатать состояния запросов
+  public    $timeOut   = 10;       // ДЕФОЛТНЫЙ таймаут соединения в секундах
 
 
   /**
@@ -86,8 +48,8 @@ class CurlGetContent
     curl_setopt($this->curlSRC, CURLOPT_ENCODING, 'gzip,deflate');
     curl_setopt($this->curlSRC, CURLOPT_AUTOREFERER, true);
 
-    curl_setopt($this->curlSRC, CURLOPT_COOKIEJAR,  $this->cookies.$this->yaLogin.'.cookie.txt');
-    curl_setopt($this->curlSRC, CURLOPT_COOKIEFILE, $this->cookies.$this->yaLogin.'.cookie.txt');
+    curl_setopt($this->curlSRC, CURLOPT_COOKIEJAR,  $this->cookies.'.cookie.txt');
+    curl_setopt($this->curlSRC, CURLOPT_COOKIEFILE, $this->cookies.'.cookie.txt');
     curl_setopt($this->curlSRC, CURLOPT_RETURNTRANSFER, 1);
     return $this->curlSRC;
   }
@@ -96,10 +58,10 @@ class CurlGetContent
    * Отправляем посты на страницу
    *
    * @param string $page  - url
-   * @param string $refer - referer
-   * @param array $inputs - inputs
-   * @param bool $follow  - follow redirects
-   * @param int $timeOut  - timeout
+   * @param string $refer - referer = если есть реферер, то добаляем его
+   * @param array $inputs - inputs = если есть инпуты, то добавляем отправку постов
+   * @param bool $follow  - follow redirects = следовать за редиректами
+   * @param int $timeOut  - timeout = таймаут обрыва соединения
    * @return string
    */
   public function getPage($page, $refer = '', $inputs = array(), $follow = false, $timeOut = false)
@@ -107,23 +69,31 @@ class CurlGetContent
     $this->getSrc();
     $this->inputs = array_merge($inputs, $this->inputs);
 
+    // если есть реферер, то добаляем его
     if($refer != '')
     {
       curl_setopt ($this->curlSRC, CURLOPT_REFERER,   $refer);
     }
-
+    // если есть инпуты, то добавляем отправку постов
     if(is_array($this->inputs) and count($this->inputs) > 0)
     {
       curl_setopt($this->curlSRC, CURLOPT_POST, 1);
       curl_setopt($this->curlSRC, CURLOPT_POSTFIELDS, $this->inputs);
     }
-
+    // следовать за редиректами
     if($follow == true)
     {
       curl_setopt ($this->curlSRC, CURLOPT_FOLLOWLOCATION, true);
     }
 
-    curl_setopt($this->curlSRC, CURLOPT_TIMEOUT, $this->timeOut);
+    // устанавливаем таймаут обрыва соединения
+    if(is_numeric($timeOut)){
+      curl_setopt($this->curlSRC, CURLOPT_TIMEOUT, $timeOut);
+    }else{
+      curl_setopt($this->curlSRC, CURLOPT_TIMEOUT, $this->timeOut);
+    }
+
+    // если дебажим, то показываем состояния запросов
     if($this->debug) curl_setopt($this->curlSRC, CURLOPT_VERBOSE, true);
 
     curl_setopt($this->curlSRC, CURLOPT_URL, $page);
