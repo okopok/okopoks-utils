@@ -100,14 +100,14 @@ class ImageResizer
   	return true;
   }
 
+
   // функция обработки картинки
   /**
    * функция обработки картинки (ресайза)
    *
    * @param int $resize_x ширина картинки
    * @param int $resize_y высота картинки
-   * @param string $source_file исходный путь картинки
-   * @param string $new_file новый путь картинки
+   * @param resourse $source исходный путь картинки
    * @param array $array параметры (
    *  quality     => (int) - качество фотки от 0 до 100.                               default = 75
    *  fill_in_box => (int) - 0 или 1. Вписывать в квадрат или нет.                     default = 0
@@ -116,17 +116,9 @@ class ImageResizer
    *  size_check  => (int) - проверять входящую картинку на размеры. Если подаваемые размеры такие же как и подаваемые для ресайза
    *  то не проводить ресайз, а просто копировать изображение
    * )
-   * @return bool
-   *
-   * <code>
-   * <?php
-   * include('class.ImagesResizer.php');
-   * $Resizer = new ImagesResizer;
-   * $Resizer->resize(200,200, $pathFrom,$pathTo);
-   * ?>
-   * </code>
+   * @return resourse
    */
-  function resize($resize_x, $resize_y, $source_file, $new_file, $array = array('quality' => 75, 'fill_in_box' => 0,'color' => 'ffffff', 'lowres' => 0, 'size_check' => 1))
+  function resizeSRC($resize_x, $resize_y, $source, $array = array('quality' => 75, 'fill_in_box' => 0,'color' => 'ffffff', 'lowres' => 0, 'size_check' => 1))
   {
     extract($array);
   	if(!isset($quality))     $quality     = 75;
@@ -139,8 +131,6 @@ class ImageResizer
       $this->error = 'file not exists';
       return false;
     }
-
-    $source      = $this->prepareIMGsrc($source_file);
 
   	$quality_num = 75;
   	if($quality == 'th')
@@ -155,9 +145,7 @@ class ImageResizer
 
   	if(imagesx($source) == $resize_x and imagesy($source) == $resize_y and $size_check == 1)
   	{
-  	  if(!file_exists(dirname($new_file))) $this->RecursiveMkdir( dirname($new_file) );
-  	  copy($source_file, $new_file);
-      return true;
+  	  return $source;
   	}
     if(imagesx($source) > imagesy($source))
   	{
@@ -180,24 +168,38 @@ class ImageResizer
 
   	if($fill_in_box == 1)
   	{
-  	  $destin = imagecreatetruecolor( $resize_x, $resize_y );
-  	  sscanf($color, "%2x%2x%2x", $red, $green, $blue); // вычисляем цвет из 16ричной системы в РГБ
-  	  $colorallocate  = imagecolorallocate($destin, $red, $green, $blue);
-  	  imagefill($destin,0,0,$colorallocate);
+  	  $output = imagecreatetruecolor( $resize_x, $resize_y );
+
+  	  imagefill($destin, 0,0, $this->getColor($color)); // вычисляем цвет из 16ричной системы в РГБ и заполняем фон
   	  if($lowres == 1){
-        $new = imagecopyresized( $destin, $source, (($resize_x - $last_x)/2), (($resize_y - $last_y)/2), 0, 0, $last_x, $last_y, imagesx($source), imagesy($source));
+        imagecopyresized( $output, $source, (($resize_x - $last_x)/2), (($resize_y - $last_y)/2), 0, 0, $last_x, $last_y, imagesx($source), imagesy($source));
   	  }else{
-  	    $new = imagecopyresampled( $destin, $source, (($resize_x - $last_x)/2), (($resize_y - $last_y)/2), 0, 0, $last_x, $last_y, imagesx($source), imagesy($source));
+  	    imagecopyresampled( $output, $source, (($resize_x - $last_x)/2), (($resize_y - $last_y)/2), 0, 0, $last_x, $last_y, imagesx($source), imagesy($source));
   	  }
   	}else{
-  	  $destin = imagecreatetruecolor( $last_x, $last_y );
+  	  $output = imagecreatetruecolor( $last_x, $last_y );
   	  if($lowres == 1){
-        imagecopyresized( $destin, $source, 0, 0, 0, 0, $last_x, $last_y, imagesx($source), imagesy($source));
+        imagecopyresized( $output, $source, 0, 0, 0, 0, $last_x, $last_y, imagesx($source), imagesy($source));
   	  }else{
-  	    imagecopyresampled( $destin, $source, 0, 0, 0, 0, $last_x, $last_y, imagesx($source), imagesy($source));
+  	    imagecopyresampled( $output, $source, 0, 0, 0, 0, $last_x, $last_y, imagesx($source), imagesy($source));
   	  }
   	}
-    $this->outputIMG($new_file, $destin, $quality_num );
+  	return $output;
+  }
+
+
+  function resize($resize_x, $resize_y, $source_file, $new_file, $array = array('quality' => 75, 'fill_in_box' => 0,'color' => 'ffffff', 'lowres' => 0, 'size_check' => 1))
+  {
+    if(!file_exists($source_file))
+    {
+      $this->error = 'file not exists';
+      return false;
+    }
+    if(!file_exists(dirname($new_file))) $this->RecursiveMkdir( dirname($new_file) );
+
+    $src    = $this->prepareIMGsrc($source_file);
+    $output = $this->resizeSRC($resize_x, $resize_y, $src, $array);
+    $this->outputIMG($new_file, $output, $quality_num );
     return true;
   }
 
@@ -212,26 +214,99 @@ class ImageResizer
   }
 
   /**
+   * Устанавливаем прозрачности
+   *
+   * @param resourse $src
+   * @param bool $ImageAlphaBlending = If blendmode is TRUE, then blending mode is enabled, otherwise disabled.
+   * @param bool $imagesavealpha = if false alphablending is unset (in PNG ONLY)
+   * @param int $imagecolortransparent = color to be the transparent color, any regions of the image in that color that were drawn previously will be transparent.
+   * @return resourse
+   */
+  function setAlpha(&$src, $ImageAlphaBlending = false, $imagesavealpha = true, $imagecolortransparent = false )
+  {
+    if(is_resource($src))
+    {
+
+      ImageAlphaBlending($src,    $ImageAlphaBlending);
+      imagesavealpha($src,        $imagesavealpha);
+      imagecolortransparent($src, $imagecolortransparent);
+    }
+    return $src;
+  }
+
+  /**
+   * Flips image
+   *
+   * @param resource $imgsrc
+   * @param int $type = 1 - IMAGE_FLIP_HORIZONTAL; 2 - IMAGE_FLIP_VERTICAL; 3 - IMAGE_FLIP_BOTH;
+   * @return resource
+   */
+  function ImageFlip($imgsrc, $type)
+  {
+    $width    = imagesx($imgsrc);
+    $height   = imagesy($imgsrc);
+    $imgdest  = imagecreatetruecolor($width, $height);
+
+    switch( $type )
+    {
+    // mirror wzgl. osi
+    case 1: // IMAGE_FLIP_HORIZONTAL
+      for( $y=0 ; $y<$height ; $y++ )
+      {
+        imagecopy($imgdest, $imgsrc, 0, $height-$y-1, 0, $y, $width, 1);
+      }
+      break;
+
+    case 2: // IMAGE_FLIP_VERTICAL
+      for( $x=0 ; $x<$width ; $x++ )
+      {
+        imagecopy($imgdest, $imgsrc, $width-$x-1, 0, $x, 0, 1, $height);
+      }
+      break;
+
+    case 3: // IMAGE_FLIP_BOTH
+      for( $x=0 ; $x<$width ; $x++ )
+      {
+        imagecopy($imgdest, $imgsrc, $width-$x-1, 0, $x, 0, 1, $height);
+      }
+      $rowBuffer = imagecreatetruecolor($width, 1);
+      for( $y=0 ; $y<($height/2) ; $y++ )
+      {
+        imagecopy($rowBuffer, $imgdest  , 0, 0, 0, $height-$y-1, $width, 1);
+        imagecopy($imgdest  , $imgdest  , 0, $height-$y-1, 0, $y, $width, 1);
+        imagecopy($imgdest  , $rowBuffer, 0, $y, 0, 0, $width, 1);
+      }
+
+      imagedestroy( $rowBuffer );
+      break;
+    }
+    return( $imgdest );
+  }
+
+
+
+  /**
    * Отрезает от сторон картинки заданное кол-во пикселей
    *
-   * @param string $source_file - исходный файл
-   * @param string $new_file    - конечный файл
+   * @param resourse $sourceSRC - исходный файл
    * @param int $top            - сколько резать сверху
    * @param int $bottom         - сколько резать снизу
    * @param int $left           - сколько резать слева
    * @param int $right          - сколько резать справо
    * @param int $quality_num    - качество картинки
+   * @return resourse
    */
-  function crop($source_file, $new_file, $top = 0, $bottom = 0, $left = 0, $right = 0, $quality_num = 75){
-    $source  = $this->prepareIMGsrc($source_file);
-    $sizeX   = imagesx($source);
-    $sizeY   = imagesy($source);
+  function cropSRC($sourceSRC, $top = 0, $bottom = 0, $left = 0, $right = 0)
+  {
+    $sizeX   = imagesx($sourceSRC);
+    $sizeY   = imagesy($sourceSRC);
     $destin  = imagecreatetruecolor( $sizeX,  $sizeY );
-    $destin2 = imagecreatetruecolor( $sizeX - $left - $right,  $sizeY - $top - $bottom );
-    imagecopyresampled( $destin,  $source, 0, 0, $left, $top, $sizeX,  $sizeY, $sizeX,  $sizeY);
-    imagecopyresampled( $destin2, $destin, 0, 0, 0, 0, $sizeX,  $sizeY, $sizeX,  $sizeY);
-    $this->outputIMG($new_file, $destin2, $quality_num );
+    $output = imagecreatetruecolor( $sizeX - $left - $right,  $sizeY - $top - $bottom );
+    imagecopyresampled( $destin,  $sourceSRC, 0, 0, $left, $top, $sizeX,  $sizeY, $sizeX,  $sizeY);
+    imagecopyresampled( $output, $destin, 0, 0, 0, 0, $sizeX,  $sizeY, $sizeX,  $sizeY);
+    return $output;
   }
+
 
   /**
    * alpha version
@@ -262,8 +337,7 @@ class ImageResizer
       $radius = round( $mx * 0.10 );
     }
 
-    $img = imagecreatetruecolor($width, $height);
-
+    $img     = imagecreatetruecolor($width, $height);
     $white   = imagecolorallocate($img, 255, 255, 255);
     $red     = imagecolorallocate($img, 255,   0,   0);
     $green   = imagecolorallocate($img,   0, 255,   0);
@@ -357,36 +431,76 @@ class ImageResizer
     }
   }
 
+
   /**
    * Накладывает одну картинку на другую.
    *
-   * @param string $source_file - фон
-   * @param string $layer_file  - то что накладываем (должна быть меньше чем фон)
-   * @param string $new_file    - конечный файл
-   * @param string $place       - место для наложения
-   * @param int    $marginTop   - отступ сверху
-   * @param int    $marginBottom - отступ снизу
-   * @param int    $marginLeft  - отступ слева
-   * @param int    $marginRight - отступ справа
-   * @param int    $alpha       - степень прозрачности от 0 до 100
-   * @param int    $quality_num - качество
+   * @param resourse $sourceSRC     - SRC фон
+   * @param resourse $layerSRC      - SRC то что накладываем (должна быть меньше чем фон)
+   * @param string $place         - место для наложения
+   * @param int    $marginTop     - отступ сверху
+   * @param int    $marginBottom  - отступ снизу
+   * @param int    $marginLeft    - отступ слева
+   * @param int    $marginRight   - отступ справа
+   * @param int    $alpha         - степень прозрачности от 0 до 100
+   * @param int    $quality_num   - качество
+   * @return resourse
    */
-  function addLayer($source_file, $layer_file, $new_file, $place = 'top-left', $marginBottom = 0, $marginLeft = 0, $marginRight = 0, $alpha = 0, $quality_num = 75 ){
+  function addLayerSRC($sourceSRC, $layerSRC, $place = 'top-left', $marginTop = 0, $marginBottom = 0, $marginLeft = 0, $marginRight = 0, $alpha = 0, $quality_num = 75 )
+  {
+    //ImageAlphaBlending($sourceSRC, true);
+    $sourceSRC        = $this->setAlpha($sourceSRC, true, true, false);
+    $sizeX            = imagesx($sourceSRC);
+    $sizeY            = imagesy($sourceSRC);
+    $sizeXL           = imagesx($layerSRC);
+    $sizeYL           = imagesy($layerSRC);
+    $coords           = $this->getCoords($place,$sizeX,$sizeY,$sizeXL,$sizeYL, $marginTop, $marginBottom, $marginLeft, $marginRight);
+    if($alpha > 0){
+      imagecopymerge($sourceSRC, $layerSRC, $coords['x'], $coords['y'], 0, 0, $sizeXL, $sizeYL, $alpha);
+    }else{
+      ImageCopy($sourceSRC, $layerSRC, $coords['x'], $coords['y'], 0, 0, $sizeXL, $sizeYL);
+    }
+    return $sourceSRC;
+  }
+
+  /**
+   * Получаем
+   *
+   * @param unknown_type $hex
+   * @return unknown
+   */
+  function getColor($hex = 'FFFFFF')
+  {
+    sscanf($hex, "%2x%2x%2x", $red, $green, $blue);
+    return imagecolorallocate($output, $red, $green, $blue);
+  }
+
+
+
+  function addLayer($source_file, $layer_file, $new_file, $place = 'top-left', $marginTop = 0, $marginBottom = 0, $marginLeft = 0, $marginRight = 0, $alpha = 0, $quality_num = 75 ){
+
+    if(!is_file($source_file))
+    {
+      $this->error = 'no such file';
+      return false;
+    }
 
     $sourceBack   = $this->prepareIMGsrc($source_file);
     $sourceLayer  = $this->prepareIMGsrc($layer_file);
-    ImageAlphaBlending($sourceBack, true);
-    $sizeX        = imagesx($sourceBack);
-    $sizeY        = imagesy($sourceBack);
-    $sizeXL       = imagesx($sourceLayer);
-    $sizeYL       = imagesy($sourceLayer);
-    $coords       = $this->getCoords($place,$sizeX,$sizeY,$sizeXL,$sizeYL);
-    if($alpha > 0){
-      imagecopymerge($sourceBack, $sourceLayer, $coords['x'], $coords['y'], 0, 0, $sizeXL, $sizeYL, $alpha);
-    }else{
-      ImageCopy($sourceBack, $sourceLayer, $coords['x'], $coords['y'], 0, 0, $sizeXL, $sizeYL);
-    }
+    $sourceBack = $this->addLayerSRC($sourceBack, $sourceLayer,$place, $marginTop, $marginBottom, $marginLeft, $marginRight, $alpha, $quality_num );
     $this->outputIMG($new_file, $sourceBack, $quality_num );
+  }
+
+  function crop($source_file, $new_file, $top = 0, $bottom = 0, $left = 0, $right = 0, $quality_num = 75){
+
+    if(!is_file($source_file))
+    {
+      $this->error = 'no such file';
+      return false;
+    }
+    $source  = $this->prepareIMGsrc($source_file);
+    $output  = $this->cropSRC($source, $top, $bottom, $left, $right, $quality_num);
+    $this->outputIMG($new_file, $output, $quality_num );
   }
 
 
