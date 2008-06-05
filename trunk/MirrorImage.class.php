@@ -29,7 +29,7 @@ class MirrorImage extends ImageResizer
     $sizex  = imagesx($filesrc);
     $sizey  = imagesy($filesrc);
     $canvas = imagecreatetruecolor($sizex, $sizey+$mirrorSize);
-    imagefill($canvas, 0 , 0, $this->getColor('FFFFFF'));
+    imagefill($canvas, 0 , 0, $this->getColor($canvas,'FFFFFF'));
     return $canvas;
   }
 
@@ -47,7 +47,7 @@ class MirrorImage extends ImageResizer
 
     if(is_file($this->gradientFile) AND $gradient == true)
     {
-      print $this->gradientFile;
+      //print $this->gradientFile;
       $gradient   = $this->prepareIMGsrc($this->gradientFile);
       $destin     = imagecreatetruecolor( $imagesx, $mirrorSize );
       imagealphablending($destin,false);
@@ -62,11 +62,15 @@ class MirrorImage extends ImageResizer
 
 }
 
-new MirrorImage(dirname(__FILE__).'/1.jpg', dirname(__FILE__).'/1/1x100.jpg', 100,true);
-new MirrorImage(dirname(__FILE__).'/1.jpg', dirname(__FILE__).'/1/1x200.jpg', 200);
-new MirrorImage(dirname(__FILE__).'/1.jpg', dirname(__FILE__).'/1/1x50.jpg',  50, true);
-new MirrorImage(dirname(__FILE__).'/1.jpg', dirname(__FILE__).'/1/1x480.jpg', 480);
+new MirrorImage(dirname(__FILE__).'/collage.jpg', dirname(__FILE__).'/1/100.jpg', 100,true);
+new MirrorImage(dirname(__FILE__).'/collage.jpg', dirname(__FILE__).'/1/200.jpg', 200, true);
+new MirrorImage(dirname(__FILE__).'/collage.jpg', dirname(__FILE__).'/1/50.jpg',  50, true);
+new MirrorImage(dirname(__FILE__).'/collage.jpg', dirname(__FILE__).'/1/480.jpg', 480, true);
 
+new MirrorImage(dirname(__FILE__).'/collage.jpg', dirname(__FILE__).'/1/100_nograd.jpg', 100);
+new MirrorImage(dirname(__FILE__).'/collage.jpg', dirname(__FILE__).'/1/200_nograd.jpg', 200);
+new MirrorImage(dirname(__FILE__).'/collage.jpg', dirname(__FILE__).'/1/50_nograd.jpg',  50);
+new MirrorImage(dirname(__FILE__).'/collage.jpg', dirname(__FILE__).'/1/480_nograd.jpg', 480);
 
 
 ?>

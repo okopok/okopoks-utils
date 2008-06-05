@@ -170,7 +170,7 @@ class ImageResizer
   	{
   	  $output = imagecreatetruecolor( $resize_x, $resize_y );
 
-  	  imagefill($destin, 0,0, $this->getColor($color)); // вычисляем цвет из 16ричной системы в РГБ и заполняем фон
+  	  imagefill($destin, 0,0, $this->getColor($output, $color)); // вычисляем цвет из 16ричной системы в РГБ и заполняем фон
   	  if($lowres == 1){
         imagecopyresized( $output, $source, (($resize_x - $last_x)/2), (($resize_y - $last_y)/2), 0, 0, $last_x, $last_y, imagesx($source), imagesy($source));
   	  }else{
@@ -466,13 +466,14 @@ class ImageResizer
   /**
    * Получаем
    *
-   * @param unknown_type $hex
+   * @param resource $src
+   * @param 16 bit color $color
    * @return unknown
    */
-  function getColor($hex = 'FFFFFF')
+  function getColor(&$src, $color = 'FFFFFF')
   {
-    sscanf($hex, "%2x%2x%2x", $red, $green, $blue);
-    return imagecolorallocate($output, $red, $green, $blue);
+    sscanf($color, "%2x%2x%2x", $red, $green, $blue);
+    return imagecolorallocate($src, $red, $green, $blue);
   }
 
 
