@@ -1,0 +1,15 @@
+{if count($BrandsModelsByTable) > 0}
+  {assign var="brand_id" value=0}
+  <h2><a href="/{$_VIRT[0]}/">Все</a></h2>
+
+  {foreach from=$BrandsModelsByTable item=arr name=brandsModels}
+    {if $brand_id != $arr.pk_brands_id}
+      {assign var="brand_id" value=`$arr.pk_brands_id`}
+      {if !$smarty.foreach.brandsModels.first}</div>{/if}
+      <div><h3><a href="/{$_VIRT[0]}/{$arr.brands_name_tag}/">{$arr.brands_name}</a></h3></div>
+      <div id="div_{$arr.brands_name_tag}">
+    {/if}
+    <a href="/{$_VIRT[0]}/{$arr.brands_name_tag}/{$arr.models_name_tag}/">{$arr.models_name}</a><br />
+    {if $smarty.foreach.brandsModels.last}</div>{/if}
+  {/foreach}
+{/if}
