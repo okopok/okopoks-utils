@@ -1,0 +1,1 @@
+php D:/htdocs/utils/classes/OPTIMIZEDIR/optimize.mysqlOptimize.php
