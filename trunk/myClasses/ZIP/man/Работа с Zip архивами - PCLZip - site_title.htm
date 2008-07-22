@@ -1,0 +1,1126 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Работа с Zip архивами - PCLZip - site_title</title>
+
+
+
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="author" content="(c) 2001-2005, Feskov Kuzma (http://kfsite.russofile.ru)">
+<meta name="keywords" content="php, программирование, zip, работа с архивами, разработка, контент, PCLZip">
+<meta name="description" content="Обсуждаются варианты организации сайта при помощий ZIP архивов. Полное описание класса PCLZip.">
+<link rel="stylesheet" type="text/css" href="%D0%E0%E1%EE%F2%E0%20%F1%20Zip%20%E0%F0%F5%E8%E2%E0%EC%E8%20-%20PCLZip%20-%20site_title_files/view.css"></head><body>
+<script language="JavaScript">function res_popup(id, width, height){window.open("http://php.russofile.ru/ru/view/"+id+"/", "_blank", "toolbar=0, location=0, scrollbars=1, resizable=1, directories=0, status=0, menubar=0, width="+width+", height="+height+", top=10, left=10");}</script><table width="100%">
+    <tbody><tr>
+        <td>
+            <h1><em>Kuzma's PHP Look</em></h1>
+            <em>Home page:</em> <a href="http://kuzma.russofile.ru/" target="_blank">http://kuzma.russofile.ru</a>
+        </td>
+        <td>
+            <center>
+            <script type="text/javascript"><!--
+            google_ad_client = "pub-7692796153903343";
+            google_ad_width = 728;
+            google_ad_height = 90;
+            google_ad_format = "728x90_as";
+            google_ad_channel ="5552835500";
+            google_color_border = "FDFFCA";
+            google_color_bg = "FDFFCA";
+            google_color_link = "0000CC";
+            google_color_url = "008000";
+            google_color_text = "000000";
+            //--></script>
+            <script type="text/javascript" src="%D0%E0%E1%EE%F2%E0%20%F1%20Zip%20%E0%F0%F5%E8%E2%E0%EC%E8%20-%20PCLZip%20-%20site_title_files/show_ads.js">
+            </script>
+         </center></td>
+     </tr>
+</tbody></table>
+<table class="title" border="0" cellpadding="5" cellspacing="0" width="100%"><tbody><tr><td valign="top"></td><td valign="top" width="100%"><div class="navigator"><div class="block"><div class="block_content"><a href="http://php.russofile.ru/ru/" class="navigator">Home</a>&nbsp;<img src="%D0%E0%E1%EE%F2%E0%20%F1%20Zip%20%E0%F0%F5%E8%E2%E0%EC%E8%20-%20PCLZip%20-%20site_title_files/arrow.gif">&nbsp;<a href="http://php.russofile.ru/ru/authors/" class="navigator">Авторские материалы</a>&nbsp;<img src="%D0%E0%E1%EE%F2%E0%20%F1%20Zip%20%E0%F0%F5%E8%E2%E0%EC%E8%20-%20PCLZip%20-%20site_title_files/arrow.gif">&nbsp;<a href="http://php.russofile.ru/ru/authors/unsort/" class="navigator">Разное</a>&nbsp;<img src="%D0%E0%E1%EE%F2%E0%20%F1%20Zip%20%E0%F0%F5%E8%E2%E0%EC%E8%20-%20PCLZip%20-%20site_title_files/arrow.gif">&nbsp;<span class="navigator_active">Работа с ZIP</span></div></div><br></div><div align="justify">
+<big>Автор: Феськов Кузьма (<a href="mailto:kuzma@russofile.ru">kuzma@russofile.ru</a>, <a href="http://php.russofile.ru/" target="_blank">http://php.russofile.ru</a>)</big>
+
+<h1>Большие возможности маленького сайта (Работа с Zip архивами).</h1>
+<p>Не редок пример, когда мы с вами используем платный хостинг (за свои
+кровные) для реализации каких-то идей, которые вовсе не обязаны
+приносить прибыль. Само собой разумеется, для этих целей мы часто
+прибегаем к хорошему хостингу, но выбираем тариф минимально для нас
+подходящий, как правило, размер диска под сайт у нас ограничен
+определенным набором мегабайтов. Жизнь идет, сайт постепенно
+разрастается и дискового пространства начинает не хватать. И вот мы уже
+судорожно думаем, чтобы удалить и как бы все это оптимизировать, потому
+что выкладывать лишние баксы за дополнительное место нам очень не
+хочется.
+</p><p>В данном материале я поговорю об одном из вариантов оптимизации
+работы сайта. Многие мне возразят, что это, мол, не оптимизация, но,
+поскольку мы с вами говорим о небольшом сайте, а не о гиганте с
+тысячами человек в день, мои идеи вполне могут быть полезны. К тому же,
+этот материал вполне вам пригодится, если вы вдруг вздумаете
+использовать для каких-то других целей работу с архивами.
+</p><h2>И так, начнем...</h2>
+<p>Не так давно я разрабатывал систему тестов, тесты хранились в
+отдельных XML файлах и каждый тест занимал незначительный объем – в
+пределах килобайта. Как вы понимаете, файлов было неисчислимое
+множество. Уже на этапе разработки мы насчитывали несколько тысяч
+тестов. Все это хоть и было структурировано, но лежало в каталогах по
+1000 файлов в каждом. Работать с этим было тяжело, как вы понимаете,
+маленькие файлы занимают места часто больше, чем свой реальный
+размер...
+</p><p>И тут мне пришла в голову одна интересная идея. Те из вас, кто
+сталкивался с другими языками программирования, в частности, скажем, с
+Delphi, сталкивался и с таким понятием как файл ресурса – это единый
+файл, который содержит в себе иллюстрации, тексты, звуки и так далее. В
+результате чего программа из свалки файлов превращается в компактный
+набор из нескольких файлов. Файл ресурса вполне можно назвать архивом,
+поскольку файлы в нем хранятся в определенном формате.
+</p><p>Для разработки своей системы ресурсов я использовал архив формата ZIP и библиотеку PCLZip (<a href="http://www.phpconcept.net/pclzip/" target="_blank">http://www.phpconcept.net/pclzip/</a>).
+Почему? Ну, во-первых, PHP очень хорошо умеет работать с такими
+архивами, а, во-вторых, алгоритм сжатия ZIP достаточно прост, чтобы
+загружать процессор в незначительной степени (в конечном итоге, мы
+вообще можем не сжимать файлы, а просто собирать их в один архив для
+удобства). Также, нам понадобится библиотека zlib (<a href="http://www.gzip.org/zlib/" target="_blank">http://www.gzip.org/zlib/</a>).
+</p><p>Давайте подготовим с вами архив ZIP, я, например, собрал в один
+архив те самые 1000 файлов из каталога, для эксперимента поставил самую
+высокую степень сжатия. Размер дискового пространства в значительной
+степени увеличился :-) А заодно у нас появился 1 файл вместо 1000.
+</p><p>Далее, скачиваем, указанную выше, библиотеку и копируем ее в нужный вам каталог.
+</p><p>Сначала давайте научимся находить в каком из архивов у нас
+нужный файл. Архивы у нас называются числами вида 0000.zip, 0001.zip,
+.... и так далее. Как я уже говорил, в каждом архиве у нас 1000 файлов.
+Вычисляем все очень просто. Берем ID теста из базы и ищем по нему номер
+архива:
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+
+<pre>$arch = substr(intval($ID / 1000) + 10000, 1, 4) . ‘.zip’;
+</pre>
+</td></tr></tbody></table>
+</p><p>В результате в переменной $arch у нас находится название нужного нам архива. Нужный нам файл в архиве будет называться $ID.xml.
+</p><p>Теперь нам остается достать нужный файл из архива:
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>// Подключаем библиотеку PCL Zip
+require_once('pclzip.lib.php');
+
+// Создаем объект $zip. В качестве параметра передаем имя архива.
+$zip = new PclZip($arch);
+
+// Извлекаем нужным нам файл в переменную
+$content = $zip-&gt;extract(PCLZIP_OPT_BY_NAME, $ID . '.xml',
+                         PCLZIP_OPT_EXTRACT_AS_STRING);
+
+// Получаем содержимое файла
+$content = $content[0]['content'];
+</pre>
+</td></tr></tbody></table>
+</p><p>Теперь переменная $content содержит текст нужного нам файла.
+</p><p>Я рекомендую вам ТОЛЬКО ИЗВЛЕКАТЬ данные из архива, но не
+добавлять их туда и не изменять архива. Поскольку эти действия
+значительно более затратные по сравнению с извлечением.
+</p><p>Таким же способом вы можете работать и с файлами контента
+вашего сайта. Поскольку объем страниц часто значительно превышает
+размер данных маленьких XML файлов, то имеет смысл распаковывать их на
+диск, а не в переменную и организовать кэширование. То есть хранить
+распакованное на диске в незапакованном виде, скажем, в течение
+получаса после распаковки. И если файл более не востребован, снова
+удалять его.
+</p><p>Далее, я опишу все функции библиотеки PCLZip.
+</p><h2>PCLZip Руководство пользователя (v2.1)</h2>
+
+<p>PCLZip  - это библиотека для создания и работы с архивами формата ZIP.
+</p><p>Библиотека определяет класс. Копия класса определяет только один
+архив. Методы, описываемые в этом руководстве, позволяют управлять
+заданным архивом.
+</p><p>Обратите внимание, публичные методы будут работать всегда
+(поддерживаться из версии в версию), модификации будут описаны в
+документации. Частные (внутренние) методы могут быть изменены без
+предупреждения и не должны использоваться при работе.
+</p><p>PCLZip находится в одном файле (pclzip.lib.php) – это все, что требуется, чтобы иметь весь арсенал библиотеки.
+</p><h3>Понимание: как это работает?</h3>
+<h3>Внутреннее представление архива.</h3>
+<p>Каждый архив PKZIP представлен объектом класса PCLZip. При создании
+объекта PCLZip (в объекте класса), имя архива ассоциируется с объектом.
+На данном этапе файл не читается и не проверяется, более того,он может
+даже не существовать.
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>  require_once('pclzip.lib.php');
+  $archive = new PclZip("archive.zip");
+</pre>
+</td></tr></tbody></table>
+</p><p>Архив управляется публичными методами библиотеки PCLZip. Для
+создания архива, если он еще не существует, необходимо использовать
+метод 'create();' со списком файлов и/или папок как параметр.
+</p><p>Если архив уже существует, его содержание может читаться методами доступа, такими, как: 'listContent();' или 'extract();'.
+
+</p><h3>Параметры и аргументы.</h3>
+<p>Каждый метод имеет свои параметры и аргументы, которые есть в
+описании метода. Эти аргументы могут быть принудительными или
+дополнительными. Пример:
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>  require_once('pclzip.lib.php');
+  $archive = new PclZip('archive.zip');
+  $v_list = $archive-&gt;add('dev/file.txt',
+                          PCLZIP_OPT_REMOVE_PATH, 'dev');
+</pre>
+</td></tr></tbody></table>
+</p><p>Здесь первый параметр 'dev/file.txt' принудительный, а 'PCLZIP_OPT_REMOVE_PATH, ...' опциональный.
+</p><p>Некоторые методы можно вызывать только с переменным списком дополнительных параметров:
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>      $list = $archive-&gt;extract(PCLZIP_OPT_PATH, "folder",
+                                PCLZIP_OPT_REMOVE_PATH, "data",
+                                PCLZIP_CB_PRE_EXTRACT, "callback_pre_extract",
+                                PCLZIP_CB_POST_EXTRACT, "callback_post_extract");
+</pre>
+</td></tr></tbody></table>
+
+</p><p>В этом примере файлы распакованы в каталог 'folder', а папка 'data', имеющаяся в архиве,  из архива удалена.
+</p><p>Также, перед извлечением файла из архива вызывалась возвратная
+функция, назначенная пользователем (здесь, 'callback_pre_extract();').
+Эта функция позволяет изменить путь и имя файла, который находится в
+процессе извлечения или пропустить извлечение этого специфического
+файла. В конце извлечения вызывается другая функция, которая дает
+пользователю возможность проделать над файлом какие-то действия перед
+извлечением следующего.
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>      $list = $archive-&gt;extract(PCLZIP_OPT_PATH, "folder",
+                                PCLZIP_OPT_REMOVE_ALL_PATH);
+</pre>
+</td></tr></tbody></table>
+</p><p>Здесь файлы извлечены в директорию 'folder', а все запомненные
+пути файлов удалены, даже если они были отличны. Эта особенность
+позволяет пользователю не определять точный путь для удаления.
+</p><p>Эти небольшие примеры показывают работу списка переменных. Они
+предлагают более точную работу (хотя и добавляют немного сложности).
+Они так же позволяют вводить новые возможности, не изменяя синтаксиса
+всех методов.
+</p><p>Все аргументы, их использование и ограничения описаны в разделе
+“Дополнительные переменные параметры”. В описании функций перечислен
+список всех доступных дополнительных параметров.
+</p><h3>Возвращаемые данные.</h3>
+<p>Возвращаемые значения могут отличаться от метода к методу. Они
+описаны в каждом комментарии метода. Однако, большинство методов
+возвращают 0 при ошибке (и включают флаг ошибки) или массив,
+описывающий каждый файл при удаче.
+</p><p>Каждый элемент массива описывает файл или папку, некоторые из ее свойств и определение статуса последнего действия с файлом.
+</p><p>Каждый файл описан следующим набором аргументов:
+</p><p><strong>filename</strong>
+
+</p><p>Имя файла
+</p><p>При добавлении – имя, данное файлу при вызове метода.
+</p><p>При извлечении – реальное название извлеченного файла (не название, которое дано этому файлу в архиве).
+</p><p><strong>stored_filename</strong>
+</p><p>Название файла в архиве.
+</p><p><strong>size</strong></p>
+<p>Реальный размер файла.
+</p><p><strong>compressed_size</strong>
+</p><p>Размер сжатого файла (без заголовков).
+</p><p><strong>mtime</strong>
+</p><p>Дата и время последней модификации файла (UNIX таймштамп).
+</p><p><strong>сomment</strong>
+
+</p><p>Комментарий сопоставленный с файлом.
+</p><p><strong>folder</strong>
+</p><p>true | false: показывает, находится ли файл в папке.
+</p><p><strong>index</strong>
+</p><p>Индекс файла в архиве (если задано).
+</p><p><strong>content</strong>
+</p><p>Содержимое извлеченного файла. Этот параметр присутствует только
+если в качестве аргумента было задано PCLZIP_OPT_EXTRACT_IN_STRING.
+</p><p><strong>status</strong>
+</p><p>Результат действия (зависит от типа действия). Значения:
+</p><ul>
+<li>ok – положительный результат.
+</li><li>Filtered – файл/папка не извлечен (отфильтрован пользователем).
+</li><li>already_a_directory – файл не был извлечен, потому что файл или папка с таким же названием уже существует.
+
+</li><li>newer_exist – файл не был извлечен, потому что такой же файл уже существует и защищен от записи.
+</li><li>write_protect – файл не был извлечен, потому что существует более новый файл.
+</li><li>path_creation_fail – файл не был извлечен – произошла ошибка создания каталога.
+</li><li>write_error – файл не был извлечен – произошла ошибка записи.
+</li><li>read_error – файл не был извлечен – ошибка чтения.
+</li><li>invalid_header – файл не был извлечен – ошибка заголовка.
+</li><li>skipped – файл не был извлечен или добавлен, потому что пользовательская функция просит пропустить его.
+</li><li>filename_to_long – файл не добавлен в архив – слишком длинное имя файла (максимум 255 символов).
+</li></ul>
+<h3>Дополнительные аргументы.</h3>
+<h3>Краткий обзор.</h3>
+<p>Дополнительные аргументы могут быть разделены на две группы. Первые
+– классические аргументы, которые дают информацию или инструкции
+методу. - Вторые – функции возврата, крюки, которые дают пользователю
+возможность выполнить определенные действия в течении обработки PCLZip.
+“Функции возврата” сложны для понимания, но дают лучший контроль над
+архивированными файлами.
+</p><p>Дополнительные аргументы обозначены именем, которое является в
+сущности статическим целым значением. Значение аргумента может быть
+единственным или списком значений. В некоторых случаях они не имеют
+значения, а их название служит сигналом, чтобы выполнить какие-либо
+действия.
+</p><p>В следующем разделе мы опишем аргументы этих двух групп.
+</p><h3>Дополнительные аргументы.</h3>
+
+<p>На сегодняшний день определены следующие аргументы:
+<br><br></p><p><strong>PCLZIP_OPT_PATH</strong>
+</p><p>Этот аргумент указывает путь до папки, куда будут извлечены файлы из архива. Значение – текстовая строка.
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>      $list = $archive-&gt;extract(PCLZIP_OPT_PATH, "extract/folder/");
+</pre>
+</td></tr></tbody></table>
+</p><p>Этот аргумент может использоваться с методами 'extract();' и 'extractByIndex();'.
+<br><br></p><p><strong>PCLZIP_OPT_ADD_PATH</strong>
+</p><p>Этот параметр позволяет указать путь для файла при добавлении
+его в архив. Это позволит заархивировать файл 'file.txt' с путем
+'bacup/file.txt' или извлечь файл 'backup/file.txt' с путем
+'folder/backup/file.txt'.
+</p><p>Значение – текстовая строка.
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>
+      $list = $archive-&gt;create("file.txt,image.gif",
+                               PCLZIP_OPT_ADD_PATH, "backup");
+</pre>
+</td></tr></tbody></table>
+</p><p>Этот аргумент может использоваться с методами 'create();', 'add();', 'extract();'.
+<br><br></p><p><strong>PCLZIP_OPT_REMOVE_PATH</strong>
+</p><p>Этот аргумент позволяет подавить часть или весь путь файлов (или
+папок) при их извлечении. Это позволит архивировать файл
+'/usr/local/user/test/file.txt' подобно файлу с названием
+'test/file.txt' или извлекать файл, сохраненный как
+'folder/data/file.txt' как файл 'data/file.txt'.
+</p><p>Значение – текстовая строка.
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>      $list = $archive-&gt;add("/usr/local/user/test/file.txt",
+                            PCLZIP_OPT_REMOVE_PATH, "/usr/local/user");
+</pre>
+</td></tr></tbody></table>
+</p><p>Этот аргумент может использоваться совместно с методами 'create();', 'add();', 'extract();' и 'extractByIndex();'
+</p><p><em>Примечание:</em> этот аргумент игнорируется, если вы используете аргумент PCLZIP_OPT_REMOVE_ALL_PATH в том же самом вызове метода.
+
+<br><br></p><p><strong>PCLZIP_OPT_REMOVE_ALL_PATH</strong>
+</p><p>Этот аргумент позволяет подавить весь путь файла при его извлечении или добавлении в архив.
+</p><p>Этот параметр позволит вам не указывать ни какого шаблона пути
+для отсечения. Однако, будте внимательны, вложенность каталогов может
+быть большой, следите за тем, чтобы внутри не попадались файлы с
+одинаковым названием.
+</p><p>Значения не имеет.
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>  $list = $archive-&gt;create("data/file.txt images/image.gif",
+                           PCLZIP_OPT_REMOVE_ALL_PATH);
+  // Удалит путь 'data/' для файла 'data/file.txt'
+  // и путь 'images/' для файла 'images/image.gif'
+</pre>
+</td></tr></tbody></table>
+</p><p>Может использоваться с методами 'create();', 'add();', 'extract();' и 'extractByIndex();'.
+<br><br></p><p><strong>PCLZIP_OPT_SET_CHMOD</strong>
+</p><p>Дает возможность изменить атрибуты файла после его извлечения.
+На *NIX системах управление доступа и владелец файла (системный
+атрибут) не позволяют доступ к файлу отовсюду. В частности,
+пользователь, под которым запущен процесс PHP дает файлам только свои
+права, при определенных настройках они могут запрещать пользование
+файлами другими пользователями. Цель этого аргумента – назначить файлам
+нужные вам права.
+</p><p>Значение – одиночное октальное значение (например, 0777).
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+
+<pre>  $list = $archive-&gt;extract(PCLZIP_OPT_SET_CHMOD, 0777);
+</pre>
+</td></tr></tbody></table>
+</p><p>Этот аргумент может использоваться с методами 'extract();' и 'extractByIndex();'.
+</p><p><em>Примечание:</em> этот аргумент не тестировался в полном объеме и носит статус ЭКСПЕРИМЕНТАЛЬНОГО.
+<br><br></p><p><strong>PCLZIP_OPT_BY_NAME</strong>
+</p><p>Позволяет извлекать файлы из архива указывая их полное название.
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>    $archive = new PclZip('test.zip');
+    $rule_list[0] = 'data/file1.txt';
+    $rule_list[1] = 'data/file2.txt';
+    $list = $archive-&gt;extract(PCLZIP_OPT_BY_NAME, $rule_list);
+    if ($list == 0) {
+      echo "ERROR : ".$archive-&gt;errorInfo(true);
+    }
+</pre>
+
+</td></tr></tbody></table>
+</p><p>Фильтр может быть массивом или текстовой строкой с перечислением через запятую.
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>    $archive = new PclZip('test.zip');
+    $list = $archive-&gt;extract(PCLZIP_OPT_BY_NAME, "data/file1.txt,data/file2.txt");
+    if ($list == 0) {
+      echo "ERROR : ".$archive-&gt;errorInfo(true);
+    }
+</pre>
+</td></tr></tbody></table>
+</p><p>См. также: PCLZIP_OPT_BY_PREG, PCLZIP_OPT_BY_INDEX и PCLZIP_OPT_BY_EREG.
+<br><br></p><p><strong>PCLZIP_OPT_BY_EREG</strong>
+</p><p>Этот параметр позволяет извлекать файлы и папки отфильтровывая их регулярным выражением. Используется функция PHP 'ereg()'.
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>    $archive = new PclZip('test.zip');
+    $list = $archive-&gt;extract(PCLZIP_OPT_BY_EREG, "txt$");
+    if ($list == 0) {
+      echo "ERROR : ".$archive-&gt;errorInfo(true);
+    }
+</pre>
+
+</td></tr></tbody></table>
+</p><p>См. также PCLZIP_OPT_BY_PREG, PCLZIP_OPT_BY_NAME и PCLZIP_OPT_BY_INDEX.
+<br><br></p><p><strong>PCLZIP_OPT_BY_PREG</strong>
+</p><p>Этот параметр позволяет извлекать файлы и папки отфильтровывая их регулярным выражением. Используется функция PHP 'preg()'.
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>    $archive = new PclZip('test.zip');
+    $list = $archive-&gt;extract(PCLZIP_OPT_BY_PREG, "txt$");
+    if ($list == 0) {
+      echo "ERROR : ".$archive-&gt;errorInfo(true);
+    }
+</pre>
+</td></tr></tbody></table>
+</p><p>См. также PCLZIP_OPT_BY_EREG, PCLZIP_OPT_BY_NAME и PCLZIP_OPT_BY_INDEX.
+<br><br></p><p><strong>PCLZIP_OPT_BY_INDEX</strong>
+</p><p>Позволяет извлекать файлы и папки указывая их индексы в архиве.
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>
+    $archive = new PclZip('test.zip');
+    $list = $archive-&gt;extract(PCLZIP_OPT_BY_INDEX, array ('0-4','2-7','10-33'));
+    if ($list == 0) {
+      echo "ERROR : ".$archive-&gt;errorInfo(true);
+    }
+</pre>
+</td></tr></tbody></table>
+</p><p>См. также PCLZIP_OPT_BY_PREG, PCLZIP_OPT_BY_NAME и PCLZIP_OPT_BY_EREG.
+<br><br></p><p><strong>PCLZIP_OPT_EXTRACT_AS_STRING</strong>
+</p><p>Позволяет извлечь файл в строковую переменную а не в файл.
+</p><p>Это может понадобиться, если вы хотите получить содержимое файла без использования файловой системы.
+</p><p>Для примера:
+</p><ul>
+<li>показать 'readme' файл;
+</li><li>непосредственно выдать файл пользователю (смотри так же PCLZIP_OPT_EXTRACT_IN_OUTPUT).
+</li></ul>
+<p>Вы должны быть внимательными извлекая все файлы из архива. Это может привести к нехватке памяти.
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>
+    $archive = new PclZip('test.zip');
+    $list = $archive-&gt;extract(PCLZIP_OPT_BY_NAME, "data/readme.txt",
+                              PCLZIP_OPT_EXTRACT_AS_STRING);
+    if ($list == 0) {
+      echo "ERROR : ".$archive-&gt;errorInfo(true);
+      exit;
+    }
+    echo $list[0]['content'];
+</pre>
+</td></tr></tbody></table>
+</p><p>См. также PCLZIP_OPT_EXTRACT_IN_OUTPUT.
+<br><br></p><p><strong>PCLZIP_OPT_EXTRACT_IN_OUTPUT</strong>
+</p><p>Этот аргумент дает вам возможность извлечь файл непосредственно на устройство вывода, подобно команде echo.
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>    $archive = new PclZip('test.zip');
+    $list = $archive-&gt;extract(PCLZIP_OPT_BY_NAME, "data/readme.txt",
+                              PCLZIP_OPT_EXTRACT_IN_OUTPUT);
+    if ($list == 0) {
+      echo "ERROR : ".$archive-&gt;errorInfo(true);
+    }
+</pre>
+</td></tr></tbody></table>
+</p><p>См. также PCLZIP_OPT_EXTRACT_AS_STRING.
+<br><br></p><p><strong>PCLZIP_OPT_NO_COMPRESSION</strong>
+
+</p><p>Позволяет добавить файл в архив не сжимая его.
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>    $archive = new PclZip('test.zip');
+    $list = $archive-&gt;add("data/file.txt", PCLZIP_OPT_NO_COMPRESSION);
+    if ($list == 0) {
+      echo "ERROR : ".$archive-&gt;errorInfo(true);
+    }
+</pre>
+</td></tr></tbody></table>
+<br><br></p><p><strong>PCLZIP_OPT_COMMENT</strong>
+</p><p>Позволяет добавить комментарий к архиву. Если комментарий уже существует, заменит его.
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>    $archive = new PclZip('test.zip');
+    $list = $archive-&gt;create("data", PCLZIP_OPT_COMMENT, "Add a comment");
+    if ($list == 0) {
+      echo "ERROR : ".$archive-&gt;errorInfo(true);
+    }
+</pre>
+</td></tr></tbody></table>
+</p><p>См. также PCLZIP_OPT_ADD_COMMENT и PCLZIP_OPT_PREPEND_COMMENT.
+
+<br><br></p><p><strong>PCLZIP_OPT_ADD_COMMENT</strong>
+</p><p>Позволяет добавить комментарий к архиву. Если комментарий уже существует, добавит новый комментарий в конец существующего.
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>    $archive = new PclZip('test.zip');
+    $list = $archive-&gt;add("data", PCLZIP_OPT_ADD_COMMENT, "Add a comment after the existing one");
+    if ($list == 0) {
+      echo "ERROR : ".$archive-&gt;errorInfo(true);
+    }
+</pre>
+</td></tr></tbody></table>
+</p><p>См. также PCLZIP_OPT_COMMENT и PCLZIP_OPT_PREPEND_COMMENT.
+<br><br></p><p><strong>PCLZIP_OPT_PREPEND_COMMENT</strong>
+</p><p>Позволяет добавить комментарий к архиву. Если комментарий уже существует, добавит новый комментарий перед имеющимся.
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>    $archive = new PclZip('test.zip');
+    $list = $archive-&gt;add("data", PCLZIP_OPT_PREPEND_COMMENT, "Add a comment before the existing one");
+    if ($list == 0) {
+      echo "ERROR : ".$archive-&gt;errorInfo(true);
+    }
+
+</pre>
+</td></tr></tbody></table>
+</p><p>См. также PCLZIP_OPT_COMMENT и PCLZIP_OPT_ADD_COMMENT.
+</p><h3>Возвратные функции.</h3>
+<p>Возвратные функции – специфические аргументы, потому что их значение
+– название функции. Эти функции имеют строгое описание и которого вы
+должны придерживаться. Действия, которые могут производить эти функции
+разграничены. Внутренний алгоритм функции может быть любым, но он
+должен уважать определенный список параметров и возвращаемых значений.
+Однако, функция должна уважать основную обработку метода, некоторое
+действия могут с этим столкнуться (например, удаление файла архива в
+течении процесса).
+<br><br></p><p><strong>PCLZIP_CB_PRE_EXTRACT</strong>
+</p><p>Этот дополнительный аргумент дает вам возможность выполнить
+определенную функцию перед тем как распаковать файл. Эта функция может
+изменять процесс извлечения файла двумя способами:
+</p><ul>
+<li>изменить путь или имя файла;
+</li><li>пропустить извлечение файла.
+</li></ul>
+<p>Чтобы быть точными: эта функция применяется после дополнительных
+аргументов PCLZIP_OPT_PATH, PCLZIP_OPT_ADD_PATH, PCLZIP_OPT_REMOVE_PATH
+или PCLZIP_OPT_REMOVE_ALL_PATH, но перед конкретной проверкой (файл не
+существует, файла нет в текущей папке, и так далее).
+</p><p>Функция должна принимать в качестве аргументов следующие параметры:
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>
+    function myCallBack($p_event, &amp;$p_header)
+    {
+    [... ваш код ...]
+    return $result;
+    }
+</pre>
+</td></tr></tbody></table>
+</p><p>Когда метод вызывает возвратную функцию, он делает это следующим образом:
+</p><ul>
+<li>$p_event – идентификатор аргумента (здесь PCLZIP_CB_PRE_EXTRACT).
+Это используется, когда необходимо использовать одну и ту же функцию
+для разных возвратных действий.
+</li><li>$p_header – описание файла, который будте извлечен. Это
+массив, который содержит информацию в нескольких полях. Наиболее
+интересный параметр – имя файла в архиве и имя файла, под которым он
+будет извлечен. Все поля массива описаны в главе “Возвращаемые данные”.
+</li></ul>
+<p>Функция может менять только поле “filename” (имя файла) в массиве
+$p_header. Это дает вам вам возможность изменить имя файла после
+распаковки. Все остальные параметры массива только для чтения.
+</p><p>Функция должна возвратить 2, 1 или 0 ($result). Другие значения
+зарезервированы на будущее. 1 – означает возобновление извлечения файла
+(возможно, с измененным именем файла). 0 – пропустить файл, переходим к
+следующему файлу. 2 – пропустить файл и остановить распаковку, даже
+если не достигнут конец архива.
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>  function myPreExtractCallBack($p_event, &amp;$p_header)
+  {
+    $info = pathinfo($p_header['filename']);
+    // ----- пропускаем все .gif файлы
+    if ($info['extension'] == 'gif') {
+      return 0;
+    }
+    // ----- jpg файлы распаковываем в папку 'images'
+    else if ($info['extension'] == 'jpg') {
+      $p_header['filename'] = 'images/'.$info['basename'];
+      return 1;
+    }
+    // ----- остальные файлы просто распаковываем
+    else {
+      return 1;
+    }
+  }
+
+  $list = $archive-&gt;extract(PCLZIP_OPT_PATH, 'folder',);
+                            PCLZIP_CB_PRE_EXTRACT, 'myPreExtractCallBack');
+
+</pre>
+</td></tr></tbody></table>
+<br><br></p><p><strong>PCLZIP_CB_POST_EXTRACT</strong>
+</p><p>Этот дополнительный аргумент дает вам возможность добавить
+постобработку файлов во время распаковки, вызывая функцию возврата
+после извлечения каждого файла. Эта функция не может изменить процесс
+извлечения, но может выполнить определенные действия с распакованным
+файлом, например, переименование или удаление.
+</p><p>Функция должна принимать в качестве аргументов следующие параметры:
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>    function myCallBack($p_event, &amp;$p_header)
+    {
+    [... ваш код ...]
+    return $result;
+    }
+</pre>
+</td></tr></tbody></table>
+</p><ul>
+<li>$p_event – идентификатор аргумента (здесь PCLZIP_CB_POST_EXTRACT).
+Это используется, когда необходимо использовать одну и ту же функцию
+для разных возвратных действий.
+</li><li>$p_header – описание файла, который будте извлечен. Это
+массив, который содержит информацию в нескольких полях. Наиболее
+интересный параметр – имя файла в архиве и имя файла, под которым он
+будет извлечен. Все поля массива описаны в главе “Возвращаемые данные”.
+Функция не может менять этот массив, потому что извлечение уже
+произошло.
+</li></ul>
+
+<p>Функция должна возвратить 1 или 2 ($result). Остальные значения
+зарезервированы на будущее. 1 – извлекаем дальше. 2 – останавливаем
+извлечение.
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>  function myPreExtractCallBack($p_event, &amp;$p_header) { ... }
+
+  function myPostExtractCallBack($p_event, &amp;$p_header)
+  {
+    // ----- проверяем успешность распаковки
+    if ($p_header['status'] == 'ok') {
+      // ----- читаем файл
+      readfile($p_header['filename']);
+      // ----- удаляем файл
+      unlink($p_header['filename'])
+    }
+  }
+
+  $list = $archive-&gt;extract(PCLZIP_OPT_PATH, 'temp',
+                            PCLZIP_CB_PRE_EXTRACT, 'myPreExtractCallBack',
+                            PCLZIP_CB_POST_EXTRACT, 'myPostExtractCallBack');
+</pre>
+</td></tr></tbody></table>
+</p><p>Таким образом, эта функция производит действия над распакованным файлом, а затем удаляет его.
+</p><p><em>Примечание</em>, в данном конкретном примере логичнее
+использовать параметр PCLZIP_OPT_EXTRACT_IN_OUTPUT, так как он не
+создает промежуточного файла.
+<br><br></p><p><strong>PCLZIP_CB_PRE_ADD</strong>
+</p><p>Этот параметр позволяет вам добавить обработку файла перед помещением его в архив. Вы можете, например:
+</p><ul>
+<li>изменить путь или имя файла;
+
+</li><li>пропустить извлечение файла.
+</li></ul>
+<p>Чтобы быть точными: эта функция применяется после дополнительных
+аргументов PCLZIP_OPT_PATH, PCLZIP_OPT_ADD_PATH, PCLZIP_OPT_REMOVE_PATH
+или PCLZIP_OPT_REMOVE_ALL_PATH, но перед конкретной проверкой (файл не
+существует, файла нет в текущей папке, и так далее).
+</p><p>Функция должна принимать в качестве аргументов следующие параметры:
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>    function myCallBack($p_event, &amp;$p_header)
+    {
+    [... ваш код ...]
+    return $result;
+    }
+</pre>
+</td></tr></tbody></table>
+</p><p>Когда метод вызывает возвратную функцию, он делает это следующим образом:
+</p><ul>
+<li>$p_event – идентификатор аргумента (здесь PCLZIP_CB_PRE_ADD). Это
+используется, когда необходимо использовать одну и ту же функцию для
+разных возвратных действий.
+</li><li>$p_header – описание файла, который будте извлечен. Это
+массив, который содержит информацию в нескольких полях. Наиболее
+интересный параметр – имя файла в архиве и имя файла, под которым он
+будет добавлен. Все поля массива описаны в главе “Возвращаемые данные”.
+</li></ul>
+<p>Функция может менять только поле “filename” (имя файла) в массиве
+$p_header. Это дает вам вам возможность изменить имя файла перед
+запаковкой. Все остальные параметры массива только для чтения.
+</p><p>Функция должна возвратить 1 или 0 ($result). Другие значения
+зарезервированы на будущее. 1 – означает возобновление добавления файла
+(возможно, с измененным именем файла). 0 – пропустить файл, переходим к
+следующему файлу.
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>  function myPreAddCallBack($p_event, &amp;$p_header)
+  {
+    $info = pathinfo($p_header['stored_filename']);
+    // ----- пропускаем .bak файлы
+    if ($info['extension'] == 'bak') {
+      return 0;
+    }
+    // ----- jpg файлы будут добавляться в папку 'images'
+    else if ($info['extension'] == 'jpg') {
+      $p_header['stored_filename'] = 'images/'.$info['basename'];
+      return 1;
+    }
+    // ----- остальные файлы просто добавляются
+    else {
+      return 1;
+    }
+  }
+
+  $list = $archive-&gt;add(PCLZIP_CB_PRE_ADD, 'myPreAddCallBack');
+</pre>
+</td></tr></tbody></table>
+<br><br></p><p><strong>PCLZIP_CB_POST_ADD</strong>
+</p><p>Этот параметр позволяет запустить нужную функцию после
+добавления файла. Эта функция не может повлиять на добавление файла, но
+может произвести действия с файлом на диске, например переименовать или
+удалить.
+</p><p>Функция должна принимать в качестве аргументов следующие параметры:
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>    function myCallBack($p_event, &amp;$p_header)
+    {
+    [... ваш код ...]
+    return $result;
+    }
+
+</pre>
+</td></tr></tbody></table>
+</p><ul>
+<li>$p_event – идентификатор аргумента (здесь PCLZIP_CB_POST_ADD). Это
+используется, когда необходимо использовать одну и ту же функцию для
+разных возвратных действий.
+</li><li>$p_header – описание файла, который будте извлечен. Это
+массив, который содержит информацию в нескольких полях. Наиболее
+интересный параметр – имя файла на диске и имя файла, под которым он
+будет добавлен. Все поля массива описаны в главе “Возвращаемые данные”.
+Функция не может менять этот массив, потому что добавление уже
+произошло.
+</li></ul>
+<p>Функция должна возвратить 1. Остальные значения зарезервированы на будущее.
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>  function myPostAddCallBack($p_event, &amp;$p_header)
+  {
+    // ----- проверяем удачное добавление
+    if ($p_header['status'] == 'ok') {
+      // ----- перемещаем файлы в корзину
+      rename($p_header['filename'], 'trash/'.$p_header['filename'])
+    }
+  }
+
+  $list = $archive-&gt;extract(PCLZIP_CB_POST_ADD, 'myPostAddCallBack');
+</pre>
+</td></tr></tbody></table>
+</p><h3>Обработка ошибок.</h3>
+<p>С версии 1.3 обработка ошибок встроена в класс для того чтобы
+получился единый файл. Однако вы и сейчас можете вынести обработку
+ошибок во внешний модуль. Читайте раздел “Настройка PCLZip”.
+</p><p>Когда метод возвращает код ошибки (большинство методов
+возвращает 0 при ошибке), код ошибки, текст ошибки и дополнительная
+информация доступна через методы:
+</p><ul>
+<li>errorName(); - возвращает строку с названием ошибки;
+</li><li>errorCode(); - возвращает значение кода ошибки;
+</li><li>errorInfo(); - возвращает описание, связанное с ошибкой.
+</li></ul>
+<h3>Примеры обработки ошибок:</h3>
+<p><u>Читаем код ошибки:</u>
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>  $list = $archive-&gt;extract(PCLZIP_OPT_PATH, "extract/folder/");
+  if ($list == 0) {
+    die ("Unrecoverable error, code ".$archive-&gt;errorCode());
+  }
+</pre>
+</td></tr></tbody></table>
+</p><p>Неустранимая ошибка, код -6.
+
+<br><br></p><p><u>Читаем название ошибки:</u>
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>  $list = $archive-&gt;extract(PCLZIP_OPT_PATH, "extract/folder/");
+  if ($list == 0) {
+    die ("Unrecoverable error '".$archive-&gt;errorName()."'");
+  }
+</pre>
+</td></tr></tbody></table>
+</p><p>Неустранимая ошибка 'PCLZIP_ERR_BAD_FORMAT'.
+<br><br></p><p><u>Читаем название ошибки и ее код:</u>
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>  $list = $archive-&gt;extract(PCLZIP_OPT_PATH, "extract/folder/");
+  if ($list == 0) {
+    die ("Unrecoverable error '".$archive-&gt;errorName(true)."'");
+  }
+</pre>
+</td></tr></tbody></table>
+
+</p><p>Неустранимая ошибка 'PCLZIP_ERR_BAD_FORMAT (-10)'.
+<br><br></p><p><u>Чтение описания ошибки:</u>
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>  $list = $archive-&gt;extract(PCLZIP_OPT_PATH, "extract/folder/");
+  if ($list == 0) {
+    die ("Error : '".$archive-&gt;errorInfo()."'");
+  }
+</pre>
+</td></tr></tbody></table>
+</p><p>Ошибка: Неправильная структура архива [код -10].
+<br><br></p><p><u>Чтение полного описания:</u>
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>  $list = $archive-&gt;extract(PCLZIP_OPT_PATH, "extract/folder/");
+  if ($list == 0) {
+    die ("Error  : '".$archive-&gt;errorInfo(true)."'");
+  }
+</pre>
+
+</td></tr></tbody></table>
+</p><p>Ошибка: 'PCLZIP_ERR_BAD_FORMAT (-10): Неправильная структура архива'.
+</p><h3>Класс. методы.</h3>
+<p><strong>PclZip()</strong>
+<br><br></p><p><u>Обзор.</u>
+</p><p>Этот метод – конструктор объекта.
+<br><br></p><p><u>Резюме.</u>
+</p><p>PclZip($zipname);
+<br><br></p><p><u>Аргументы.</u>
+</p><p>$zipname – строка – название файла формата ZIP.
+<br><br></p><p><u>Описание.</u>
+
+</p><p>Этот метод создает объект PclZip, который работает с архивом
+формата ZIP. Устанавливается только имя архива, никакой проверки не
+производится, никаких действий не выполняется.
+</p><p>При создании объекта производится проверка установки zlib. Если не установлено – сообщение об ошибке.
+<br><br></p><p><u>Пример:</u>
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>  require_once('pclzip.lib.php');
+  $archive = new PclZip('archive.zip');
+  if ($archive-&gt;create('file.txt data/text.txt folder/') == 0) {
+    die('Error : '.$archive-&gt;errorInfo(true));
+  }
+</pre>
+</td></tr></tbody></table>
+<br><br></p><p><strong>create()</strong>
+<br><br></p><p><u>Обзор.</u>
+</p><p>Этот метод создает архив формата ZIP с указанными файлами.
+<br><br></p><p><u>Резюме.</u>
+
+</p><p>create($filelist, [доп. Параметры])
+<br><br></p><p><u>Аргументы.</u>
+</p><p>$filelist
+</p><p>Массив с названиями файлов или директорий
+</p><p>или
+</p><p>строка с названием файла или директории
+</p><p>или
+</p><p>строка с названиями файлов или директорий, разделенными запятыми.
+<br><br></p><p><u>Дополнительные аргументы:</u>
+</p><ul>
+<li>PCLZIP_OPT_REMOVE_PATH
+</li><li>PCLZIP_OPT_REMOVE_ALL_PATH
+</li><li>PCLZIP_OPT_ADD_PATH
+</li><li>PCLZIP_CB_PRE_ADD
+</li><li>PCLZIP_CB_POST_ADD
+
+</li><li>PCLZIP_OPT_NO_COMPRESSION
+</li><li>PCLZIP_OPT_COMMENT
+</li></ul>
+<br><br><p><u>Возвращаемые значения:</u>
+</p><p>0 – ошибка.
+</p><p>Массив – параметры файлов (См. “Возвращаемые значения”).
+<br><br></p><p><u>Описание.</u>
+</p><p>Этот метод создает архив со всеми файлами и папками,
+обозначенными в аргументе $filelist. После добавления всех файлов и
+папок структура filesystem будет запомнена.
+</p><p>Дополнительные аргументы аргументы дают возможность
+архивировать файлы с различными путями. Это позволяет помещать
+архивируемые файлы в другое место, а в архиве создавать необходимую
+структуру.
+<br><br></p><p><u>Примеры:</u>
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>  include_once('pclzip.lib.php');
+  $archive = new PclZip('archive.zip');
+  $v_list = $archive-&gt;create('file.txt,data/text.txt,folder');
+  if ($v_list == 0) {
+     die("Error : ".$archive-&gt;errorInfo(true));
+  }
+
+</pre>
+</td></tr></tbody></table>
+</p><p>В этом примере мы создали архив 'archive.zip' и поместили в него
+файлы 'file.txt' и 'data/text.txt'. Все из папки 'folder' также было
+добавлено включая все вложенные поддиректории.
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>     include_once('pclzip.lib.php');
+     $archive = new PclZip('archive.zip');
+     $v_list = $archive-&gt;create('data/file.txt,data/text.txt',
+                                PCLZIP_OPT_REMOVE_PATH, 'data',
+                                PCLZIP_OPT_ADD_PATH, 'install');
+     if ($v_list == 0) {
+        die("Error : ".$archive-&gt;errorInfo(true));
+     }
+</pre>
+</td></tr></tbody></table>
+</p><p>В этом примере файлы 'file.txt' и 'text.txt', которые находятся
+в локальной папке 'data' , добавлены в архив без папки 'data', но в
+папку 'install'. Они сохранены в архиве как 'install/file.txt' и
+'install/text.txt'.
+<br><br></p><p><strong>listContent()</strong>
+<br><br></p><p><u>Обзор.</u>
+</p><p>Этот метод возвращает список свойств файлов и папок.
+<br><br></p><p><u>Резюме.</u>
+
+</p><p>listContent()
+<br><br></p><p><u>Возвращаемые значения.</u>
+</p><p>0 – ошибка.
+</p><p>Массив – формат массива смотрите в разделе “Возвращаемые значения”.
+<br><br></p><p><u>Описание.</u>
+</p><p>Этот метод возвращает содержание архива. Результат – массив, каждый элемент которого описывает архивированный файл или папку.
+<br><br></p><p><u>Пример:</u>
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>     include_once('pclzip.lib.php');
+
+     $zip = new PclZip("test.zip");
+
+     if (($list = $zip-&gt;listContent()) == 0) {
+        die("Error : ".$zip-&gt;errorInfo(true));
+     }
+
+     for ($i=0; $i&lt;sizeof($list); $i++) {
+        for(reset($list[$i]); $key = key($list[$i]); next($list[$i])) {
+            echo "File $i / [$key] = ".$list[$i][$key]."&lt;br&gt;";
+        }
+        echo "&lt;br&gt;";
+     }
+
+</pre>
+</td></tr></tbody></table>
+</p><p>Пример выведет следующий результат:
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>File 0 / [filename] = data/file1.txt
+File 0 / [stored_filename] = data/file1.txt
+File 0 / [size] = 53
+File 0 / [compressed_size] = 36
+File 0 / [mtime] = 1010440428
+File 0 / [comment] =
+File 0 / [folder] = 0
+File 0 / [index] = 0
+File 0 / [status] = ok
+
+File 1 / [filename] = data/file2.txt
+File 1 / [stored_filename] = data/file2.txt
+File 1 / [size] = 54
+File 1 / [compressed_size] = 53
+File 1 / [mtime] = 1011197724
+File 1 / [comment] =
+File 1 / [folder] = 0
+File 1 / [index] = 1
+File 1 / [status] = ok
+</pre>
+</td></tr></tbody></table>
+<br><br></p><p><strong>extract()</strong>
+<br><br></p><p><u>Обзор.</u>
+</p><p>Этот метод распаковывает файлы и папки из архива формата ZIP.
+<br><br></p><p><u>Резюме.</u>
+</p><p>PclZip::extract([список параметров])
+<br><br></p><p><u>Аргументы.</u>
+
+</p><ul>
+<li>PCLZIP_OPT_PATH
+</li><li>PCLZIP_OPT_REMOVE_PATH
+</li><li>PCLZIP_OPT_REMOVE_ALL_PATH
+</li><li>PCLZIP_OPT_ADD_PATH
+</li><li>PCLZIP_CB_PRE_EXTRACT
+</li><li>PCLZIP_CB_POST_EXTRACT
+</li><li>PCLZIP_OPT_SET_CHMOD
+</li><li>PCLZIP_OPT_BY_NAME
+</li><li>PCLZIP_OPT_BY_EREG
+</li><li>PCLZIP_OPT_BY_PREG
+</li><li>PCLZIP_OPT_BY_INDEX
+</li><li>PCLZIP_OPT_EXTRACT_AS_STRING
+</li><li>PCLZIP_OPT_EXTRACT_IN_OUTPUT
+</li></ul>
+<br><br><p><u>Возвращаемые значения.</u>
+
+</p><p>0 – ошибка.
+</p><p>Массив – массив с извлеченными файлами. Обратите внимание, если
+извлечение какого-либо файла терпит неудачу, то это не значит, что все
+извлечение потерпело неудачу. Но статус файла в массиве будет указывать
+на причину ошибки. (См. “Возвращаемые параметры”).
+<br><br></p><p><u>Описание.</u>
+</p><p>Этот метод извлекает часть или все файлы из архива формата ZIP.
+</p><p>Фильтрация может быть задана дополнительными аргументами. Также
+вы можете изменить путь для извлечения файлов и папок. При извлечении
+маленьких файлов вы можете не создавать промежуточных файлов извлекая
+их прямо в переменную. Также вы можете отдавать распаковываемый файл
+напрямую пользователю (См. “Дополнительные аргументы”).
+<br><br></p><p><u>Примеры:</u>
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>     require_once('pclzip.lib.php');
+     $archive = new PclZip('archive.zip');
+     if ($archive-&gt;extract() == 0) {
+        die("Error : ".$archive-&gt;errorInfo(true));
+     }
+</pre>
+</td></tr></tbody></table>
+</p><p>В этом примере все файлы будут извлечены в текущую директорию.
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>
+     include('pclzip.lib.php');
+     $archive = new PclZip('archive.zip');
+     if ($archive-&gt;extract(PCLZIP_OPT_PATH, 'data',
+                           PCLZIP_OPT_REMOVE_PATH, 'install/release') == 0) {
+        die("Error : ".$archive-&gt;errorInfo(true));
+     }
+</pre>
+</td></tr></tbody></table>
+</p><p>В этом примере все файл извлечены в папку 'data'. Все файлы с
+префиксом 'install/release' также распакованы в папку 'data', а не в
+'data/install/release'.
+<br><br></p><p><strong>properties()</strong>
+<br><br></p><p><u>Обзор.</u>
+</p><p>Этот метод отдает общие свойства архива в формате ZIP.
+<br><br></p><p><u>Резюме.</u>
+</p><p>PclZip::properties()
+<br><br></p><p><u>Возвращаемые значения.</u>
+</p><p>0 – ошибка.
+</p><p>Массив – массив со свойствами архива.
+
+<br><br></p><p><u>Описание.</u>
+</p><p>Этот метод возвращает общие свойства архива формата ZIP.
+<br><br></p><p><u>Доступные свойства:</u>
+</p><ul>
+<li>nb – число папок/файлов в архиве.
+</li><li>comment – комментарий, связанный с архивом.
+</li><li>status – статус архива (сейчас доступен только ОК).
+</li></ul>
+<br><br><p><strong>add()</strong>
+<br><br></p><p><u>Обзор.</u>    
+</p><p>Этот метод добавляет файлы или папки в архиву формата ZIP.
+<br><br></p><p><u>Резюме.</u>
+
+</p><p>PclZip::add($filelist, [доп. параметры])
+<br><br></p><p><u>Аргументы.</u>
+</p><p>$filelist
+</p><p>Массив с названиями файлов или директорий
+</p><p>или
+</p><p>строка с названием файла или директории
+</p><p>или
+</p><p>строка с названиями файлов или директорий, разделенными запятыми.
+<br><br></p><p><u>Дополнительные параметры.</u>
+</p><ul>
+<li>PCLZIP_OPT_REMOVE_PATH
+</li><li>PCLZIP_OPT_REMOVE_ALL_PATH
+</li><li>PCLZIP_OPT_ADD_PATH
+</li><li>PCLZIP_CB_PRE_ADD
+</li><li>PCLZIP_CB_POST_ADD
+
+</li><li>PCLZIP_OPT_NO_COMPRESSION
+</li><li>PCLZIP_OPT_COMMENT
+</li><li>PCLZIP_OPT_ADD_COMMENT
+</li><li>PCLZIP_OPT_PREPEND_COMMENT
+</li></ul>
+<br><br><p><u>Возвращаемые значения.</u>
+</p><p>0 – ошибка.
+</p><p>Массив – см. “Возвращаемые значения”.
+<br><br></p><p><u>Описание.</u>
+</p><p>Этот метод позволяет добавлять в уже существующий архив файлы,
+перечисленные в $filelist. После добавления всех файлов и папок
+структура filesystem запоминается.
+</p><p>Будте осторожны, если такой файл в архиве уже существует, то он добавится в конец архива, но не заменит существующий.
+</p><p>Если архив не существует, он будет автоматически создан.
+</p><p>Описание дополнительных аргументов смотрите в соответствующей главе.
+<br><br></p><p><u>Примеры:</u>
+
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>     require_once('pclzip.lib.php');
+     $archive = new PclZip('archive.zip');
+     $v_list = $archive-&gt;add('file.txt,data/text.txt,folder/');
+     if ($v_list == 0) {
+       die("Error : ".$archive-&gt;errorInfo(true));
+     }
+</pre>
+</td></tr></tbody></table>
+</p><p>В этом примере в архив добавляются файл 'file.txt', 'date/text.txt' и все содержимое папки 'folder'.
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>     require_once('pclzip.lib.php');
+     $archive = new PclZip('archive.zip');
+     $v_list = $archive-&gt;add('dev/file.txt,dev/text.txt',
+                             PCLZIP_OPT_ADD_PATH, 'install',
+                             PCLZIP_OPT_REMOVE_PATH, 'dev');
+     if ($v_list == 0) {
+       die("Error : ".$archive-&gt;errorInfo(true));
+     }
+</pre>
+</td></tr></tbody></table>
+</p><p>В этом примере файлы 'dev/file.txt' и 'dev/text.txt' добавляются
+в архив, однако, путь 'dev' удалена и заменена на 'install'. Поэтому
+файлы в архиве сохранены как 'install/file.txt' и 'install/text.txt'.
+<br><br></p><p><strong>delete()</strong>
+<br><br></p><p><u>Обзор.</u>
+
+</p><p>Этот метод позволяет удалить из архива все или часть файлов.
+<br><br></p><p><u>Резюме.</u>
+</p><p>PclZip::delete([список параметров])
+<br><br></p><p><u>Аргументы.</u>
+</p><ul>
+<li>PCLZIP_OPT_BY_NAME
+</li><li>PCLZIP_OPT_BY_EREG
+</li><li>PCLZIP_OPT_BY_PREG
+</li><li>PCLZIP_OPT_BY_INDEX
+</li></ul>
+<br><br><p><u>Возвращаемые значения.</u>
+</p><p>0 – ошибка.
+</p><p>Массив – Список файлов и их свойства (оставшихся в архиве). Формат массива см. “Возвращаемые параметры”.
+<br><br></p><p><u>Описание.</u>
+
+</p><p>Этот метод удаляет все или часть файлов, находящихся в архиве.
+</p><p>Вы можете использовать аргументы для организации фильтра.
+<br><br></p><p><u>Примеры:</u>
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>     require_once('pclzip.lib.php');
+     $archive = new PclZip('archive.zip');
+     $v_list = $archive-&gt;delete();
+     if ($v_list == 0) {
+         die("Error : ".$archive-&gt;errorInfo(true));
+     }
+</pre>
+</td></tr></tbody></table>
+</p><p>В этом примере из архива будут удален все файлы.
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>     require_once('pclzip.lib.php');
+     $archive = new PclZip('archive.zip');
+     $v_list = $archive-&gt;delete(PCLZIP_OPT_BY_INDEX, '1-3,5,8-10');
+     if ($v_list == 0) {
+        die("Error : ".$archive-&gt;errorInfo(true));
+     }
+</pre>
+</td></tr></tbody></table>
+
+</p><p>В этом образце будут удалены файлы в индексе 1-3, 5 и 8-10. Файлы и папки могут быть получены методом listContent().
+</p><p><em>Примечание</em>, папка имеет свой собственный вход (с ее собственным индексом). При удалении папки, файлы, принадлежащие ей, удалены не будут.
+<table cellpadding="5"><tbody><tr><td bgcolor="lightgrey">
+<pre>     require_once('pclzip.lib.php');
+     $archive = new PclZip('archive.zip');
+     $v_list = $archive-&gt;delete(PCLZIP_OPT_BY_EREG, 'txt$');
+     if ($v_list == 0) {
+        die("Error : ".$archive-&gt;errorInfo(true));
+     }
+</pre>
+</td></tr></tbody></table>
+</p><p>В этом примере будут удалены все файлы, заканчивающиеся на .txt.
+<br><br></p><p><strong>merge()</strong>
+<br><br></p><p><u>Обзор.</u>
+</p><p>Склеивает два архива. Добавляет новый архив в конец имеющегося.
+<br><br></p><p><u>Резюме.</u>
+
+</p><p>PclZip::merge($archive_filename)
+<br><br></p><p><u>Аргументы.</u>
+</p><p>$archive_filename
+</p><p>Имя файла архива, с которым будет происходить объединение.
+<br><br></p><p><u>Возвращаемые значения.</u>
+</p><p>0 – ошибка.
+</p><p>1 – удача.
+<br><br></p><p><u>Описание.</u>
+</p><p>Функция добавляет содержимое архива с именем $archive_filename к
+текущем архиву. Никакой проверки делаться не будет, например, дубликаты
+файлов обнаружены не будут. Это не функция обновления! Эта функция
+“глупо” склеивает два архива.
+<br><br></p><p><strong>duplicate()</strong>
+<br><br></p><p><u>Обзор.</u>
+</p><p>Дублирует архив.
+
+<br><br></p><p><u>Резюме.</u>
+</p><p>PclZip::duplicate($archive_filename)
+<br><br></p><p><u>Аргументы.</u>
+</p><p>$acrhive_filename
+</p><p>Имя архива для дублирования.
+<br><br></p><p><u>Возвращаемые значения.</u>
+</p><p>0 – ошибка.
+</p><p>1 – удача.
+<br><br></p><p><u>Описание.</u>
+</p><p>Эта функция создает копию архива с именем из $archive_filename.
+Объект PclZip должен быть только создан. К нему не должны применяться
+никакие действия. Если связать его с уже существующим архивом, то этот
+архив будет удален и заменен дублируемым архивом.
+</p><hr>
+<p>На этом все – удачной работы!</p>
+</div></td></tr></tbody></table><center>
+<!--LiveInternet counter--><script language="JavaScript"><!--
+document.write('<a href="http://www.liveinternet.ru/click" '+
+'target=_blank><img src="http://counter.yadro.ru/hit?t15.6;r'+
+escape(document.referrer)+((typeof(screen)=='undefined')?'':
+';s'+screen.width+'*'+screen.height+'*'+(screen.colorDepth?
+screen.colorDepth:screen.pixelDepth))+';u'+escape(document.URL)+
+';'+Math.random()+
+'" alt="liveinternet.ru: показано число просмотров за 24 часа, посетителей за 24 часа и за сегодн\я" '+
+'border=0 width=88 height=31></a>')//--></script><a href="http://www.liveinternet.ru/click" target="_blank"><img style="display: none;" src="%D0%E0%E1%EE%F2%E0%20%F1%20Zip%20%E0%F0%F5%E8%E2%E0%EC%E8%20-%20PCLZip%20-%20site_title_files/hit.gif" alt="liveinternet.ru: показано число просмотров за 24 часа, посетителей за 24 часа и за сегодня" border="0" height="31" width="88"></a><!--/LiveInternet-->
+<a href="http://www.yandex.ru/cy?base=0&amp;host=php.russofile.ru">
+<img style="display: none;" src="%D0%E0%E1%EE%F2%E0%20%F1%20Zip%20%E0%F0%F5%E8%E2%E0%EC%E8%20-%20PCLZip%20-%20site_title_files/cycounter.gif" alt="Яндекс цитирования" border="0" height="31" width="88"></a>
+</center>
+</body></html>
