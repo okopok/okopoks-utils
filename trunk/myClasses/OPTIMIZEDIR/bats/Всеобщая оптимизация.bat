@@ -1,1 +1,0 @@
-php php D:/htdocs/utils/classes/OPTIMIZEDIR/optimize.all.php
