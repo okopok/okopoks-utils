@@ -1,0 +1,58 @@
+/**
+ * На сколько я понял, альбомы буду искаться по номеру 0028947417323
+ * для примера
+ * http://www.en.imusic.dk/item/0028945772622/schwarzkopf-elisabeth-fischer-diskau-dietrich-moore-gerald-1998-spanisches-liederbuch-originals-cd
+ * вытащить всю инфу
+ * Картинка грабится по принципу
+ * ПРЕВЬЮ   - http://www.en.imusic.dk/gfx/item/image/323/0028947417323.jpg
+ * ОРИГИНАЛ - http://www.en.imusic.dk/gfx/item/reference/323/0028947417323.jpg
+ * ТРЕКИ ЗАКЛЮЧЕНЫ В КОНТЕЙНЕРЫ <div class="tracks">
+ *
+
+ <td height="70" valign="top" width="59%">  <a class="tekst18bold" title=" Search for other releases with  A. Vivaldi" a="" href="/page/search?kind=artist&amp;query=A.+Vivaldi#results">A. Vivaldi</a>
+    <br>
+  <span class="tekst20bold"> Violin Concertos</span></td>
+
+ * многодисковые формат записи
+ * Disk 1:|1. As Long As You're Happy, Baby|2. Ya-ya-da-da|3. (There's) Always Something There To Remind Me|Disk 2:|1. You've Not Changed|2. Don't Make Me Cry|3. Today|4. London|
+ *
+ *
+ * В альбомах может и не быть треков
+ *
+ * Исходные CSV лежат в папке /input/
+ * Конечные CSV в папке       /output/
+ * Картинки лежат в папке     /output/images/
+ * Классы в папке             /classes/
+ */
+/*
+  DONE - сделать МАЯК на артиста
+  DONE - сделать одну прокси на один код
+
+  DONE - Глянь там у них стоит MDVD.И носитель Music-DVD,получается.
+  DONE - Нужно чтобы он и в носителе и в трек лист писал просто DVD)))
+  DONE - И кстати кажись в остальном всё номально)))
+  DONE - Только не ставь ему условие отрезать всё кроме DVD, настрой на конкретный случай.Возможно ещё пара таких переименований будет.
+*/
+
+
+
+                 //0022891022893
+//$this->currentShtrihKod       = '405026000650';
+//$this->currentShortShtrihKod  = substr($this->currentShtrihKod,-3);
+//print $this->currentShortShtrihKod;die;
+//2 discs - 'http://www.en.imusic.dk/item/0028945772622/schwarzkopf-elisabeth-fischer-diskau-dietrich-moore-gerald-1998-spanisches-liederbuch-originals-cd'
+//video   - 'http://www.en.imusic.dk/item/0022891022893/lee-perry-2006-in-concert-mdvd'
+
+//file_put_contents(__ROOT__.'temp.cache', $text);
+//$text = file_get_contents(__ROOT__.'temp.cache');
+//print $text;
+
+/*
+
+<tr bgcolor="#a6a6a6">
+  <td width="35%"><div align="right"><font color="#000000"><strong>Composer:</strong></font></div></td>
+  <td width="65%"><font color="#000000">Schubert</font></td>
+</tr>
+
+
+*/
