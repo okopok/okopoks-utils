@@ -90,6 +90,7 @@ class Main extends CurlGetContent
 
   function myGetPage($url, $refer = '', $proxyAllow = 1, $proxy = false)
   {
+    //$this->myPrint($url);
     sleep(rand($this->minSleepTime, $this->maxSleepTime));
     if($this->proxy and $proxyAllow)
     {
@@ -117,6 +118,7 @@ class Main extends CurlGetContent
    */
   function parcePage($html)
   {
+    if(!strlen($html)) return array();
     $tags[] = 'Composer';
     $tags[] = 'Released';
     $tags[] = 'Label';
@@ -128,7 +130,6 @@ class Main extends CurlGetContent
 
     $tags[] = 'Language';
     $tags[] = 'Subtitles';
-
 
 
     preg_match('|class="tekst18bold".*?>(.*?)<.*?class="tekst20bold".*?>(.*?)<.*?|ism', $html, $matches);
@@ -168,17 +169,26 @@ class Main extends CurlGetContent
     $mas['Amount Type']  = $this->checkValue($matches,2);
 
     preg_match_all('/<i>(.*?):<\/i>  <div class="tracks">(.*?)<\/div>/ims', $html, $matches);
+    //$this->myPrint($this->currentShtrihKod);
+    //$this->myPrint($matches);
+    //die;
+    //ob_start();
+    //var_export($matches);
+    //file_put_contents(__ROOT__.'/'.dirname($this->cacheFile).'/dump.txt', ob_get_clean());
     if(isset($matches[2]))
     {
       foreach ($matches[2] as $key => $traksText)
       {
+        //print $key ."\n";
         preg_match_all('|<b>(.*?)</b>.*?>(.*?)</a>|ism',$traksText, $files, PREG_SET_ORDER);
+        //$this->myPrint($files);
         foreach ($files as $fileskey => $fileArr)
         {
-          if(strlen(trim($this->checkValue( $fileArr , 2 )))) $mas['tracks'][$this->checkValue($matches[1],0)][$this->checkValue( $fileArr , 1 )]  = $this->checkValue( $fileArr , 2 );
+          if(strlen(trim($this->checkValue( $fileArr , 2 )))) $mas['tracks'][$this->checkValue($matches[1],$key)][$this->checkValue( $fileArr , 1 )]  = $this->checkValue( $fileArr , 2 );
         }
       }
     }
+    //$this->myPrint($mas['tracks']);
     return $mas;
   }
 
