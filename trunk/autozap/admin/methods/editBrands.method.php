@@ -1,8 +1,8 @@
 <?php
 
 $BRAND = reset($method_params);
-$size100 = '100x100';
-$size50 = '50x50';
+
+
 $imgPath = BRANDS_IMAGES_DIR.$BRAND['pk_brands_id'];
 
 if(isset($_POST['old_name']))
@@ -22,22 +22,21 @@ if(isset($_POST['old_name']))
   // ------------------------------------------------------
   if(isset($_POST['del_img']))
   {
-    @unlink(IMAGES_DIR.$imgPath.'-'.$size100.'.jpg');
-    @unlink(IMAGES_DIR.$imgPath.'-'.$size50.'.jpg');
+    @unlink(IMAGES_DIR.$imgPath.'-'.IMAGES_BRANDS_MEDIUM.$ext);
+    @unlink(IMAGES_DIR.$imgPath.'-'.IMAGES_BRANDS_SMALL.$ext);
   }
 
   // ------------------------------------------------------
   if(isset($_FILES['img']['tmp_name']))
   {
     $ext = strtolower(substr($_FILES['img']['name'], strrpos($_FILES['img']['name'],'.')));
-    $exts = array('.gif','.jpg','.jpeg','.png');
-    if(eregi('image', $_FILES['img']['type']) and in_array($ext, $exts))
+    if(eregi('image', $_FILES['img']['type']) and in_array($ext, explode(',',IMAGE_EXTS)))
     {
       include(CLASSES_DIR.'ImageResizer.class.php');
       $_IMG = new ImageResizer();
-      copy($_FILES['img']['tmp_name'], IMAGES_DIR.$imgPath.'-original'.$ext);
-      $_IMG->resize(100,100, $_FILES['img']['tmp_name'], IMAGES_DIR.$imgPath.'-100x100.jpg', array('fill_in_box' => 1));
-      $_IMG->resize(50,50, IMAGES_DIR.$imgPath.'-100x100.jpg', IMAGES_DIR.$imgPath.'-50x50.jpg',        array('fill_in_box' => 1));
+      copy($_FILES['img']['tmp_name'], IMAGES_DIR.$imgPath.IMAGES_BRANDS_ORIGINAL_NAME.$ext);
+      $_IMG->resize(IMAGES_BRANDS_MEDIUM,IMAGES_BRANDS_MEDIUM, $_FILES['img']['tmp_name'], IMAGES_DIR.$imgPath.'-'.IMAGES_BRANDS_MEDIUM.$ext, array('fill_in_box' => 1));
+      $_IMG->resize(IMAGES_BRANDS_SMALL,IMAGES_BRANDS_SMALL, IMAGES_DIR.$imgPath.'-'.IMAGES_BRANDS_MEDIUM.$ext, IMAGES_DIR.$imgPath.'-'.IMAGES_BRANDS_SMALL.$ext,        array('fill_in_box' => 1));
     }
   }
 
@@ -48,12 +47,23 @@ if(isset($_POST['del_brand']))
 {
   // TODO: ÑÄÅËÀÒÜ Î×ÈÑÒÊÓ ÊÀÐÒÈÍÎÊ
   $this->_mysql->qr("DELETE FROM ".DB_TABLE_REFIX."brands WHERE pk_brands_id = '{$BRAND['pk_brands_id']}'");
-
-  $data = $this->_mysql->getData("SELECT pk_models_id as id FROM ".DB_TABLE_REFIX."models WHERE fk_brands_id = '{$BRAND['pk_brands_id']}'");
+  foreach (explode(',',IMAGE_EXTS) as $ext)
+  {
+  	@unlink(IMAGES_DIR.$imgPath.'-'.IMAGES_BRANDS_MEDIUM.trim($ext));
+    @unlink(IMAGES_DIR.$imgPath.'-'.IMAGES_BRANDS_SMALL.trim($ext));
+    @unlink(IMAGES_DIR.$imgPath.'-'.IMAGES_BRANDS_ORIGINAL_NAME.trim($ext));
+  }
+  $data = $this->_mysql->getData("SELECT pk_models_id FROM ".DB_TABLE_REFIX."models WHERE fk_brands_id = '{$BRAND['pk_brands_id']}'");
   foreach ($data as $row)
   {
-    $this->_mysql->qr("DELETE FROM ".DB_TABLE_REFIX."parts WHERE fk_models_id = '{$row['id']}'");
-    $this->_mysql->qr("DELETE FROM ".DB_TABLE_REFIX."repare WHERE fk_models_id = '{$row['id']}'");
+    foreach (explode(',',IMAGE_EXTS) as $ext)
+    {
+    	@unlink(IMAGES_DIR.MODELS_IMAGES_DIR.$row['pk_models_id'].'-'.IMAGES_MODELS_MEDIUM.trim($ext));
+      @unlink(IMAGES_DIR.MODELS_IMAGES_DIR.$row['pk_models_id'].'-'.IMAGES_MODELS_SMALL.trim($ext));
+      @unlink(IMAGES_DIR.MODELS_IMAGES_DIR.$row['pk_models_id'].'-'.IMAGES_MODELS_ORIGINAL_NAME.trim($ext));
+    }
+    $this->_mysql->qr("DELETE FROM ".DB_TABLE_REFIX."parts WHERE fk_models_id = '{$row['pk_models_id']}'");
+    $this->_mysql->qr("DELETE FROM ".DB_TABLE_REFIX."repare WHERE fk_models_id = '{$row['pk_models_id']}'");
   }
   $this->_mysql->qr("DELETE FROM ".DB_TABLE_REFIX."models WHERE fk_brands_id = '{$BRAND['pk_brands_id']}'");
   header('location:'.ADMIN_URL_ROOT.'showbrands/');
@@ -61,9 +71,9 @@ if(isset($_POST['del_brand']))
 // ------------------------------------------------------
 // ------------------------------------------------------
 
-if(is_file(IMAGES_DIR.$imgPath.'-'.$size100.'.jpg'))
+if(is_file(IMAGES_DIR.$imgPath.'-'.IMAGES_BRANDS_MEDIUM.$ext))
 {
-  $BRAND['img'] = IMAGES_URL.$imgPath.'-'.$size100.'.jpg';
+  $BRAND['img'] = IMAGES_URL.$imgPath.'-'.IMAGES_BRANDS_MEDIUM.$ext;
 }
 $this->_smarty->assign('brand', $BRAND);
 $this->tpl = $method_name;
