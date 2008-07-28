@@ -4,6 +4,11 @@ padding:0;
 margin:0;
 
 }
+
+img, div, a, input {
+behavior: url("css/resources/iepngfix_v2/iepngfix.htc")
+}
+
 a:hover{
   text-decoration:none;
   color:#cccccc;
@@ -48,18 +53,43 @@ div, td, p, body, a, .white
 {
     width:300px;
     border-right:1px solid #666666;
+    background:
 
+    url('imgs/dis.fon_02.png') /* Путь к фоновому изображению */
+    repeat-x;
 }
 #content .grid .center
 {
+  /*
     background:
-    url('/DIS/imgs/dis_20.gif') /* Путь к фоновому изображению */
+    #333333
+    url('imgs/dis_20.png')
     no-repeat
-    right top; /* Повторять фон по вертикали */
+    right top;
+  */
+  background:     #333333;
     vertical-align:top;
+
+
+}
+#content .grid .center .center-top
+{
+  background:     #000000;
+  padding:        10px;
+  font-size:      20px;
+  font-weight:    bold;
+}
+#content .grid .center .center-content
+{
+  padding:10px;
+  font-size:20px;
 }
 
 #header .grid
+{
+
+}
+#left-top, #left-center, #search-fields,#header .grid
 {
   border-bottom:1px solid #666666;
 }
@@ -80,7 +110,7 @@ div, td, p, body, a, .white
 {
    background:
     #281721 /* Цвет фона */
-    url('../imgs/dis.button.bg.gif') /* Путь к фоновому изображению */
+    url('imgs/dis.button.bg.gif') /* Путь к фоновому изображению */
     no-repeat
     center bottom; /* Повторять фон по вертикали */
    text-align:center;
@@ -94,7 +124,7 @@ div, td, p, body, a, .white
 {
     background:
     #281721 /* Цвет фона */
-    url('../imgs/dis.button.bg.gif') /* Путь к фоновому изображению */
+    url('imgs/dis.button.bg.gif') /* Путь к фоновому изображению */
     no-repeat
     center bottom; /* Повторять фон по вертикали */
 
@@ -102,29 +132,46 @@ div, td, p, body, a, .white
    font-weight:bold;
    font-size:28px;
 }
-
-
-#left-top
+#left-bottom
 {
-
-  border-bottom:1px solid #666666;
+  min-height: 50px;
 }
-#left-center{
 
 
-    background-color: #481832;
+#left-center
+{
+  background-color: #481832;
 }
 #left-center .brands td
 {
   padding:20px;
-  text-align:center;
-
 }
-#search-fields  { padding:15px; background-color: #37192A;   border-bottom:1px solid #666666;  }
+
+.specs-small, .specs-big, #left-center .brands td
+{
+  text-align:center;
+}
+
+#search-fields
+{
+  padding:15px;
+  background-color: #37192A;
+}
 #search-fields .grid td {
   padding:5px;
 }
 #search-fields .grid td input, #search-fields .grid td select
 {
   width:100%;
+}
+
+
+.specs-big img
+{
+  border:2px solid white; margin:10px;
+}
+
+.specs-small img
+{
+  border:2px solid white; margin:5px;
 }
