@@ -1,15 +1,22 @@
 <?php
 /* MAIN */
 define('ROOT_DIR',            $_SERVER['DOCUMENT_ROOT']);
-define('CLASSES_DIR',         ROOT_DIR.'/classes/');
-define('METHODS_DIR',         ROOT_DIR.'/methods/');
-define('TMP_DIR',             ROOT_DIR.'/tmp/');
+define('ENGINE_DIR',          ROOT_DIR.'/engine/');
+define('CLASSES_DIR',         ENGINE_DIR.'/classes/');
+define('METHODS_DIR',         ENGINE_DIR.'/methods/');
+define('TMP_DIR',             ENGINE_DIR.'/tmp/');
 define('HASHES_DIR',          TMP_DIR.'/hashes/');
+define('CONTROLLERS_DIR',     ENGINE_DIR.'controllers/');
+define('MODELS_DIR',          ENGINE_DIR.'models/');
+define('VIEWS_DIR',           ENGINE_DIR.'views/');
+define('UTILS_DIR',           ENGINE_DIR.'utils/');
+
 /* --------- */
 
+define('DEBUG', true);
 
 /* IMAGES */
-define('SMARTY_DIR',          CLASSES_DIR.'Smarty/libs/');
+define('SMARTY_DIR',          UTILS_DIR.'Smarty/libs/');
 define('SMARTY_TEMPLATE_DIR', TMP_DIR.'smarty_templates/');
 define('SMARTY_COMPILE_DIR',  TMP_DIR.'smarty_templates_c/');
 define('SMARTY_CACHE_DIR',    TMP_DIR.'smarty_cache/');
