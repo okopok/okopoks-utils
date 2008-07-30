@@ -6,7 +6,7 @@ class controller_display extends Base implements controller_interface
 
   public function run()
   {
-    $this->base = $this->getInstance();
+    $this->base = Base::getInstance();
     //print $this->base->print_ar('a');
     $this->tpl = '';
     $this->_smarty = Base::load('controller_loadSmarty')->run();
@@ -29,6 +29,7 @@ class controller_display extends Base implements controller_interface
         // ----------------------------------------------------------
         case 'articles':
           Base::load('controller_articles', array('subdir'=>'articles'))->run();
+
         break;
         // ----------------------------------------------------------
         case 'parts':
@@ -47,8 +48,8 @@ class controller_display extends Base implements controller_interface
             $table = 'parts';
           }
           $engine['subdir'] = 'brands_models';
-          $data['BrandsModelsByTable'] = Base::load('model_brandsModels',$engine)->getBrandsModelsByTable($_virtuals[0]);
-          $data[$_virtuals[0]]         = Base::load('model_brandsModels',$engine)->showByBrandsModels($_virtuals[0]);
+          $data['BrandsModelsByTable'] = Base::load('model_brandsModels', $engine)->getBrandsModelsByTable($_virtuals[0]);
+          $data[$_virtuals[0]]         = Base::load('model_brandsModels', $engine)->showByBrandsModels($_virtuals[0]);
           $data['images']['brands']    = Base::load('model_checkImages')->run('brands');
           $data['images']['models']    = Base::load('model_checkImages')->run('models');
           $this->tpl = $_virtuals[0];
@@ -60,9 +61,14 @@ class controller_display extends Base implements controller_interface
     //$this->_smarty->display($this->tpl.'.html', $_SERVER['REQUEST_URI']);
   }
 
-  function setSmarty($obj)
+
+  static function getSmarty()
   {
-    $this->smarty = $obj;
+    if(!is_object(self::$smarty))
+    {
+      self::$smarty = new Smarty();
+    }
+    return self::$smarty;
   }
 
 
