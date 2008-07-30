@@ -18,8 +18,7 @@ class controller_articles extends Base implements controller_interface
       }
       if(is_numeric($article_id))
       {
-        $data = Base::load('model_oneArticle', array('subdir'=>'articles'))->run($article_id);
-        Base::print_ar($data);
+        $data = Base::load('model_Articles', array('subdir'=>'articles'))->getOne($article_id);
         if(count($data) == 0 )
         {
           header('Location: /articles/');
@@ -30,8 +29,10 @@ class controller_articles extends Base implements controller_interface
         header('Location: /articles/');
       }
     }else{
-      $this->showArticles();
+      $data = Base::load('model_Articles', array('subdir'=>'articles'))->getPage(10, 1);
+      //$this->showArticles();
     }
+    Base::print_ar($data);
   }
 }
 ?>

@@ -10,7 +10,7 @@ class model_buildHashes extends Base implements model_interface
     {
       switch ($method_params[0]){
         case 'brands_models':
-          $brandsModelsData = $this->_mysql->getData("
+          $brandsModelsData = bd::getData("
               SELECT pk_brands_id, brands_name, brands_name_tag, pk_models_id, models_name, models_name_tag from ".DB_TABLE_REFIX."brands as b
               INNER JoIn ".DB_TABLE_REFIX."models as m
               ON b.pk_brands_id = m.fk_brands_id
@@ -26,16 +26,21 @@ class model_buildHashes extends Base implements model_interface
           break;
         // ....................................................................
         case 'articles':
-          $articlesData = $this->_mysql->getData("
+          $articlesData = bd::getData("
             SELECT pk_article_id, article_name, article_name_tag, article_timestamp, article_owner, article_publish, article_changetime
             FROM ".DB_TABLE_REFIX."articles ORDER BY article_timestamp DESC, article_name ASC
           ");
-          file_put_contents(ARTICLES_HASH, serialize($articlesData));
+          foreach ($articlesData as $row)
+          {
+          	$newArticlesData[$row['id']]['tag'] = $row['article_name_tag'];
+          	$newArticlesData[$row['id']]['name'] = $row['article_name'];
+          }
+          file_put_contents(ARTICLES_HASH, serialize($newArticlesData));
           return $articlesData;
           break;
         // ....................................................................
         case 'brands':
-          $brandsData = $this->_mysql->getData("
+          $brandsData = bd::getData("
               SELECT pk_brands_id, brands_name, brands_name_tag FROM ".DB_TABLE_REFIX."brands ORDER BY brands_name
           ");
           $BRANDS_HASH = array();
@@ -48,7 +53,7 @@ class model_buildHashes extends Base implements model_interface
           break;
         // ....................................................................
         case 'models':
-          $modelsData = $this->_mysql->getData("
+          $modelsData = bd::getData("
               SELECT pk_brands_id, pk_models_id, models_name, models_name_tag FROM ".DB_TABLE_REFIX."brands as b
               INNER JoIn ".DB_TABLE_REFIX."models as m
               ON b.pk_brands_id = m.fk_brands_id
@@ -64,7 +69,7 @@ class model_buildHashes extends Base implements model_interface
           break;
         // ....................................................................
         case 'brands_by_id':
-          $brandsData = $this->_mysql->getData("
+          $brandsData = bd::getData("
               SELECT pk_brands_id, brands_name, brands_name_tag FROM ".DB_TABLE_REFIX."brands ORDER BY brands_name
           ");
           $BRANDS_HASH = array();
