@@ -7,7 +7,7 @@ class controller_articles extends Base implements controller_interface
     $this->tpl  = 'articles';
     $article_id = 0;
     $_virtuals = Virtuals::dirs();
-
+    $engine = array('subdir'=>'articles');
     if(isset($_virtuals[1]))
     {
       if(is_numeric($_virtuals[1]))
@@ -18,7 +18,8 @@ class controller_articles extends Base implements controller_interface
       }
       if(is_numeric($article_id))
       {
-        $data = Base::load('model_Articles', array('subdir'=>'articles'))->getOne($article_id);
+        $data = Base::load('model_Articles', $engine)->getOne($article_id);
+        Base::load('view_articles', $engine)->showOne($data);
         if(count($data) == 0 )
         {
           header('Location: /articles/');
@@ -29,7 +30,7 @@ class controller_articles extends Base implements controller_interface
         header('Location: /articles/');
       }
     }else{
-      $data = Base::load('model_Articles', array('subdir'=>'articles'))->getPage(10, 1);
+      $data = Base::load('model_Articles', $engine)->getPage(10, 1);
       //$this->showArticles();
     }
     Base::print_ar($data);
