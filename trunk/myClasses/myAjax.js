@@ -44,14 +44,14 @@ function Ajax()
        if(!vals.length || (vals.length == 1 && vals[0] == '')) return str;
        var pers   = new Array;
        var mas    = new Object;
-       var newstr = 'mas = {';
+       var newstr = '({';
        for (var i = 0; i < vals.length; i++)
        {
          pers = vals[i].split('=');
          newstr += pers[0]+':"'+ pers[1]+'"';
          if(vals[i+1]) newstr += ',';
        }
-       newstr += '}';
+       newstr += '})';
        return eval(newstr);
      }
 
@@ -70,6 +70,11 @@ function Ajax()
         {
           return true;
         }
+     }
+
+     this.getJson = function(req)
+     {
+       return eval(eval("("+this.getText(req)+")"));
      }
 
      this.construct();
