@@ -15,6 +15,20 @@ define('UTILS_DIR',           ENGINE_DIR.'utils/');
 
 define('DEBUG', true);
 
+/* THEMES */
+define('THEMES_DESIGN', '1');
+
+define('THEMES_DIR',                    ENGINE_DIR.'themes/');
+define('THEMES_DISIGN_DIR',             THEMES_DIR.THEMES_DESIGN.'/');
+define('THEMES_IMAGES_DIR',             THEMES_DISIGN_DIR.'images/');
+
+define('THEMES_TPL_BLOCKS_PUBLIC_DIR',  THEMES_DISIGN_DIR.'tpl_block/public/');
+define('THEMES_TPL_BLOCKS_ADMIN_DIR',   THEMES_DISIGN_DIR.'tpl_block/admin/');
+define('THEMES_TPL_THEME_PUBLIC_DIR',   THEMES_DISIGN_DIR.'tpl_theme/public/');
+define('THEMES_TPL_THEME_ADMIN_DIR',    THEMES_DISIGN_DIR.'tpl_theme/admin/');
+define('THEMES_EXTENSION','tpl');
+/* --------- */
+
 /* IMAGES */
 define('SMARTY_DIR',          UTILS_DIR.'Smarty/libs/');
 define('SMARTY_TEMPLATE_DIR', TMP_DIR.'smarty_templates/');
@@ -89,6 +103,38 @@ define('XLS_WATING_START_ROW', 2);
 define('XLS_WATING_NAME', 1);
 /* --------- */
 
+
+
+function __autoload($class_name)
+{
+  $prefix = substr($class_name, 0, strpos($class_name,'_'));
+  $name   = substr($class_name, strpos($class_name,'_')+1);
+
+  switch ($prefix)
+  {
+    case 'controller':
+      $path = CONTROLLERS_DIR;
+
+      break;
+    case 'model':
+      $path = MODELS_DIR;
+      break;
+    case 'view':
+      $path = VIEWS_DIR;
+      break;
+    default: return false;
+  }
+  $alterPath = $path."$name/$name.class.php";
+  $path .= $name.'.class.php';
+
+  if(file_exists($path) or file_exists($alterPath))
+  {
+    if(file_exists($path)) require_once($path); else require_once($alterPath);
+  }else{
+    Base::setErrors("class <strong>$class_name</strong> not found in <strong>$path</strong> or <strong>$alterPath</strong>!");
+    trigger_error("class <strong>$class_name</strong> not found in <strong>$path</strong> or <strong>$alterPath</strong>!",E_USER_ERROR);
+  }
+}
 ?>
 
 
