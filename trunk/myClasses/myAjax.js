@@ -41,6 +41,7 @@ function Ajax()
      this.parseParams = function(str)
      {
        var vals   = str.split('&');
+       if(!vals.length || (vals.length == 1 && vals[0] == '')) return str;
        var pers   = new Array;
        var mas    = new Object;
        var newstr = 'mas = {';
@@ -62,6 +63,13 @@ function Ajax()
      this.getXML = function(reg)
      {
        return reg.responseXML;
+     }
+     this.getReady = function(req)
+     {
+        if (req.readyState == 4)
+        {
+          return true;
+        }
      }
 
      this.construct();
