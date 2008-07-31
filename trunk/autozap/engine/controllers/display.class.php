@@ -13,14 +13,14 @@ class controller_display extends Base implements controller_interface
     $_virtuals = Virtuals::dirs();
     if(!$this->_smarty->is_cached($_virtuals[0].'.html', $_SERVER['REQUEST_URI']))
     {
-      $this->print_ar($_virtuals);
+      //$this->print_ar($_virtuals);
       $hashes['brands_models'] = Base::load('controller_getHashes')->run('brands_models');
       $hashes['articles']      = Base::load('controller_getHashes')->run('articles');
       $hashes['brands']        = Base::load('controller_getHashes')->run('brands');
       $hashes['models']        = Base::load('controller_getHashes')->run('models');
       $hashes['brands_by_id']  = Base::load('controller_getHashes')->run('brands_by_id');
 
-      Base::print_ar($hashes);
+      //Base::print_ar($hashes);
       //$this->_smarty->assign('hashes', $hashes);
       //$this->_smarty->assign('_VIRT'  , $_virtuals);
       switch ($_virtuals[0])
@@ -29,7 +29,6 @@ class controller_display extends Base implements controller_interface
         // ----------------------------------------------------------
         case 'articles':
           Base::load('controller_articles', array('subdir'=>'articles'))->run();
-
         break;
         // ----------------------------------------------------------
         case 'parts':

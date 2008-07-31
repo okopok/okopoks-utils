@@ -4,10 +4,10 @@ class controller_articles extends Base implements controller_interface
 {
   public function run()
   {
-    $this->tpl  = 'articles';
     $article_id = 0;
-    $_virtuals = Virtuals::dirs();
-    $engine = array('subdir'=>'articles');
+    $_virtuals  = Virtuals::dirs();
+    $engine     = array('subdir'=>'articles');
+    $MODEL_ARTICLES = Base::load('model_Articles', $engine);
     if(isset($_virtuals[1]))
     {
       if(is_numeric($_virtuals[1]))
@@ -18,22 +18,21 @@ class controller_articles extends Base implements controller_interface
       }
       if(is_numeric($article_id))
       {
-        $data = Base::load('model_Articles', $engine)->getOne($article_id);
-        Base::load('view_articles', $engine)->showOne($data);
+        $data = $MODEL_ARTICLES->getOne($article_id);
+        view_articles::showOne($data);
         if(count($data) == 0 )
         {
           header('Location: /articles/');
         }
-        //$this->_smarty->assign('article', reset($data));
-        //$this->print_ar($data);
       }else{
         header('Location: /articles/');
       }
     }else{
-      $data = Base::load('model_Articles', $engine)->getPage(10, 1);
-      //$this->showArticles();
+      $data = $MODEL_ARTICLES->getPage(10, 1);
+      view_articles::showAll($data);
     }
-    Base::print_ar($data);
+    controller_smarty::display();
+    //Base::print_ar($data);
   }
 }
 ?>
