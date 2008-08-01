@@ -1,0 +1,16 @@
+{include file="header.html"}
+<h3>Это admin.index template</h3>
+<form method="post" enctype="multipart/form-data">
+  <input type="hidden" name="old_name" value="{$brand.brands_name}">
+  <input type="text" name="name" value="{$brand.brands_name}">
+  <input type="file" name="img" />
+  {if $brand.img}
+    <input type="checkbox" name="del_img" value="1">
+    <img src="{$brand.img}" />
+  {/if}
+  <input type="submit">
+</form>
+<form method="post" enctype="multipart/form-data" onsubmit="if(!confirm('уверен?!') return false;">
+  <input type="hidden" name="del_brand" value="{$brand.pk_brands_id}">
+  <input type="submit">
+</form>
