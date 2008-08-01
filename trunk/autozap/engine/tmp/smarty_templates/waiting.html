@@ -1,0 +1,9 @@
+{config_load file="index.conf"}
+{include file="meta.html"}
+{include file="header.html"}
+{include file="brands.block.html" brands=`$waiting`}
+{if $_VIRT[1]}
+  {include file="models.block.html" models=`$waiting`}
+{/if}
+{include file="waiting.block.html"}
+{include file="footer.html"}

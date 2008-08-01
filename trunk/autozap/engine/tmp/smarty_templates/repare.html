@@ -1,0 +1,8 @@
+{config_load file="index.conf"}
+{include file="header.html"}
+{include file="brands.block.html" brands=`$repare`}
+{if $_VIRT[1]}
+  {include file="models.block.html" models=`$repare`}
+{/if}
+{include file="repare.block.html"}
+{include file="footer.html"}

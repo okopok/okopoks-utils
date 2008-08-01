@@ -1,0 +1,9 @@
+{assign var="model_id" value=0}
+<h4> |
+{foreach from=$models item=arr}
+  {if $arr.pk_models_id != $model_id}
+    {assign var="model_id" value=`$arr.pk_models_id`}
+    <a href="/parts/{$arr.brands_name_tag}/{$arr.models_name_tag}/">{$arr.models_name}</a> |
+  {/if}
+{/foreach}
+</h4>
