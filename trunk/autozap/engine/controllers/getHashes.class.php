@@ -1,5 +1,5 @@
 <?php
-class controller_getHashes extends Base implements controller_interface
+class controller_getHashes implements controller_interface
 {
   public function run()
   {

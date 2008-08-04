@@ -1,6 +1,6 @@
 <?php
 
-class controller_loadSmarty extends Base implements controller_interface
+class controller_loadSmarty  implements controller_interface
 {
   function run()
   {

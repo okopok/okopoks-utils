@@ -1,7 +1,7 @@
 <?php
 
 
-class controller_display extends Base implements controller_interface
+class controller_display implements controller_interface
 {
 
   public function run()
@@ -34,6 +34,8 @@ class controller_display extends Base implements controller_interface
         case 'parts':
         case 'waiting':
         case 'repare':
+          $engine['subdir'] = 'brands_models';
+          Base::load('controller_brands_models', $engine)->run();
           if(isset($_virtuals[1])) $brand  = $_virtuals[1]; else $brand  = 'all';
           if(isset($_virtuals[2])) $models = $_virtuals[2]; else $models = 'all';
           //$this->print_ar($this->showParts($brand, $models));
@@ -46,7 +48,7 @@ class controller_display extends Base implements controller_interface
           }else{
             $table = 'parts';
           }
-          $engine['subdir'] = 'brands_models';
+
           $data['BrandsModelsByTable'] = Base::load('model_brandsModels', $engine)->getBrandsModelsByTable($_virtuals[0]);
           $data[$_virtuals[0]]         = Base::load('model_brandsModels', $engine)->showByBrandsModels($_virtuals[0]);
           $data['images']['brands']    = Base::load('model_checkImages')->run('brands');
@@ -72,3 +74,5 @@ class controller_display extends Base implements controller_interface
 
 
 }
+?>
+

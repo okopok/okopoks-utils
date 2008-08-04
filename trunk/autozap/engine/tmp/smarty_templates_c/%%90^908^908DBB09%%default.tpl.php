@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.14, created on 2008-07-31 18:07:40
+<?php /* Smarty version 2.6.14, created on 2008-08-04 12:41:38
          compiled from D:/HTDOCS/autozap.local/www/engine/themes/1/tpl_theme/public/default.tpl */ ?>
 <!--DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"-->
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" >
@@ -67,68 +67,69 @@
   </head>
   <body>
 
-<h3>Это index template</h3>
-<div class="fl" style=" width:10%; border: 1px solid #cccccc; border-right:0px;padding: 10px;">
-  <ul>
-    <li><a href="/repare/">починка</a></li>
-    <li><a href="/parts/">Запчасти</a></li>
-    <li><a href="/waiting/">Ожидаем</a></li>
-    <li><a href="/articles/">Статьи</a></li>
-  </ul>
-  <?php if ($this->_tpl_vars['blocks']['left_top']['path']): ?>    <?php $_smarty_tpl_vars = $this->_tpl_vars;
+    <h3>Это index template</h3>
+
+    <div class="fl" style=" width:10%; border: 1px solid #cccccc; border-right:0px;padding: 10px;">
+      <ul>
+        <li><a href="/repare/">починка</a></li>
+        <li><a href="/parts/">Запчасти</a></li>
+        <li><a href="/waiting/">Ожидаем</a></li>
+        <li><a href="/articles/">Статьи</a></li>
+      </ul>
+      <?php if ($this->_tpl_vars['blocks']['left_top']['path']): ?>    <?php $_smarty_tpl_vars = $this->_tpl_vars;
 $this->_smarty_include(array('smarty_include_tpl_file' => ($this->_tpl_vars['blocks']['left_top']['path']), 'smarty_include_vars' => array()));
 $this->_tpl_vars = $_smarty_tpl_vars;
 unset($_smarty_tpl_vars);
   endif; ?>
-  <?php if ($this->_tpl_vars['blocks']['left_center']['path']): ?> <?php $_smarty_tpl_vars = $this->_tpl_vars;
+      <?php if ($this->_tpl_vars['blocks']['left_center']['path']): ?> <?php $_smarty_tpl_vars = $this->_tpl_vars;
 $this->_smarty_include(array('smarty_include_tpl_file' => ($this->_tpl_vars['blocks']['left_center']['path']), 'smarty_include_vars' => array()));
 $this->_tpl_vars = $_smarty_tpl_vars;
 unset($_smarty_tpl_vars);
   endif; ?>
-  <?php if ($this->_tpl_vars['blocks']['left_bottom']['path']): ?> <?php $_smarty_tpl_vars = $this->_tpl_vars;
+      <?php if ($this->_tpl_vars['blocks']['left_bottom']['path']): ?> <?php $_smarty_tpl_vars = $this->_tpl_vars;
 $this->_smarty_include(array('smarty_include_tpl_file' => ($this->_tpl_vars['blocks']['left_bottom']['path']), 'smarty_include_vars' => array()));
 $this->_tpl_vars = $_smarty_tpl_vars;
 unset($_smarty_tpl_vars);
   endif; ?>
-</div>
-<div class="fl" style=" width:75%; border: 1px solid #cccccc; border-bottom:0px;padding: 10px; min-height:500px;">
-  <?php if ($this->_tpl_vars['blocks']['center_top']['path']): ?>    <?php $_smarty_tpl_vars = $this->_tpl_vars;
+    </div>
+    <div class="fl" style=" width:75%; border: 1px solid #cccccc; border-bottom:0px;padding: 10px; min-height:500px;">
+      <?php if ($this->_tpl_vars['blocks']['center_top']['path']): ?>    <?php $_smarty_tpl_vars = $this->_tpl_vars;
 $this->_smarty_include(array('smarty_include_tpl_file' => ($this->_tpl_vars['blocks']['center_top']['path']), 'smarty_include_vars' => array()));
 $this->_tpl_vars = $_smarty_tpl_vars;
 unset($_smarty_tpl_vars);
   endif; ?>
-  <?php if ($this->_tpl_vars['blocks']['center_center']['path']): ?> <?php $_smarty_tpl_vars = $this->_tpl_vars;
+      <?php if ($this->_tpl_vars['blocks']['center_center']['path']): ?> <?php $_smarty_tpl_vars = $this->_tpl_vars;
 $this->_smarty_include(array('smarty_include_tpl_file' => ($this->_tpl_vars['blocks']['center_center']['path']), 'smarty_include_vars' => array()));
 $this->_tpl_vars = $_smarty_tpl_vars;
 unset($_smarty_tpl_vars);
   endif; ?>
-  <?php if ($this->_tpl_vars['blocks']['center_bottom']['path']): ?> <?php $_smarty_tpl_vars = $this->_tpl_vars;
+      <?php if ($this->_tpl_vars['blocks']['center_bottom']['path']): ?> <?php $_smarty_tpl_vars = $this->_tpl_vars;
 $this->_smarty_include(array('smarty_include_tpl_file' => ($this->_tpl_vars['blocks']['center_bottom']['path']), 'smarty_include_vars' => array()));
 $this->_tpl_vars = $_smarty_tpl_vars;
 unset($_smarty_tpl_vars);
   endif; ?>
-</div>
-<div style="float:left; width:10%; border: 1px solid #cccccc; border-left:0px;padding: 10px;">
-  <?php if ($this->_tpl_vars['blocks']['right_top']['path']): ?>   <?php $_smarty_tpl_vars = $this->_tpl_vars;
+    </div>
+    <div style="float:left; width:10%; border: 1px solid #cccccc; border-left:0px;padding: 10px;">
+      <?php if ($this->_tpl_vars['blocks']['right_top']['path']): ?>   <?php $_smarty_tpl_vars = $this->_tpl_vars;
 $this->_smarty_include(array('smarty_include_tpl_file' => ($this->_tpl_vars['blocks']['right_top']['path']), 'smarty_include_vars' => array()));
 $this->_tpl_vars = $_smarty_tpl_vars;
 unset($_smarty_tpl_vars);
   endif; ?>
-  <?php if ($this->_tpl_vars['blocks']['right_center']['path']):  $_smarty_tpl_vars = $this->_tpl_vars;
+      <?php if ($this->_tpl_vars['blocks']['right_center']['path']):  $_smarty_tpl_vars = $this->_tpl_vars;
 $this->_smarty_include(array('smarty_include_tpl_file' => ($this->_tpl_vars['blocks']['right_center']['path']), 'smarty_include_vars' => array()));
 $this->_tpl_vars = $_smarty_tpl_vars;
 unset($_smarty_tpl_vars);
   endif; ?>
-  <?php if ($this->_tpl_vars['blocks']['right_bottom']['path']):  $_smarty_tpl_vars = $this->_tpl_vars;
+      <?php if ($this->_tpl_vars['blocks']['right_bottom']['path']):  $_smarty_tpl_vars = $this->_tpl_vars;
 $this->_smarty_include(array('smarty_include_tpl_file' => ($this->_tpl_vars['blocks']['right_bottom']['path']), 'smarty_include_vars' => array()));
 $this->_tpl_vars = $_smarty_tpl_vars;
 unset($_smarty_tpl_vars);
   endif; ?>
-</div>
-<br style="clear:both;" />
-<div style="border:1px solid #cccccc; width:99%;">
-  <a href="/articles/kontakty-2/">Контакты</a>
-</div>
+    </div>
+    <br style="clear:both;" />
+    <div style="border:1px solid #cccccc; width:99%;">
+      <a href="/articles/kontakty-2/">Контакты</a>
+    </div>
 
-</body>
+  </body>
 </html>

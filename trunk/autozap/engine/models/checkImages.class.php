@@ -1,5 +1,5 @@
 <?php
-class model_checkImages extends Base implements model_interface
+class model_checkImages implements model_interface
 {
   function run()
   {
