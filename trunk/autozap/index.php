@@ -1,12 +1,5 @@
 <?php
-require_once($_SERVER['DOCUMENT_ROOT'].'/engine/tmp/config.php');
-require_once(ENGINE_DIR.'/interfaces.php');
-require_once(ROOT_DIR.'/Base.class.php');
-
-require_once(UTILS_DIR . 'Utils.class.php');
-require_once(UTILS_DIR . 'bd.class.php');
-require_once(UTILS_DIR . 'RecordSet.class.php');
-require_once(UTILS_DIR . 'Virtuals.class.php');
+require_once($_SERVER['DOCUMENT_ROOT'].'/includes.php');
 bd::init();
 print_r(bd::getData("select 1"));
 print_r(bd::query("select 1"));
@@ -34,6 +27,7 @@ $this->_mysql->connect();
 */
 
 //$m = new Base();
+Base::load('controller_smarty')->run();
 Base::load('controller_display')->run();
 //Base::load('controller_displasy')->run();
 //Base::load('controller_test')->run(234,65,457234,234,6);

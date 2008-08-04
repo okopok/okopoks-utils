@@ -36,21 +36,6 @@ class controller_display implements controller_interface
         case 'repare':
           $engine['subdir'] = 'brands_models';
           Base::load('controller_brands_models', $engine)->run();
-          if(isset($_virtuals[1])) $brand  = $_virtuals[1]; else $brand  = 'all';
-          if(isset($_virtuals[2])) $models = $_virtuals[2]; else $models = 'all';
-          //$this->print_ar($this->showParts($brand, $models));
-          $cond = 'yes';
-          if($_virtuals[0] == 'parts')   $cond = 'yes';
-          if($_virtuals[0] == 'waiting') $cond = 'waiting';
-          if($_virtuals[0] == 'repare')
-          {
-            $table = 'repare';
-          }else{
-            $table = 'parts';
-          }
-
-          $data['BrandsModelsByTable'] = Base::load('model_brandsModels', $engine)->getBrandsModelsByTable($_virtuals[0]);
-          $data[$_virtuals[0]]         = Base::load('model_brandsModels', $engine)->showByBrandsModels($_virtuals[0]);
           $data['images']['brands']    = Base::load('model_checkImages')->run('brands');
           $data['images']['models']    = Base::load('model_checkImages')->run('models');
           $this->tpl = $_virtuals[0];
