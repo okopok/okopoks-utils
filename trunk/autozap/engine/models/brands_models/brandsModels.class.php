@@ -48,35 +48,59 @@ class model_brandsModels implements model_interface
   function getParts()
   {
     $sql = '
-        SELECT b.*, m.*
+        SELECT p.*
           FROM '.DB_TABLE_REFIX.'brands as b
     INNER JOIN '.DB_TABLE_REFIX.'models as m ON b.pk_brands_id = m.fk_brands_id
     INNER JOIN '.DB_TABLE_REFIX.'parts as p  ON m.pk_models_id = p.fk_models_id
          WHERE parts_cond = "yes"
-      GROUP BY m.pk_models_id';
+          ';
+    return bd::getData($sql);
+  }
+
+  function getPartsByBrand($tag)
+  {
+    $brands = Base::load('controller_getHashes')->run('brands');
+    if(!isset($brands[$tag])) return false;
+    $sql = '
+        SELECT p.*
+          FROM '.DB_TABLE_REFIX.'brands as b
+    INNER JOIN '.DB_TABLE_REFIX.'models as m ON b.pk_brands_id = m.fk_brands_id
+    INNER JOIN '.DB_TABLE_REFIX.'parts as p  ON m.pk_models_id = p.fk_models_id
+         WHERE parts_cond = "yes" and b.pk_brands_id = "'.$brands[$tag]['pk_brands_id'].'"';
+    return bd::getData($sql);
+  }
+
+  function getPartsByModel($brand, $model)
+  {
+    $brands_models = Base::load('controller_getHashes')->run('brands_models');
+    if(!isset($brands_models[$brand][$model])) return false;
+    $sql = '
+        SELECT p.*
+          FROM '.DB_TABLE_REFIX.'brands as b
+    INNER JOIN '.DB_TABLE_REFIX.'models as m ON b.pk_brands_id = m.fk_brands_id
+    INNER JOIN '.DB_TABLE_REFIX.'parts as p  ON m.pk_models_id = p.fk_models_id
+         WHERE parts_cond = "yes" and m.pk_models_id = "'.$brands_models[$brand][$model]['pk_models_id'].'"';
     return bd::getData($sql);
   }
 
   function getWating()
   {
     $sql = '
-        SELECT b.*, m.*
+        SELECT p.*
           FROM '.DB_TABLE_REFIX.'brands as b
     INNER JOIN '.DB_TABLE_REFIX.'models as m ON b.pk_brands_id = m.fk_brands_id
     INNER JOIN '.DB_TABLE_REFIX.'parts as p  ON m.pk_models_id = p.fk_models_id
-         WHERE parts_cond = "waiting"
-      GROUP BY m.pk_models_id';
+         WHERE parts_cond = "waiting"';
     return bd::getData($sql);
   }
 
   function getRepare()
   {
     $sql = '
-        SELECT b.*, m.*
+        SELECT r.*
           FROM '.DB_TABLE_REFIX.'brands as b
     INNER JOIN '.DB_TABLE_REFIX.'models as m ON b.pk_brands_id = m.fk_brands_id
-    INNER JOIN '.DB_TABLE_REFIX.'repare as r ON m.pk_models_id = r.fk_models_id
-      GROUP BY m.pk_models_id';
+    INNER JOIN '.DB_TABLE_REFIX.'repare as r ON m.pk_models_id = r.fk_models_id';
     return bd::getData($sql);
   }
 

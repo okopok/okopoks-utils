@@ -105,36 +105,7 @@ define('XLS_WATING_NAME', 1);
 
 
 
-function __autoload($class_name)
-{
-  $prefix = substr($class_name, 0, strpos($class_name,'_'));
-  $name   = substr($class_name, strpos($class_name,'_')+1);
 
-  switch ($prefix)
-  {
-    case 'controller':
-      $path = CONTROLLERS_DIR;
-
-      break;
-    case 'model':
-      $path = MODELS_DIR;
-      break;
-    case 'view':
-      $path = VIEWS_DIR;
-      break;
-    default: return false;
-  }
-  $alterPath = $path."$name/$name.class.php";
-  $path .= $name.'.class.php';
-
-  if(file_exists($path) or file_exists($alterPath))
-  {
-    if(file_exists($path)) require_once($path); else require_once($alterPath);
-  }else{
-    Base::setErrors("class <strong>$class_name</strong> not found in <strong>$path</strong> or <strong>$alterPath</strong>!");
-    trigger_error("class <strong>$class_name</strong> not found in <strong>$path</strong> or <strong>$alterPath</strong>!",E_USER_ERROR);
-  }
-}
 ?>
 
 
