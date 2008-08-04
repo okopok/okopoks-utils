@@ -1,7 +1,7 @@
 <?php
 //print __LINE__;
 //$this->print_ar($method_params);
-class model_buildHashes extends Base implements model_interface
+class model_buildHashes implements model_interface
 {
   public function run()
   {

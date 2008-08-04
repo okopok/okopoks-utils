@@ -1,6 +1,6 @@
 <?php
 
-class view_articles extends Base implements view_interface
+class view_articles  implements view_interface
 {
 
 

@@ -1,5 +1,5 @@
 <?php
-class controller_test extends Base implements controller_interface
+class controller_test implements controller_interface
 {
   function run()
   {

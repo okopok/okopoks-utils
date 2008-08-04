@@ -1,6 +1,6 @@
 <?php
 
-class controller_articles extends Base implements controller_interface
+class controller_articles implements controller_interface
 {
   public function run()
   {

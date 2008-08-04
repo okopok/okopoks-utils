@@ -107,6 +107,11 @@ class Base
   }
 
 
+  static public function location($url)
+  {
+    header('Location: '.$url);
+    die;
+  }
 }
 
 ?>

@@ -1,6 +1,6 @@
 <?php
 
-class controller_smarty extends Base implements controller_interface
+class controller_smarty implements controller_interface
 {
   static $instance  = false;
   static $smarty    = false;
