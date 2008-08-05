@@ -12,7 +12,7 @@ define('VIEWS_DIR',           ENGINE_DIR.'views/');
 define('UTILS_DIR',           ENGINE_DIR.'utils/');
 
 /* --------- */
-
+define('ARTICLES_PAGE_LIMIT', 10);
 define('DEBUG', true);
 
 /* THEMES */
@@ -29,7 +29,7 @@ define('THEMES_TPL_THEME_ADMIN_DIR',    THEMES_DISIGN_DIR.'tpl_theme/admin/');
 define('THEMES_EXTENSION','tpl');
 /* --------- */
 
-/* IMAGES */
+/* SMARTY */
 define('SMARTY_DIR',          UTILS_DIR.'Smarty/libs/');
 define('SMARTY_TEMPLATE_DIR', TMP_DIR.'smarty_templates/');
 define('SMARTY_COMPILE_DIR',  TMP_DIR.'smarty_templates_c/');

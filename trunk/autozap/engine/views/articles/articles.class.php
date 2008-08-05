@@ -22,4 +22,5 @@ class view_articles  implements view_interface
     controller_smarty::registerBlock('center_center','articles_page_articles');
     controller_smarty::assign('articles', $data);
   }
+
 }

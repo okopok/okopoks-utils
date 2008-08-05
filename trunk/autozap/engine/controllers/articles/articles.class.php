@@ -4,35 +4,57 @@ class controller_articles implements controller_interface
 {
   public function run()
   {
-    $article_id = 0;
-    $_virtuals  = Virtuals::dirs();
-    $engine     = array('subdir'=>'articles');
-    $MODEL_ARTICLES = Base::load('model_Articles', $engine);
-    if(isset($_virtuals[1]))
+    $article_id     = 0;
+    $_virtuals      = Virtuals::dirs();
+
+    if(isset($_virtuals[1]) and isset($_virtuals[2]) and $_virtuals[1] == 'page' and is_numeric($_virtuals[2]))
     {
-      if(is_numeric($_virtuals[1]))
+      self::showPage($_virtuals[2]);
+    }elseif(isset($_virtuals[1]))
+    {
+      self::showOne($_virtuals[1]);
+    }else{
+      self::showAll();
+    }
+    //controller_smarty::display();
+    //Base::print_ar($data);
+  }
+
+  function showAll()
+  {
+    $engine         = array('subdir'=>'articles');
+    $MODEL_ARTICLES = Base::load('model_Articles', $engine);
+    view_articles::showAll($MODEL_ARTICLES->getPage(ARTICLES_PAGE_LIMIT, 1));
+  }
+
+  function showOne($id)
+  {
+    $engine         = array('subdir'=>'articles');
+    $MODEL_ARTICLES = Base::load('model_Articles', $engine);
+    if(is_numeric($id))
+    {
+      $article_id = $id;
+    }else{
+      $article_id = substr($id, strrpos($id, '-')+1);
+    }
+    if(is_numeric($article_id))
+    {
+      view_articles::showOne($MODEL_ARTICLES->getOne($article_id));
+      if(count($data) == 0 )
       {
-        $article_id = $_virtuals[1];
-      }else{
-        $article_id = substr($_virtuals[1], strrpos($_virtuals[1], '-')+1);
-      }
-      if(is_numeric($article_id))
-      {
-        $data = $MODEL_ARTICLES->getOne($article_id);
-        view_articles::showOne($data);
-        if(count($data) == 0 )
-        {
-          Base::location('/articles/');
-        }
-      }else{
         Base::location('/articles/');
       }
     }else{
-      $data = $MODEL_ARTICLES->getPage(10, 1);
-      view_articles::showAll($data);
+      Base::location('/articles/');
     }
-    controller_smarty::display();
-    //Base::print_ar($data);
+  }
+
+  function showPage($page)
+  {
+    if($page < 1) Base::location('/articles/page/1/');
+    $engine         = array('subdir'=>'articles');
+    $MODEL_ARTICLES = Base::load('model_Articles', $engine);
+    view_articles::showAll($MODEL_ARTICLES->getPage(ARTICLES_PAGE_LIMIT,$page));
   }
 }
 ?>
