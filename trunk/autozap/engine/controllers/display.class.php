@@ -20,7 +20,7 @@ class controller_display implements controller_interface
       $hashes['models']        = Base::load('controller_getHashes')->run('models');
       $hashes['brands_by_id']  = Base::load('controller_getHashes')->run('brands_by_id');
 
-      //Base::print_ar($hashes);
+      //Base::print_ar($_virtuals);
       //$this->_smarty->assign('hashes', $hashes);
       //$this->_smarty->assign('_VIRT'  , $_virtuals);
       switch ($_virtuals[0])
@@ -36,10 +36,9 @@ class controller_display implements controller_interface
         case 'repare':
           $engine['subdir'] = 'brands_models';
           Base::load('controller_brands_models', $engine)->run();
-          $data['images']['brands']    = Base::load('model_checkImages')->run('brands');
-          $data['images']['models']    = Base::load('model_checkImages')->run('models');
-          $this->tpl = $_virtuals[0];
+
         break;
+        default: print 'aga';
         // ----------------------------------------------------------
       }
     }
