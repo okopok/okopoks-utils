@@ -45,6 +45,7 @@ class model_checkImages implements model_interface
         }
       }
     }
+    Base::print_ar($images);
     return $images;
   }
 }
