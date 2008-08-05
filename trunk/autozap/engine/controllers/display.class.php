@@ -36,13 +36,12 @@ class controller_display implements controller_interface
         case 'repare':
           $engine['subdir'] = 'brands_models';
           Base::load('controller_brands_models', $engine)->run();
-
         break;
-        default: print 'aga';
+        default: controller_index::run();
         // ----------------------------------------------------------
       }
     }
-
+    controller_smarty::display();
     //$this->_smarty->display($this->tpl.'.html', $_SERVER['REQUEST_URI']);
   }
 
