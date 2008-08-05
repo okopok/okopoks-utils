@@ -48,7 +48,7 @@ class model_brandsModels implements model_interface
   function getParts()
   {
     $sql = '
-        SELECT p.*
+        SELECT b.pk_brands_id,m.pk_models_id,p.*
           FROM '.DB_TABLE_REFIX.'brands as b
     INNER JOIN '.DB_TABLE_REFIX.'models as m ON b.pk_brands_id = m.fk_brands_id
     INNER JOIN '.DB_TABLE_REFIX.'parts as p  ON m.pk_models_id = p.fk_models_id
@@ -62,7 +62,7 @@ class model_brandsModels implements model_interface
     $brands = Base::load('controller_getHashes')->run('brands');
     if(!isset($brands[$tag])) return false;
     $sql = '
-        SELECT p.*
+        SELECT b.pk_brands_id,m.pk_models_id,p.*
           FROM '.DB_TABLE_REFIX.'brands as b
     INNER JOIN '.DB_TABLE_REFIX.'models as m ON b.pk_brands_id = m.fk_brands_id
     INNER JOIN '.DB_TABLE_REFIX.'parts as p  ON m.pk_models_id = p.fk_models_id
@@ -75,7 +75,7 @@ class model_brandsModels implements model_interface
     $brands_models = Base::load('controller_getHashes')->run('brands_models');
     if(!isset($brands_models[$brand][$model])) return false;
     $sql = '
-        SELECT p.*
+        SELECT b.pk_brands_id,m.pk_models_id,p.*
           FROM '.DB_TABLE_REFIX.'brands as b
     INNER JOIN '.DB_TABLE_REFIX.'models as m ON b.pk_brands_id = m.fk_brands_id
     INNER JOIN '.DB_TABLE_REFIX.'parts as p  ON m.pk_models_id = p.fk_models_id

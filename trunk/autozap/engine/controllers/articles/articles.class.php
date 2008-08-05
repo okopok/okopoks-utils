@@ -22,10 +22,10 @@ class controller_articles implements controller_interface
         view_articles::showOne($data);
         if(count($data) == 0 )
         {
-          header('Location: /articles/');
+          Base::location('/articles/');
         }
       }else{
-        header('Location: /articles/');
+        Base::location('/articles/');
       }
     }else{
       $data = $MODEL_ARTICLES->getPage(10, 1);
