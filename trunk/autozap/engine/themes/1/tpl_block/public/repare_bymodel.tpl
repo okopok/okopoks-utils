@@ -3,7 +3,7 @@
 {if $smarty.foreach.brands.first}
   <tr class="brand_div">
     <td class="td" colspan="4">
-      {if $brandsImages[$brand_id].small}<img src="{$brandsImages[$brand_id].small}" align="right"/>{/if}
+      {if $brands_images[$arr.pk_brands_id].small}<img src="{$brands_images[$arr.pk_brands_id].small}" align="right"/>{/if}
       <a href="/repare/{$brandsbyid[$arr.pk_brands_id].brands_name_tag}/">{$brandsbyid[$arr.pk_brands_id].brands_name}</a>
     </td>
   </tr>
