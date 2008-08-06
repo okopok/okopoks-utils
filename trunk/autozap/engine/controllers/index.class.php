@@ -7,7 +7,8 @@ class controller_index implements controller_interface
   {
     view_index::run();
     controller_articles::run();
-    controller_articles::showPage(1);
+    controller_articles::showPreviews();
+
   }
 
 }

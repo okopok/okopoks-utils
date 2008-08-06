@@ -26,7 +26,7 @@ function __autoload($class_name)
       break;
     default: return false;
   }
-  $alterPath = $path."$name/$name.class.php";
+  $alterPath = $path."$name/public/$name.class.php";
   $path .= $name.'.class.php';
 
   if(file_exists($path) or file_exists($alterPath))
