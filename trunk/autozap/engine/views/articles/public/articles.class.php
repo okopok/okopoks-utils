@@ -23,4 +23,11 @@ class view_articles  implements view_interface
     controller_smarty::assign('articles', $data);
   }
 
+  function showPreviews($data)
+  {
+    self::run();
+    controller_smarty::registerBlock('center_center','articles_preview');
+    controller_smarty::assign('articles', $data);
+  }
+
 }
