@@ -25,10 +25,10 @@ class Base
    * @param array $arr array('subdir','fullpath');
    * @return mixed
    */
-  static function load($class_name, $arr = array('subdir' => '', 'fullPath' => '')) {
+  static function load($class_name, $arr = array('subdir' => '', 'fullPath' => '', 'type'=>'public')) {
     $prefix = substr($class_name, 0, strpos($class_name,'_'));
     $name   = substr($class_name, strpos($class_name,'_')+1);
-
+    $type   = $arr['type'];
     if((!isset($arr['fullPath']) OR !strlen($arr['fullPath'])) AND strlen($prefix))
     {
       switch ($prefix)
@@ -45,7 +45,7 @@ class Base
           break;
         default: return false;
       }
-      if(strlen($arr['subdir'])) $path .= $arr['subdir'].'/';
+      if(strlen($arr['subdir'])) $path .= $arr['subdir'].'/'.$type.'/';
       $path .= $name.'.class.php';
     }else{
       $prefix = 'fullpath';

@@ -42,8 +42,8 @@ class model_buildHashes implements model_interface
     ");
     foreach ($articlesData as $row)
     {
-    	$newArticlesData[$row['id']]['tag'] = $row['article_name_tag'];
-    	$newArticlesData[$row['id']]['name'] = $row['article_name'];
+    	$newArticlesData[$row['pk_article_id']]['tag'] = $row['article_name_tag'];
+    	$newArticlesData[$row['pk_article_id']]['name'] = $row['article_name'];
     }
     file_put_contents(ARTICLES_HASH, serialize($newArticlesData));
     return $articlesData;

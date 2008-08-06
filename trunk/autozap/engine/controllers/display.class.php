@@ -11,9 +11,19 @@ class controller_display implements controller_interface
     $this->tpl = '';
     $this->_smarty = Base::load('controller_loadSmarty')->run();
     $_virtuals = Virtuals::dirs();
-    if(!$this->_smarty->is_cached($_virtuals[0].'.html', $_SERVER['REQUEST_URI']))
+
+    if($_virtuals[0] == 'admin')
+    {
+      controller_smarty::setCachind(false);
+      controller_smarty::setTheme('default','admin');
+    }else{
+      controller_smarty::setCachind(true);
+      controller_smarty::setTheme('default','public');
+    }
+    if(!controller_smarty::is_cached($_SERVER['REQUEST_URI']))
     {
       //$this->print_ar($_virtuals);
+      print 'Cached';
       $hashes['brands_models'] = Base::load('controller_getHashes')->run('brands_models');
       $hashes['articles']      = Base::load('controller_getHashes')->run('articles');
       $hashes['brands']        = Base::load('controller_getHashes')->run('brands');
@@ -28,18 +38,21 @@ class controller_display implements controller_interface
         case 'debug':    $this->debug(); $this->tpl = 'debug'; break;
         // ----------------------------------------------------------
         case 'articles':
-          Base::load('controller_articles', array('subdir'=>'articles'))->run();
+          Base::load('controller_articles', array('subdir'=>'articles', 'type'=>'public'))->run();
         break;
         // ----------------------------------------------------------
         case 'parts':
         case 'waiting':
         case 'repare':
           $engine['subdir'] = 'brands_models';
+          $engine['type']   = 'public';
           Base::load('controller_brands_models', $engine)->run();
         break;
         default: controller_index::run();
         // ----------------------------------------------------------
       }
+    }else{
+      print 'From Cache';
     }
     controller_smarty::display();
     //$this->_smarty->display($this->tpl.'.html', $_SERVER['REQUEST_URI']);

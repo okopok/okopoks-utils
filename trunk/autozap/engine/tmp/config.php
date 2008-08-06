@@ -13,6 +13,9 @@ define('UTILS_DIR',           ENGINE_DIR.'utils/');
 
 /* --------- */
 define('ARTICLES_PAGE_LIMIT', 10);
+define('ARTICLES_ALLOW_TAGS', '<img><b><i><u><a><br>');
+define('ARTICLES_PREVIEW_LENGHT', 600);
+
 define('DEBUG', true);
 
 /* THEMES */

@@ -67,6 +67,7 @@
 
     <div class="fl" style=" width:10%; border: 1px solid #cccccc; border-right:0px;padding: 10px;">
       <ul>
+        <li><a href="/">Главная</a></li>
         <li><a href="/repare/">починка</a></li>
         <li><a href="/parts/">Запчасти</a></li>
         <li><a href="/waiting/">Ожидаем</a></li>
