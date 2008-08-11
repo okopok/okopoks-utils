@@ -1,25 +1,15 @@
 <?php
 
 
-class controller_display implements controller_interface
+class controller_admin_display implements controller_interface
 {
 
   public function run()
   {
-    $this->base = Base::getInstance();
-    //print $this->base->print_ar('a');
-    $this->tpl = '';
-    $this->_smarty = Base::load('controller_loadSmarty')->run();
     $_virtuals = Virtuals::dirs();
-
-    if($_virtuals[0] == 'admin')
-    {
-      controller_smarty::setCachind(false);
-      controller_smarty::setTheme('default','admin');
-    }else{
-      controller_smarty::setCachind(true);
-      controller_smarty::setTheme('default','public');
-    }
+    controller_smarty::setCachind(false);
+    print 'asdasdasd';
+    controller_smarty::setTheme('default', 'admin');
     if(!controller_smarty::is_cached($_SERVER['REQUEST_URI']))
     {
       //$this->print_ar($_virtuals);
@@ -33,12 +23,12 @@ class controller_display implements controller_interface
       //Base::print_ar($_virtuals);
       //$this->_smarty->assign('hashes', $hashes);
       //$this->_smarty->assign('_VIRT'  , $_virtuals);
-      switch ($_virtuals[0])
+      switch ($_virtuals[1])
       {
         case 'debug':    $this->debug(); $this->tpl = 'debug'; break;
         // ----------------------------------------------------------
         case 'articles':
-          Base::load('controller_articles', array('subdir'=>'articles', 'type'=>'public'))->run();
+          Base::load('controller_admin_articles')->run();
         break;
         // ----------------------------------------------------------
         case 'parts':
@@ -46,8 +36,8 @@ class controller_display implements controller_interface
         case 'repare':
           $engine['subdir'] = 'brands_models';
           $engine['type']   = 'public';
-          Base::load('controller_brands_models', $engine)->run();
         break;
+
         default: controller_index::run();
         // ----------------------------------------------------------
       }

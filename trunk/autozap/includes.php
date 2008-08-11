@@ -9,32 +9,64 @@ require_once(UTILS_DIR . 'Virtuals.class.php');
 require_once(SMARTY_DIR. 'Smarty.class.php');
 function __autoload($class_name)
 {
-  $prefix = substr($class_name, 0, strpos($class_name,'_'));
-  $name   = substr($class_name, strpos($class_name,'_')+1);
+$name = explode('_',$class_name);
+    print $class_name;
 
-  switch ($prefix)
-  {
-    case 'controller':
-      $path = CONTROLLERS_DIR;
+    if(count($name) == 3)
+    {
+      $prefix = $name[0];
+      $type   = $name[1];
+      $name   = $name[2];
+    }elseif(count($name == 2))
+    {
+      $prefix = $name[0];
+      $name   = $name[1];
+    }else{
+       return false;
+    }
+    $subdir = "$name";
 
-      break;
-    case 'model':
-      $path = MODELS_DIR;
-      break;
-    case 'view':
-      $path = VIEWS_DIR;
-      break;
-    default: return false;
-  }
-  $alterPath = $path."$name/public/$name.class.php";
-  $path .= $name.'.class.php';
+    switch ($prefix)
+    {
+      case 'controller':
+        $path = CONTROLLERS_DIR;
 
-  if(file_exists($path) or file_exists($alterPath))
-  {
-    if(file_exists($path)) require_once($path); else require_once($alterPath);
-  }else{
-    Base::setErrors("class <strong>$class_name</strong> not found in <strong>$path</strong> or <strong>$alterPath</strong>!");
-    trigger_error("class <strong>$class_name</strong> not found in <strong>$path</strong> or <strong>$alterPath</strong>!",E_USER_ERROR);
-  }
+        break;
+      case 'model':
+        $path = MODELS_DIR;
+        break;
+      case 'view':
+        $path = VIEWS_DIR;
+        break;
+      default: return false;
+    }
+    $path .= $name.'/';
+    if(isset($type)) $path .= $type.'/';
+    $path .= $name.'.class.php';
+
+
+    if(!class_exists($class_name))
+    {
+      if(file_exists($path) )
+      {
+        require_once $path;
+      }else{
+        //throw new Exception("file_exists($path) == false");
+        trigger_error("file <strong style='color:red;'>$path</strong>  not exists", E_USER_ERROR);
+      }
+      print " - required<br />";
+    }else{
+      print " - called<br />";
+    }
+
+    if(class_exists($class_name))
+    {
+      return new $class_name;
+    }else
+    {
+      //self::setErrors("class_exists($class_name) == false");
+      //throw new Exception("class_exists($class_name) == false");
+      trigger_error("class <strong style='color:red;'>$class_name</strong>  not exists in <strong>$path</strong>", E_USER_ERROR);
+    }
 }
 ?>

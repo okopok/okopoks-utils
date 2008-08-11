@@ -1,13 +1,13 @@
 <?php
 
-class view_public_articles  implements view_interface
+class view_articles  implements view_interface
 {
 
 
   function run()
   {
     controller_smarty::run();
-    controller_smarty::setTheme('default','public');
+    controller_smarty::setTheme('default','admin');
   }
 
   function showOne($data)
@@ -23,11 +23,13 @@ class view_public_articles  implements view_interface
     controller_smarty::assign('articles', $data);
   }
 
-  function showPreviews($data)
+  function showList($data)
   {
     self::run();
-    controller_smarty::registerBlock('center_center','articles_preview');
+    controller_smarty::registerBlock('center_center','articles_list');
     controller_smarty::assign('articles', $data);
   }
 
 }
+
+?>

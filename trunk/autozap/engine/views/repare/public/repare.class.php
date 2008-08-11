@@ -1,5 +1,5 @@
 <?php
-class view_repare implements view_brands_models_interface
+class view_public_repare implements view_brands_models_interface
 {
   function run()
   {

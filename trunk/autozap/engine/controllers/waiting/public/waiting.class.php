@@ -1,0 +1,24 @@
+<?php
+
+class controller_public_waiting implements controller_interface
+{
+
+  function run()
+  {
+    $virt = Virtuals::dirs();
+    $brands_models = Base::load('controller_getHashes')->run('brands_models');
+    controller_smarty::assign('brands_images', model_checkImages::run('brands'));
+    controller_smarty::assign('models_images', model_checkImages::run('models'));
+    if(isset($virt[1]) and isset($virt[2]) and strlen($virt[1]) and strlen($virt[2]) and isset($brands_models[$virt[1]][$virt[2]]))
+    {
+      view_public_waiting::model(Base::load('model_public_waiting')->getWaitingByModel($virt[1],$virt[2]));
+    }elseif(isset($virt[1]) and strlen($virt[1]) and isset($brands_models[$virt[1]])){
+      view_public_waiting::brand(Base::load('model_public_waiting')->getWaitingByBrand($virt[1]));
+    }else{
+      view_public_waiting::all(Base::load('model_public_waiting')->getWaiting());
+    }
+    //Base::load('model_public_waiting')->getWaiting();
+    //controller_smarty::display();
+
+  }
+}

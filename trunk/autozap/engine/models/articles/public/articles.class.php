@@ -1,6 +1,6 @@
 <?php
 
-class model_articles implements model_interface
+class model_public_articles implements model_interface
 {
   function run(){ }
 
@@ -17,7 +17,7 @@ class model_articles implements model_interface
         ");
   }
 
-  function getSet($set, $order ='article_timestamp DESC', $published = 'yes')
+  function getSet($set, $published = 'yes', $order = 'article_timestamp DESC')
   {
     $where = '';
     if($published == 'yes' or $published == 'no') $where = "article_publish = '$published'";
@@ -33,7 +33,7 @@ class model_articles implements model_interface
         ");
   }
 
-  function getPage($limit, $page = 1, $order = 'article_timestamp DESC',$published = 'yes')
+  function getPage($limit, $page = 1,$published = 'yes', $order = 'article_timestamp DESC')
   {
     $where = '';
     if($published == 'yes' or $published == 'no') $where = " WHERE article_publish = '$published'";
@@ -48,7 +48,7 @@ class model_articles implements model_interface
   }
 
 
-  function getAll($order = 'article_timestamp DESC',$published = 'yes')
+  function getAll($published = 'yes', $order = 'article_timestamp DESC')
   {
     $where = '';
     if($published == 'yes' or $published == 'no') $where = " WHERE article_publish = '$published'";
