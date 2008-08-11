@@ -1,6 +1,6 @@
 <?php
 
-class controller_articles implements controller_interface
+class controller_public_articles implements controller_interface
 {
   public function run()
   {
@@ -22,15 +22,13 @@ class controller_articles implements controller_interface
 
   function showAll()
   {
-    $engine         = array('subdir'=>'articles','type'=>'public');
-    $MODEL_ARTICLES = Base::load('model_Articles', $engine);
-    view_articles::showAll($MODEL_ARTICLES->getPage(ARTICLES_PAGE_LIMIT, 1));
+    $MODEL_ARTICLES = Base::load('model_public_articles');
+    view_public_articles::showAll($MODEL_ARTICLES->getPage(ARTICLES_PAGE_LIMIT, 1));
   }
 
   function showOne($id)
   {
-    $engine         = array('subdir'=>'articles','type'=>'public');
-    $MODEL_ARTICLES = Base::load('model_Articles', $engine);
+    $MODEL_ARTICLES = Base::load('model_public_articles');
     if(is_numeric($id))
     {
       $article_id = $id;
@@ -40,7 +38,7 @@ class controller_articles implements controller_interface
     if(is_numeric($article_id))
     {
       $data = $MODEL_ARTICLES->getOne($article_id);
-      view_articles::showOne($data);
+      view_public_articles::showOne($data);
       if(count($data) == 0 )
       {
         Base::location('/articles/');
@@ -53,19 +51,17 @@ class controller_articles implements controller_interface
   function showPage($page)
   {
     if($page < 1) Base::location('/articles/page/1/');
-    $engine         = array('subdir'=>'articles','type'=>'public');
-    $MODEL_ARTICLES = Base::load('model_Articles', $engine);
-    view_articles::showAll($MODEL_ARTICLES->getPage(ARTICLES_PAGE_LIMIT,$page));
+    $MODEL_ARTICLES = Base::load('model_public_articles');
+    view_public_articles::showAll($MODEL_ARTICLES->getPage(ARTICLES_PAGE_LIMIT,$page));
   }
 
   function showPreviews($id = 0, $page = 1)
   {
-    $engine = array('subdir'=>'articles','type'=>'public');
     if($id > 0)
     {
-      $data = Base::load('model_Articles', $engine)->getOne($id);
+      $data = Base::load('model_public_articles')->getOne($id);
     }else{
-      $data = Base::load('model_Articles', $engine)->getPage(ARTICLES_PAGE_LIMIT,$page)->result;
+      $data = Base::load('model_public_articles')->getPage(ARTICLES_PAGE_LIMIT,$page)->result;
     }
     foreach ($data as $key => $row)
     {
@@ -73,7 +69,7 @@ class controller_articles implements controller_interface
       $row['article_text'] = substr($row['article_text'],0,strpos($row['article_text'],'. '));
       $data[$key] = $row;
     }
-    view_articles::showPreviews($data);
+    view_public_articles::showPreviews($data);
   }
 }
 ?>

@@ -1,5 +1,5 @@
 <?php
-class view_parts implements view_brands_models_interface
+class view_public_parts implements view_brands_models_interface
 {
   function run()
   {

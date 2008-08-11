@@ -25,32 +25,43 @@ class Base
    * @param array $arr array('subdir','fullpath');
    * @return mixed
    */
-  static function load($class_name, $arr = array('subdir' => '', 'fullPath' => '', 'type'=>'public')) {
-    $prefix = substr($class_name, 0, strpos($class_name,'_'));
-    $name   = substr($class_name, strpos($class_name,'_')+1);
-    $type   = $arr['type'];
-    if((!isset($arr['fullPath']) OR !strlen($arr['fullPath'])) AND strlen($prefix))
-    {
-      switch ($prefix)
-      {
-        case 'controller':
-          $path = CONTROLLERS_DIR;
+  static function load($class_name, $subdir = false) {
+    $name = explode('_',$class_name);
+    print $class_name;
 
-          break;
-        case 'model':
-          $path = MODELS_DIR;
-          break;
-        case 'view':
-          $path = VIEWS_DIR;
-          break;
-        default: return false;
-      }
-      if(strlen($arr['subdir'])) $path .= $arr['subdir'].'/'.$type.'/';
-      $path .= $name.'.class.php';
+    if(count($name) == 3)
+    {
+      $prefix = $name[0];
+      $type   = $name[1];
+      $name   = $name[2];
+    }elseif(count($name == 2))
+    {
+      $prefix = $name[0];
+      $name   = $name[1];
     }else{
-      $prefix = 'fullpath';
-      $path = $arr['fullPath'];
+       return false;
     }
+    if(!strlen($subdir)) $subdir = "$name";
+
+    switch ($prefix)
+    {
+      case 'controller':
+        $path = CONTROLLERS_DIR;
+
+        break;
+      case 'model':
+        $path = MODELS_DIR;
+        break;
+      case 'view':
+        $path = VIEWS_DIR;
+        break;
+      default: return false;
+    }
+    $path .= $subdir.'/';
+    if(isset($type)) $path .= $type.'/';
+    $path .= $name.'.class.php';
+
+
     if(!isset(self::$objects[$prefix][$class_name]))
     {
       if(file_exists($path) )
@@ -61,6 +72,9 @@ class Base
         //throw new Exception("file_exists($path) == false");
         trigger_error("file <strong style='color:red;'>$path</strong>  not exists", E_USER_ERROR);
       }
+      print " - required<br />";
+    }else{
+      print " - called<br />";
     }
     if(class_exists($class_name))
     {
@@ -72,6 +86,7 @@ class Base
       //throw new Exception("class_exists($class_name) == false");
       trigger_error("class <strong style='color:red;'>$class_name</strong>  not exists", E_USER_ERROR);
     }
+
   }
 
   /**
