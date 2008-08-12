@@ -27,7 +27,6 @@ class Base
    */
   static function load($class_name, $subdir = false) {
     $name = explode('_',$class_name);
-    print $class_name;
 
     if(count($name) == 3)
     {
@@ -70,18 +69,24 @@ class Base
       }else{
         self::setErrors("file_exists($path) == false");
         //throw new Exception("file_exists($path) == false");
+        fb("file $path not exists",FirePHP::TRACE);
         trigger_error("file <strong style='color:red;'>$path</strong>  not exists", E_USER_ERROR);
       }
-      print " - required<br />";
+      fb($class_name.' - required',FirePHP::LOG);
     }else{
-      print " - called<br />";
+      fb($class_name.' - called',FirePHP::LOG);
     }
     if(class_exists($class_name))
     {
-      self::$objects[$prefix][$class_name] = true;
-      return new $class_name;
+      try {
+        self::$objects[$prefix][$class_name] = true;
+        return new $class_name;
+      }catch (Exception $e){
+        $e->getMessage();
+      }
     }else
     {
+      fb("file $path not exists",FirePHP::TRACE);
       self::setErrors("class_exists($class_name) == false");
       //throw new Exception("class_exists($class_name) == false");
       trigger_error("class <strong style='color:red;'>$class_name</strong>  not exists", E_USER_ERROR);

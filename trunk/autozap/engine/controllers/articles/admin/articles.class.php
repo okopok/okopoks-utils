@@ -9,9 +9,7 @@ class controller_admin_articles implements controller_interface
 
   function showList($page)
   {
-    $data = model_articles::getPage(ARTICLES_PAGE_LIMIT,$page,'all');
-    $engine['subdir'] = 'articles';
-    $engine['type']   = 'public';
+    $data = model_admin_articles::getPage(ARTICLES_PAGE_LIMIT,$page,'all');
     $view = Base::load('view_admin_articles');
     $view->showList($data);
   }

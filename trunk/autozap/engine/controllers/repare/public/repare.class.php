@@ -8,7 +8,7 @@ class controller_public_repare implements controller_interface
     $virt = Virtuals::dirs();
 
     $brands_models = Base::load('controller_getHashes')->run('brands_models');
-
+    controller_smarty::assign('controller_action','repare');
     controller_smarty::assign('brands_images', model_checkImages::run('brands'));
     controller_smarty::assign('models_images', model_checkImages::run('models'));
     if(isset($virt[1]) and isset($virt[2]) and strlen($virt[1]) and strlen($virt[2]) and isset($brands_models[$virt[1]][$virt[2]]))
@@ -22,8 +22,4 @@ class controller_public_repare implements controller_interface
 
   }
 
-  function repare()
-  {
-
-  }
 }

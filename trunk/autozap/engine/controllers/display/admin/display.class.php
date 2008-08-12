@@ -8,7 +8,6 @@ class controller_admin_display implements controller_interface
   {
     $_virtuals = Virtuals::dirs();
     controller_smarty::setCachind(false);
-    print 'asdasdasd';
     controller_smarty::setTheme('default', 'admin');
     if(!controller_smarty::is_cached($_SERVER['REQUEST_URI']))
     {

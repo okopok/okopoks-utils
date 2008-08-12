@@ -12,21 +12,21 @@ class view_public_waiting implements view_brands_models_interface
   function brand($data)
   {
     self::run();
-    controller_smarty::registerBlock('center_center','waiting_bybrand');
+    controller_smarty::registerBlock('center_bottom','waiting_bybrand');
     controller_smarty::assign('waiting',$data);
   }
 
   function model($data)
   {
     self::run();
-    controller_smarty::registerBlock('center_center','waiting_bymodel');
+    controller_smarty::registerBlock('center_bottom','waiting_bymodel');
     controller_smarty::assign('waiting',$data);
   }
 
   function all($data)
   {
     self::run();
-    controller_smarty::registerBlock('center_center','waiting_all');
+    controller_smarty::registerBlock('center_bottom','waiting_all');
     controller_smarty::assign('waiting',$data);
   }
 
