@@ -22,12 +22,14 @@ class controller_public_articles implements controller_interface
 
   function showAll()
   {
+    controller_smarty::assign('controller_action','articles');
     $MODEL_ARTICLES = Base::load('model_public_articles');
     view_public_articles::showAll($MODEL_ARTICLES->getPage(ARTICLES_PAGE_LIMIT, 1));
   }
 
   function showOne($id)
   {
+
     $MODEL_ARTICLES = Base::load('model_public_articles');
     if(is_numeric($id))
     {
@@ -37,6 +39,8 @@ class controller_public_articles implements controller_interface
     }
     if(is_numeric($article_id))
     {
+      controller_smarty::assign('controller_action','articles');
+      controller_smarty::assign('controller_action_id',$article_id);
       $data = $MODEL_ARTICLES->getOne($article_id);
       view_public_articles::showOne($data);
       if(count($data) == 0 )
@@ -50,6 +54,7 @@ class controller_public_articles implements controller_interface
 
   function showPage($page)
   {
+    controller_smarty::assign('controller_action','articles');
     if($page < 1) Base::location('/articles/page/1/');
     $MODEL_ARTICLES = Base::load('model_public_articles');
     view_public_articles::showAll($MODEL_ARTICLES->getPage(ARTICLES_PAGE_LIMIT,$page));
@@ -57,6 +62,7 @@ class controller_public_articles implements controller_interface
 
   function showPreviews($id = 0, $page = 1)
   {
+    controller_smarty::assign('controller_action','articles');
     if($id > 0)
     {
       $data = Base::load('model_public_articles')->getOne($id);

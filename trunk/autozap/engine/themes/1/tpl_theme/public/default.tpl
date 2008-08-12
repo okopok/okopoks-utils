@@ -1,96 +1,126 @@
-<!--DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"-->
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd" >
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
   <head>
-    <title>{if $title}{$title} - {/if}Заголовок</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
-    {literal}
-
-    <style>
-     body
-     {
-       font-size: 14px;
-       font-family: tahoma, arial, verdana;
-     }
-
-     #table_borders .td{
-       font-size: 14px;
-       border: 1px solid #cccccc;
-     }
-     .brand_div
-     {
-        background-color: #333333;
-        font-size: 25px;
-        font-weight:bold;
-
-        color: #ffffff;
-        width:99%;
-     }
-     .brand_div td { padding:10px; }
-     .fl{float:left;}
-     .brand_div a{color: #ffffff;}
-     .model_div
-     {
-       background-color: #cccccc;
-       font-size: 18px;
-       font-weight:bold;
-       padding:5px;
-       padding-left:30px;
-       color: #333333;
-       border-top: 2px solid #333333;
-       border-bottom: 2px solid #333333;
-       width:99%;
-     }
-     .model_div td { padding:5px; padding-left:30px; }
-     .model_div a{color: #333333; }
-     a:hover {color:red;}
-
-
-     .th
-     {
-        font-weight:bold;
-        text-align:center;
-        border-bottom: 1px solid #333333;
-     }
-
-     .td          { height: 20px; }
-     .th .td      { background-color: #eeeeee;  }
-     .tr_even .td { background-color: #ffffff; }
-     .tr_odd .td  { background-color: #eeeeee; }
-
-    </style>
-    {/literal}
+   <title>Диз</title>
+   <link rel="shortcut icon" href="favicon.ico">
+   <link href="/css/1/global.css" rel="stylesheet" type="text/css" media="all">
+   <!--script type='text/javascript'
+        src='http://getfirebug.com/releases/lite/1.2/firebug-lite-compressed.js'></script-->
+   <!--[if IE]><link href="/css/1/ie_only.css" rel="stylesheet" type="text/css"> <![endif]-->
   </head>
-  <body>
+  <body >
+    <div id="header">
+      <table class="grid" cellpadding="0" cellspacing="0">
+        <tr>
+          <td class="left" style="background: #481832 url('/img/1/dis.fon_02.png') repeat-x;">
+            <div align="center">
+              <img src="/img/1/dis.greenroadauto.png"/>
+            </div><br clear="all" />
+            <div align="center">
+              <img src="/img/1/dis.yellow_car.png" />
+            </div>
+          </td>
+          <td class="center">
+            <div class="top-menu-button"><a href="#">О компании</a></div>
+            <div class="top-menu-button"><a href="/repare/" {if $controller_action=='repare'}class="active"{/if}>Ремонт</a></div>
+            <div class="top-menu-button"><a href="/parts/" {if $controller_action=='parts'}class="active"{/if}>Запчасти</a></div>
+            <div class="top-menu-button"><a href="/articles/kontakty-2/" {if $controller_action=='articles' and $controller_action_id=='2'}class="active"{/if}>Контакты</a></div>
+          </td>
+          <td class="right" valign="top" style="background: #481832 url('/img/1/dis.fon_02.png') repeat-x;">
+            <br />
+            <div style="background:url('/img/1/dis.black.pane.png'); padding:10px;" align="center">
+              <img src="/img/1/dis.ico.home.png" align="absmiddle"/>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <img src="/img/1/dis.ico.search.png" align="absmiddle"/>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              <img src="/img/1/dis.ico.mail.png" align="absmiddle"/>
+            </div>
+            <br />
+            <br /><br />
+            <div align="center">
+              <img src="/img/1/dis.phones.png" />
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
 
-    <h3>Это index template</h3>
 
-    <div class="fl" style=" width:10%; border: 1px solid #cccccc; border-right:0px;padding: 10px;">
-      <ul>
-        <li><a href="/">Главная</a></li>
-        <li><a href="/repare/">починка</a></li>
-        <li><a href="/parts/">Запчасти</a></li>
-        <li><a href="/waiting/">Ожидаем</a></li>
-        <li><a href="/articles/">Статьи</a></li>
-      </ul>
-      {if $blocks.left_top.path}    {include file="`$blocks.left_top.path`"}{/if}
-      {if $blocks.left_center.path} {include file="`$blocks.left_center.path`"}{/if}
-      {if $blocks.left_bottom.path} {include file="`$blocks.left_bottom.path`"}{/if}
-    </div>
-    <div class="fl" style=" width:75%; border: 1px solid #cccccc; border-bottom:0px;padding: 10px; min-height:500px;">
-      {if $blocks.center_top.path}    {include file="`$blocks.center_top.path`"}{/if}
-      {if $blocks.center_center.path} {include file="`$blocks.center_center.path`"}{/if}
-      {if $blocks.center_bottom.path} {include file="`$blocks.center_bottom.path`"}{/if}
-    </div>
-    <div style="float:left; width:10%; border: 1px solid #cccccc; border-left:0px;padding: 10px;">
-      {if $blocks.right_top.path}   {include file="`$blocks.right_top.path`"}{/if}
-      {if $blocks.right_center.path}{include file="`$blocks.right_center.path`"}{/if}
-      {if $blocks.right_bottom.path}{include file="`$blocks.right_bottom.path`"}{/if}
-    </div>
-    <br style="clear:both;" />
-    <div style="border:1px solid #cccccc; width:99%;">
-      <a href="/articles/kontakty-2/">Контакты</a>
-    </div>
+    <div id="content">
+      <table cellpadding="0" cellspacing="0" class="grid">
+        <tr valign="top">
+          <td class="left">
 
+            <div id="left-top">
+              <div class="left-menu-button"><img src="/img/1/dis.pack.png" align="absmiddle" /> <a href="/parts/" {if $controller_action=='parts'}class="active"{/if}>Запчасти</a></div>
+              <div class="left-menu-button"><img src="/img/1/dis.tools.png" align="absmiddle" /> <a href="/repare/" {if $controller_action=='repare'}class="active"{/if}>Ремонт</a></div>
+              {if $blocks.left_top.path}    {include file="`$blocks.left_top.path`"}{/if}
+            </div>
+            {if $blocks.left_center.path}
+            <div id="left-center">
+               {include file="`$blocks.left_center.path`"}
+            </div>
+            {/if}
+            {if $blocks.left_bottom.path}
+            <div id="left-bottom">
+               {include file="`$blocks.left_bottom.path`"}
+            </div>
+            {/if}
+          </td>
+          <td class="center">
+
+            <div id="search-fields">
+              <table class="grid">
+                <tr>
+                  <td width="25%">
+                    <select name="parts" >
+                      <option value="1" >asdasd</option>
+                    </select>
+                  </td>
+                  <td width="25%">
+                    <select name="parts" >
+                      <option value="1">asdasd</option>
+                    </select>
+                  </td>
+                  <td width="25%">
+                    <select name="parts" >
+                      <option value="1">asdasd</option>
+                    </select>
+                  </td>
+                  <td width="25%">
+                    <select name="parts" >
+                      <option value="1">asdasd</option>
+                    </select>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="3" width="75%"><input type="text" value="" name=""/></td>
+                  <td><input type="submit" value="aha " /></td>
+                </tr>
+              </table>
+            </div>
+            {if $blocks.center_top.path}
+            <div class="center-top">
+            {include file="`$blocks.center_top.path`"}
+            </div>
+            {/if}
+            {if $blocks.center_center.path}
+            <div class="center-content">
+           {include file="`$blocks.center_center.path`"}
+            </div>
+            {/if}
+            {if $blocks.center_bottom.path}
+            <div class="center-bottom">
+           {include file="`$blocks.center_bottom.path`"}
+            </div>
+            {/if}
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div id="fotter">
+      а тут типа всякие копирайты<br />
+      а тут типа всякие копирайты
+    </div>
   </body>
 </html>

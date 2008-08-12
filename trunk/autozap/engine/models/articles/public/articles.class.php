@@ -63,6 +63,21 @@ class model_public_articles implements model_interface
         ");
   }
 
+  function getSpecs($published = 'yes', $order = 'article_timestamp DESC')
+  {
+    $where = "WHERE article_spec = 'yes' ";
+    if($published == 'yes' or $published == 'no') $where .= " AND article_publish = '$published'";
+    return  bd::getData(
+        "
+          SELECT a.*, users_name
+          FROM ".DB_TABLE_REFIX."articles AS a
+          INNER JOIN ".DB_TABLE_REFIX."users AS u
+          ON a.article_owner = u.pk_users_id
+          $where
+          ORDER BY $order
+        ");
+  }
+
 
 
 }

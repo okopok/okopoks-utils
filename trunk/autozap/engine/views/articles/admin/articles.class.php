@@ -1,6 +1,6 @@
 <?php
 
-class view_articles  implements view_interface
+class view_admin_articles  implements view_interface
 {
 
 
@@ -13,20 +13,20 @@ class view_articles  implements view_interface
   function showOne($data)
   {
     self::run();
-    controller_smarty::registerBlock('center_center','articles_one_article');
+    controller_smarty::registerBlock('center_center','articles_one_article','admin');
     controller_smarty::assign('article', reset($data));
   }
   function showAll($data)
   {
     self::run();
-    controller_smarty::registerBlock('center_center','articles_page_articles');
+    controller_smarty::registerBlock('center_center','articles_page_articles','admin');
     controller_smarty::assign('articles', $data);
   }
 
   function showList($data)
   {
     self::run();
-    controller_smarty::registerBlock('center_center','articles_list');
+    controller_smarty::registerBlock('center_center','articles_list','admin');
     controller_smarty::assign('articles', $data);
   }
 

@@ -12,21 +12,21 @@ class view_public_repare implements view_brands_models_interface
   function brand($data)
   {
     self::run();
-    controller_smarty::registerBlock('center_center','repare_bybrand');
+    controller_smarty::registerBlock('center_bottom','repare_bybrand');
     controller_smarty::assign('repare',$data);
   }
 
   function model($data)
   {
     self::run();
-    controller_smarty::registerBlock('center_center','repare_bymodel');
+    controller_smarty::registerBlock('center_bottom','repare_bymodel');
     controller_smarty::assign('repare',$data);
   }
 
   function all($data)
   {
     self::run();
-    controller_smarty::registerBlock('center_center','repare_all');
+    controller_smarty::registerBlock('center_bottom','repare_all');
     controller_smarty::assign('repare',$data);
   }
 }

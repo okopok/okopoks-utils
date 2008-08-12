@@ -6,6 +6,7 @@ class controller_public_parts implements controller_interface
     $virt = Virtuals::dirs();
     $brands_models = Base::load('controller_getHashes')->run('brands_models');
     Base::load('view_public_parts')->run();
+    controller_smarty::assign('controller_action','parts');
     //Base::print_ar($brands_models);
 
     controller_smarty::assign('brands_images', model_checkImages::run('brands'));
