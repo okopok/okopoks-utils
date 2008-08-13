@@ -163,13 +163,13 @@ class FirePHP {
       if(!$trace) return false;
       for( $i=0 ; $i<sizeof($trace) ; $i++ ) {
 
-        if($trace[$i]['class']=='FirePHP' &&
+        if(isset($trace[$i]['class']) and $trace[$i]['class']=='FirePHP' &&
            substr($this->_standardizePath($trace[$i+1]['file']),-18,18)=='FirePHPCore/fb.php') {
           /* Skip */
         } else
-        if($trace[$i]['function']=='fb') {
-          $Object = array('Class'=>$trace[$i]['class'],
-                          'Type'=>$trace[$i]['type'],
+        if(isset($trace[$i]['function']) and $trace[$i]['function']=='fb') {
+          $Object = array('Class'=>@$trace[$i]['class'],
+                          'Type'=>@$trace[$i]['type'],
                           'Function'=>$trace[$i]['function'],
                           'Message'=>$trace[$i]['args'][0],
                           'File'=>$this->_escapeTraceFile($trace[$i]['file']),
