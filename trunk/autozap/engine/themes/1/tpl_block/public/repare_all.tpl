@@ -1,6 +1,7 @@
+<div class="caption">Ремонт</div>
 {assign var="model_id" value=0}
 {assign var="brand_id" value=0}
-<table width="100%">
+<table width="100%"  id="repare_grid">
 {foreach from=$repare item=arr name=brands}
 
 {if $arr.pk_brands_id != $brand_id}
@@ -25,7 +26,7 @@
   </tr>
 {/if}
 
-  <tr class="tr_{cycle values='even,odd'}" id="table_borders" onmouseover="this.style.border = '1px solid #333333';" onmouseout="this.style.border = '0px'">
+  <tr class="tr_{cycle values='even,odd'}" id="table_borders" >
     <td class="td" width="70%">&nbsp;{$arr.repare_name}</td>
     <td class="td" width="10%">&nbsp;{$arr.repare_cost}</td>
   </tr>

@@ -68,7 +68,7 @@ div, td, p, body, a, .white
     right top;
   */
   background:     #333333;
-    vertical-align:top;
+  vertical-align:top;
 
 
 }
@@ -82,8 +82,6 @@ div, td, p, body, a, .white
 
 #content .grid .center .center-content
 {
-  padding:10px;
-  font-size:20px;
 }
 
 #header .grid
@@ -188,10 +186,7 @@ body
   font-family: tahoma, arial, verdana;
 }
 
-#table_borders .td{
-  font-size: 14px;
-  border: 1px solid #cccccc;
-}
+
 .brand_div
 {
   background-color: #333333;
@@ -227,8 +222,17 @@ a:hover {color:red;}
   text-align:center;
   border-bottom: 1px solid #555555;
 }
-
+#table_borders .td{
+  font-size: 14px;
+}
+#repare_grid td, #parts_grid td
+{
+}
+.padding{ padding:10px; }
 .td          { height: 20px; }
-.th .td      { background-color: #333333;  }
+.th .td      { background-color: #333333; }
 .tr_even .td { background-color: #555555; }
-.tr_odd .td  { background-color: #555555; }
+.tr_odd .td  { background-color: #606060; }
+
+#news_preview td { padding:10px;}
+img{border:0px;}

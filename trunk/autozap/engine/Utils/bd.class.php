@@ -6,7 +6,8 @@ class bd
   static function init()
   {
     $mysql= new DB_MySQL;
-    $mysql->connect();
+    $src = $mysql->connect();
+    if(!is_resource($src)) die(mysql_error());
     self::$mysql = $mysql;
   }
 

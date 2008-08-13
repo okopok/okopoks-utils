@@ -1,4 +1,5 @@
 <?php
+ob_start();
 require_once($_SERVER['DOCUMENT_ROOT'].'/includes.php');
 bd::init();
 $_virtuals = Virtuals::dirs();

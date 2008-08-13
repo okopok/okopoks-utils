@@ -1,3 +1,4 @@
+<div class="caption">Новости</div>
 <table width="100%">
 {foreach from=$articles->result item=arr}
   <tr class="tr_{cycle values='even,odd'}" id="table_borders" onmouseover="this.style.border = '1px solid #333333';" onmouseout="this.style.border = '0px'">

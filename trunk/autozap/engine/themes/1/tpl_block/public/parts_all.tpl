@@ -1,3 +1,4 @@
+<div class="caption">Запчасти</div>
 {assign var="model_id" value=0}
 {assign var="brand_id" value=0}
 <table width="100%">
@@ -27,7 +28,7 @@
   </tr>
 {/if}
 
-  <tr class="tr_{cycle values='even,odd'}" id="table_borders" onmouseover="this.style.border = '1px solid #333333';" onmouseout="this.style.border = '0px'">
+  <tr class="tr_{cycle values='even,odd'}" id="table_borders" >
     <td class="td" width="70%">&nbsp;{$arr.parts_name}</td>
     <td class="td" width="10%">&nbsp;{$arr.parts_uid}</td>
     <td class="td" width="10%">&nbsp;{$arr.parts_cost}</td>

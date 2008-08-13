@@ -14,10 +14,10 @@
         <tr>
           <td class="left" style="background: #481832 url('/img/1/dis.fon_02.png') repeat-x;">
             <div align="center">
-              <img src="/img/1/dis.greenroadauto.png"/>
+              <a href="/"><img src="/img/1/dis.greenroadauto.png"/></a>
             </div><br clear="all" />
             <div align="center">
-              <img src="/img/1/dis.yellow_car.png" />
+              <a href="/"><img src="/img/1/dis.yellow_car.png" /></a>
             </div>
           </td>
           <td class="center">
@@ -29,7 +29,7 @@
           <td class="right" valign="top" style="background: #481832 url('/img/1/dis.fon_02.png') repeat-x;">
             <br />
             <div style="background:url('/img/1/dis.black.pane.png'); padding:10px;" align="center">
-              <img src="/img/1/dis.ico.home.png" align="absmiddle"/>
+              <a href="/"><img src="/img/1/dis.ico.home.png" align="absmiddle"/></a>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
               <img src="/img/1/dis.ico.search.png" align="absmiddle"/>
               &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -38,7 +38,7 @@
             <br />
             <br /><br />
             <div align="center">
-              <img src="/img/1/dis.phones.png" />
+              <a href="/"><img src="/img/1/dis.phones.png" /></a>
             </div>
           </td>
         </tr>
