@@ -22,23 +22,28 @@ class controller_admin_display implements controller_interface
       //Base::print_ar($_virtuals);
       //$this->_smarty->assign('hashes', $hashes);
       //$this->_smarty->assign('_VIRT'  , $_virtuals);
-      switch ($_virtuals[1])
+      if(isset($_virtuals[1]))
       {
-        case 'debug':    $this->debug(); $this->tpl = 'debug'; break;
-        // ----------------------------------------------------------
-        case 'articles':
-          Base::load('controller_admin_articles')->run();
-        break;
-        // ----------------------------------------------------------
-        case 'parts':
-        case 'waiting':
-        case 'repare':
-          $engine['subdir'] = 'brands_models';
-          $engine['type']   = 'public';
-        break;
+        switch ($_virtuals[1])
+        {
+          case 'debug':    $this->debug(); $this->tpl = 'debug'; break;
+          // ----------------------------------------------------------
+          case 'articles':
+            Base::load('controller_admin_articles')->run();
+          break;
+          // ----------------------------------------------------------
+          case 'parts':
+          case 'waiting':
+          case 'repare':
+            $engine['subdir'] = 'brands_models';
+            $engine['type']   = 'public';
+          break;
 
-        default: controller_index::run();
-        // ----------------------------------------------------------
+          default: controller_index::run();
+          // ----------------------------------------------------------
+        }
+      }else{
+        Base::load('controller_admin_articles')->showList(1);
       }
     }else{
       print 'From Cache';
