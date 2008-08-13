@@ -1,4 +1,5 @@
-<table width="100%">
+<div class="caption">Запчасти</div>
+<table width="100%" id="parts_grid">
 {foreach from=$parts item=arr name=brands}
 {if $smarty.foreach.brands.first}
   <tr class="brand_div">
@@ -19,7 +20,7 @@
     <td class="td" width="10%">Цена старой</td>
   </tr>
 {/if}
-  <tr class="tr_{cycle values='even,odd'}" id="table_borders" onmouseover="this.style.border = '1px solid #333333';" onmouseout="this.style.border = '0px'">
+  <tr class="tr_{cycle values='even,odd'}" id="table_borders" >
     <td class="td" width="70%">&nbsp;{$arr.parts_name}</td>
     <td class="td" width="10%">&nbsp;{$arr.parts_uid}</td>
     <td class="td" width="10%">&nbsp;{$arr.parts_cost}</td>

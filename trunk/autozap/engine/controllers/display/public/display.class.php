@@ -20,6 +20,7 @@ class controller_public_display implements controller_interface
       $hashes['brands_by_id']  = Base::load('controller_getHashes')->run('brands_by_id');
 
       controller_smarty::assign('brands',$hashes['brands']);
+      fb($hashes['brands'],'brands');
       controller_smarty::assign('brands_images', model_checkImages::run('brands'));
       controller_smarty::registerBlock('left_center', 'brands_logos_small');
 
