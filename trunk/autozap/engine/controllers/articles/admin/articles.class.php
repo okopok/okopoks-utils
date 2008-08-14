@@ -45,6 +45,9 @@ class controller_admin_articles implements controller_interface
     }elseif(isset($_POST['mode']) and $_POST['mode'] == 'delete'){
       self::deleteOne($id);
     }
+    $users = Base::load('model_users')->getAll();
+    fb($users,'users');
+    controller_smarty::assign('users',$users);
     $data = model_public_articles::getOne($id);
     $view = Base::load('view_admin_articles');
     $view->showEditOne($data);
