@@ -49,6 +49,7 @@ define('IMAGES_URL',          '/images/');
 
 define('BRANDS_IMAGES_DIR',   'brands/');
 define('MODELS_IMAGES_DIR',   'models/');
+define('ARTICLES_IMAGES_DIR', 'articles/');
 
 
 define('IMAGES_BRANDS_MEDIUM', 100);
@@ -57,6 +58,11 @@ define('IMAGES_BRANDS_ORIGINAL_NAME', '-original');
 define('IMAGES_MODELS_ORIGINAL_NAME', '-original');
 define('IMAGES_MODELS_MEDIUM', 100);
 define('IMAGES_MODELS_SMALL', 50);
+
+define('IMAGES_ARTICLES_MEDIUN', 100);
+define('IMAGES_ARTICLES_SMALL', 50);
+define('IMAGES_ARTICLES_ORIGINAL_NAME', '-original');
+
 define('IMAGE_EXTS', '.gif,.jpg,.jpeg,.png');
 /* --------- */
 
