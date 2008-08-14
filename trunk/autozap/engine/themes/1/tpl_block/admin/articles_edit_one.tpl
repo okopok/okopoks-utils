@@ -50,10 +50,10 @@ tinyMCE.init({
 
 {/literal}
 
-<form method="post">
+<form method="post" enctype="multipart/form-data">
 <input type="hidden" name="mode" value="edit" />
 article_name
-<input type="text" name="field__article_name" value="{$article.article_name}" /><br />
+<input type="text" name="field_article_name" value="{$article.article_name}" /><br />
 
 
 article_text
@@ -61,7 +61,7 @@ article_text
 {$article.article_text}
 </textarea><br />
 
-article_timestamp   <input type="text" name="field__article_timestamp" value="{$article.article_timestamp|date_format}" /><br />
+article_timestamp   <input type="text" name="field_article_timestamp" value="{$article.article_timestamp|date_format}" /><br />
 article_owner    <select name="field_article_owner">
 {foreach from=$users item=user}
   <option value="{$user.pk_users_id}" {if $article.article_owner == $user.pk_users_id}selected{/if}>{$user.users_name}</option>
@@ -79,7 +79,9 @@ article_spec <select name="field_article_spec">
 </select><br />
 
 article_img  <input type="file" name="field_article_img" /><br />
-
+{if $articleImg.medium}
+<img src="{$articleImg.medium}" />
+{/if}
 <input type="submit" value="edit" />
 </form>
 <br />
