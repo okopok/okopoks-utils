@@ -62,17 +62,11 @@
     {/literal}
   </head>
   <body>
-
-    <h3>Это admin/index template</h3>
-
     <div class="fl" style=" width:10%; border: 1px solid #cccccc; border-right:0px;padding: 10px;">
       <ul>
         <li><a href="/">Главная</a></li>
         <li><a href="/admin/">Admin</a></li>
-        <li><a href="/repare/">починка</a></li>
-        <li><a href="/parts/">Запчасти</a></li>
-        <li><a href="/waiting/">Ожидаем</a></li>
-        <li><a href="/articles/">Статьи</a></li>
+        <li><a href="/admin/brands/">Бренды и модели</a></li>
       </ul>
       {if $blocks.left_top.path}    {include file="`$blocks.left_top.path`"}{/if}
       {if $blocks.left_center.path} {include file="`$blocks.left_center.path`"}{/if}
