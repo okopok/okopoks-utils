@@ -5,8 +5,6 @@ class view_public_parts implements view_brands_models_interface
   {
     controller_smarty::run();
     controller_smarty::setTheme('default','public');
-    controller_smarty::assign('brandsbyid', controller_getHashes::run('brands_by_id'));
-    controller_smarty::assign('modelsbyid', controller_getHashes::run('models'));
   }
   function brand($data)
   {

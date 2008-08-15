@@ -14,6 +14,10 @@ class model_admin_editArticles implements model_interface
     fb($data,'edit2');
 
     if(!is_numeric($id)) return false;
+    if(isset($data['field_article_del_img']))
+    {
+      model_images::deleteArticlesImages($id);
+    }
     if(isset($_FILES['field_article_img']))
     {
       $img = model_images::saveArticleImage($id, $_FILES['field_article_img']);
@@ -28,7 +32,7 @@ class model_admin_editArticles implements model_interface
       article_owner      = ".((isset($data['field_article_owner']))? $data['field_article_owner']:'').",
       article_publish    = '".((isset($data['field_article_publish']))? $data['field_article_publish']:'no')."',
       article_changetime = UNIX_TIMESTAMP(),
-      article_img        = ".((isset($img)) ? "'$img'" : 'article_img').",
+      article_img        = ".((isset($img) and strlen($img)) ? "'$img'" : 'article_img').",
       article_spec       = '".((isset($data['field_article_spec']))? $data['field_article_spec']:'no')."'
       WHERE pk_article_id     = '$id'
     ";

@@ -1,4 +1,4 @@
-<?php /* Smarty version 2.6.14, created on 2008-08-14 16:46:34
+<?php /* Smarty version 2.6.14, created on 2008-08-14 18:12:29
          compiled from D:/HTDOCS/autozap.local/www/engine/themes/1/tpl_block/admin/articles_edit_one.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
 smarty_core_load_plugins(array('plugins' => array(array('modifier', 'date_format', 'D:/HTDOCS/autozap.local/www/engine/themes/1/tpl_block/admin/articles_edit_one.tpl', 64, false),)), $this); ?>
@@ -39,7 +39,7 @@ tinyMCE.init({
 	plugins : "safari,pagebreak,style,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras",
 
 	// Theme options
-	theme_advanced_buttons1 : "save,newdocument,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,styleselect,formatselect,fontselect,fontsizeselect",
+	theme_advanced_buttons1 : "newdocument,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,|,styleselect,formatselect,fontselect,fontsizeselect",
 	theme_advanced_buttons2 : "bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,image,cleanup,help,code,|,insertdate,inserttime,preview,|,forecolor,backcolor",
 	theme_advanced_buttons3 : "tablecontrols,|,hr,removeformat,visualaid,|,sub,sup,|,charmap,emotions,iespell,media,advhr,|,print,|,ltr,rtl,|,fullscreen",
 	theme_advanced_toolbar_location : "top",
@@ -55,10 +55,10 @@ tinyMCE.init({
 '; ?>
 
 
-<form method="post">
+<form method="post" enctype="multipart/form-data">
 <input type="hidden" name="mode" value="edit" />
 article_name
-<input type="text" name="field__article_name" value="<?php echo $this->_tpl_vars['article']['article_name']; ?>
+<input type="text" name="field_article_name" value="<?php echo $this->_tpl_vars['article']['article_name']; ?>
 " /><br />
 
 
@@ -68,7 +68,7 @@ article_text
 
 </textarea><br />
 
-article_timestamp   <input type="text" name="field__article_timestamp" value="<?php echo ((is_array($_tmp=$this->_tpl_vars['article']['article_timestamp'])) ? $this->_run_mod_handler('date_format', true, $_tmp) : smarty_modifier_date_format($_tmp)); ?>
+article_timestamp   <input type="text" name="field_article_timestamp" value="<?php echo ((is_array($_tmp=$this->_tpl_vars['article']['article_timestamp'])) ? $this->_run_mod_handler('date_format', true, $_tmp) : smarty_modifier_date_format($_tmp)); ?>
 " /><br />
 article_owner    <select name="field_article_owner">
 <?php $_from = $this->_tpl_vars['users']; if (!is_array($_from) && !is_object($_from)) { settype($_from, 'array'); }if (count($_from)):
@@ -91,7 +91,10 @@ article_spec <select name="field_article_spec">
 </select><br />
 
 article_img  <input type="file" name="field_article_img" /><br />
-
+<?php if ($this->_tpl_vars['articleImg']['medium']): ?>
+<img src="<?php echo $this->_tpl_vars['articleImg']['medium']; ?>
+" />
+<?php endif; ?>
 <input type="submit" value="edit" />
 </form>
 <br />

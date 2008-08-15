@@ -32,45 +32,23 @@ tinyMCE.init({
 {/literal}
 
 <form method="post" enctype="multipart/form-data">
-<input type="hidden" name="mode" value="edit" />
-article_name
-<input type="text" name="field_article_name" value="{$article.article_name}" /><br />
+  <input type="hidden" name="mode" value="edit" />
+  <input type="hidden" name="field_brand_old_name" value="{$brands.brands_name}">
+  NAME: <input type="text" name="field_brand_name" value="{$brands.brands_name}"><br />
+  IMG:
+  <input type="file" name="field_brand_img" /><br />
+  {if $brandsImg.medium}
+    <input type="checkbox" name="field_brand_del_img" value="1">
+    <img src="{$brandsImg.medium}" />
+  {/if}
+<br />
 
+  INFO:<textarea name="field_brand_info">{$brands.brands_info}</textarea><br />
+<br />
 
-article_text
-<textarea name="field_article_text" cols="100" style="width:100%" rows="30">
-{$article.article_text}
-</textarea><br />
-
-article_timestamp   <input type="text" name="field_article_timestamp" value="{$article.article_timestamp|date_format}" /><br />
-article_owner    <select name="field_article_owner">
-{foreach from=$users item=user}
-  <option value="{$user.pk_users_id}" {if $article.article_owner == $user.pk_users_id}selected{/if}>{$user.users_name}</option>
-{/foreach}
-</select><br />
-
-article_publish  <select name="field_article_publish">
-  <option value="yes" {if $article.article_publish == 'yes'}selected{/if}>yes</option>
-  <option value="no" {if $article.article_publish == 'no'}selected{/if}>no</option>
-</select><br />
-
-article_spec <select name="field_article_spec">
-  <option value="yes" {if $article.article_spec == 'yes'}selected{/if}>yes</option>
-  <option value="no" {if $article.article_spec == 'no'}selected{/if}>no</option>
-</select><br />
-
-article_img  <input type="file" name="field_article_img" /><br />
-{if $articleImg.medium}
-  <input type="checkbox" name="field_article_del_img" value="1">
-  <img src="{$articleImg.medium}" />
-{/if}
-<input type="submit" value="edit" />
+  <input type="submit" value="EDIT">
 </form>
-<br />
-<br />
-<br />
-
-<form method="post">
-<input type="hidden" name="mode" value="delete" />
-<input type="submit" value="del" />
+<form method="post" enctype="multipart/form-data" onsubmit="if(!confirm('уверен?!') return false;">
+  <input type="hidden" name="mode" value="delete">
+  <input type="submit" value="DELETE">
 </form>

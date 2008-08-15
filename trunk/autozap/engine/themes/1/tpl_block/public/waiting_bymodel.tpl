@@ -9,6 +9,7 @@
   </tr>
   <tr class="model_div">
     <td class="td" width="100%" colspan="4">
+      {if $models_images[$arr.pk_models_id].small}<img src="{$models_images[$arr.fk_models_id].small}" align="right"/>{/if}
       <a href="/repare/{$modelsbyid[$arr.fk_models_id].brands_name_tag}/{$modelsbyid[$arr.fk_models_id].models_name_tag}/">{$modelsbyid[$arr.fk_models_id].models_name}</a>
     </td>
   </tr>
