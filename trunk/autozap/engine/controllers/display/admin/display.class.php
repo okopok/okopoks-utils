@@ -30,7 +30,15 @@ class controller_admin_display implements controller_interface
           // ----------------------------------------------------------
           case 'articles':
             Base::load('controller_admin_articles')->run();
-          break;
+            break;
+          // ----------------------------------------------------------
+          case 'brands':
+            Base::load('controller_admin_brands')->run();
+            break;
+          // ----------------------------------------------------------
+          case 'models':
+            Base::load('controller_admin_models')->run();
+            break;
           // ----------------------------------------------------------
           case 'parts':
           case 'waiting':

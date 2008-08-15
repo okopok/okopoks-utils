@@ -1,7 +1,7 @@
-<?php /* Smarty version 2.6.14, created on 2008-08-13 12:24:05
+<?php /* Smarty version 2.6.14, created on 2008-08-15 13:48:16
          compiled from D:/HTDOCS/autozap.local/www/engine/themes/1/tpl_block/public/parts_all.tpl */ ?>
 <?php require_once(SMARTY_CORE_DIR . 'core.load_plugins.php');
-smarty_core_load_plugins(array('plugins' => array(array('function', 'cycle', 'D:/HTDOCS/autozap.local/www/engine/themes/1/tpl_block/public/parts_all.tpl', 31, false),)), $this); ?>
+smarty_core_load_plugins(array('plugins' => array(array('function', 'cycle', 'D:/HTDOCS/autozap.local/www/engine/themes/1/tpl_block/public/parts_all.tpl', 32, false),)), $this); ?>
 <div class="caption">Запчасти</div>
 <?php $this->assign('model_id', 0);  $this->assign('brand_id', 0); ?>
 <table width="100%">
@@ -26,6 +26,8 @@ if ($this->_foreach['brands']['total'] > 0):
   <?php $this->assign('model_id', ($this->_tpl_vars['arr']['fk_models_id'])); ?>
   <tr class="model_div">
     <td class="td" width="100%" colspan="4">
+      <?php if ($this->_tpl_vars['models_images'][$this->_tpl_vars['arr']['pk_models_id']]['small']): ?><img src="<?php echo $this->_tpl_vars['models_images'][$this->_tpl_vars['arr']['fk_models_id']]['small']; ?>
+" align="right"/><?php endif; ?>
       <a href="/parts/<?php echo $this->_tpl_vars['brandsbyid'][$this->_tpl_vars['arr']['pk_brands_id']]['brands_name_tag']; ?>
 /<?php echo $this->_tpl_vars['modelsbyid'][$this->_tpl_vars['arr']['fk_models_id']]['models_name_tag']; ?>
 /"><?php echo $this->_tpl_vars['modelsbyid'][$this->_tpl_vars['arr']['fk_models_id']]['models_name']; ?>

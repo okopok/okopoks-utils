@@ -77,3 +77,5 @@ class controller_smarty implements controller_interface
   }
 
 }
+
+?>

@@ -92,6 +92,26 @@ class model_buildHashes implements model_interface
     file_put_contents(BRANDS_BY_ID_HASH, serialize($BRANDS_HASH));
     return $BRANDS_HASH;
   }
+
+  function all()
+  {
+    self::brands();
+    self::brands_by_id();
+    self::brands_models();
+    self::articles();
+    self::models();
+  }
+
+  /**
+   * rebuild all brands hashes
+   *
+   */
+  function allbrands()
+  {
+    self::brands();
+    self::brands_by_id();
+    self::brands_models();
+  }
 }
 
 ?>

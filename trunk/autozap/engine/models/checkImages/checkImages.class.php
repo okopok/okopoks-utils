@@ -34,16 +34,9 @@ class model_checkImages implements model_interface
     $images = array();
     foreach ($data as $tag => $row)
     {
-      foreach (explode(',',IMAGE_EXTS) as $ext)
-      {
-        if(file_exists($imgPath.$row[$key].'-'.IMAGES_BRANDS_SMALL.$ext))
-        {
-          $images[$row[$key]]['small']    = $imgUrl.$row[$key].'-'.$sizes['small'].$ext;
-          $images[$row[$key]]['medium']   = $imgUrl.$row[$key].'-'.$sizes['medium'].$ext;
-          $images[$row[$key]]['original'] = $imgUrl.$row[$key].'-'.$sizes['original'].$ext;
-          break;
-        }
-      }
+      if($type == 'brands')    $images[$row[$key]] = model_images::getBrandImage($row[$key]);
+      if($type == 'models')    $images[$row[$key]] = model_images::getModelImage($row[$key]);
+      if($type == 'articles')  $images[$row[$key]] = model_images::getArticleImage($row[$key]);
     }
     //Base::print_ar($images);
     return $images;

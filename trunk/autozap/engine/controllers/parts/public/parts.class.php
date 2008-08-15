@@ -8,7 +8,8 @@ class controller_public_parts implements controller_interface
     Base::load('view_public_parts')->run();
     controller_smarty::assign('controller_action','parts');
     //Base::print_ar($brands_models);
-
+    controller_smarty::assign('brandsbyid', controller_getHashes::run('brands_by_id'));
+    controller_smarty::assign('modelsbyid', controller_getHashes::run('models'));
     controller_smarty::assign('brands_images', model_checkImages::run('brands'));
     controller_smarty::assign('models_images', model_checkImages::run('models'));
 
