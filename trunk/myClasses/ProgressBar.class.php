@@ -5,7 +5,7 @@
  * @package - utils
  * @since   - 28.11.2007
  * @version - 1.5
- * @todo    - make graphical output, calculate time (estimate, finish, total, start, per proc, per iter)
+ * @todo    - make graphical output for the loong time (from few mins to few hours) operations, calculate time (estimate, finish, total, start, per proc, per iter)
  *
  * example:
  * $progBar = new ProgressBar(32112, 1);
