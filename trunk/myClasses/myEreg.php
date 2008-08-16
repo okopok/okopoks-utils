@@ -5,6 +5,7 @@
  *
  * @param string $str1 - строка 1
  * @param string $str2 - строка 2
+ * @param bool $make - нормализовывать ли строку или нет
  * @return array
  */
 function MyEreg($str1, $str2, $make = true){
@@ -23,7 +24,7 @@ function MyEreg($str1, $str2, $make = true){
  *
  * @param string $str1 - строка 1
  * @param string $str2 - строка 2
- * @return int
+ * @return int - число различающихся букв
  */
 function matrixEregi($str1, $str2){
     $str1_chars  = count_chars($str1,1);
