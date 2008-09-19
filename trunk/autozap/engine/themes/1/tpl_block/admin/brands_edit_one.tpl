@@ -38,8 +38,18 @@ tinyMCE.init({
   IMG:
   <input type="file" name="field_brand_img" /><br />
   {if $brandsImg.medium}
-    <input type="checkbox" name="field_brand_del_img" value="1">
-    <img src="{$brandsImg.medium}" />
+    
+    <table>
+    <tr>
+        <th>удалить</th><th>средн€€</th><th>маленька€</th>
+    </tr>
+    <tr align="center">
+        <td><input type="checkbox" name="field_brand_del_img" value="1"></td>
+        <td><img src="{$brandsImg.medium}" /></td
+        <td><img src="{$brandsImg.small}" /></td>
+    </tr>
+    </table>
+
   {/if}
 <br />
 
