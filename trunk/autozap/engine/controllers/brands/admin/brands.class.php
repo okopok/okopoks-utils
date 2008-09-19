@@ -1,6 +1,5 @@
 <?php
-
-class controller_admin_models implements controller_interface
+class controller_admin_brands implements controller_interface 
 {
   function run()
   {
@@ -18,16 +17,16 @@ class controller_admin_models implements controller_interface
 
   function showList($page)
   {
-    $data = controller_getHashes::brands_models();
-    fb($data,'models_data_list');
-    $view = Base::load('view_admin_models');
+    $data = controller_getHashes::brands();
+    fb($data,'brands_data_list');
+    $view = Base::load('view_admin_brands');
     $view->showList($data);
   }
 
   function showOne($id)
   {
-    $data = model_public_models::getOne($id);
-    $view = Base::load('view_admin_models');
+    $data = model_public_brands::getOne($id);
+    $view = Base::load('view_admin_brands');
     $view->showOne($data);
   }
 
@@ -35,27 +34,26 @@ class controller_admin_models implements controller_interface
   {
     if(isset($_POST['mode']) and $_POST['mode'] == 'edit')
     {
-      $model = Base::load('model_admin_models');
+      $model = Base::load('model_admin_brands');
       $model->edit($id, $_POST);
-      Base::load('model_buildHashes')->models();
+      Base::load('model_buildHashes')->brands();
       Base::location($_SERVER['REQUEST_URI']);
     }elseif(isset($_POST['mode']) and $_POST['mode'] == 'delete'){
       self::deleteOne($id);
     }
 
-    $img  = model_images::getModelImage($id);
-    controller_smarty::assign('modelsImg',$img);
+    $img  = model_images::getBrandImage($id);
+    controller_smarty::assign('brandsImg',$img);
     fb($img,'img');
-    $data = model_public_models::getOne($id);
-    $view = Base::load('view_admin_models');
+    $data = model_public_brands::getOne($id);
+    $view = Base::load('view_admin_brands');
     $view->showEditOne($data);
   }
 
   function deleteOne($id)
   {
-    $model = Base::load('model_admin_models');
+    $model = Base::load('model_admin_brands');
     $model->delete($id);
   }
 }
-
 ?>
