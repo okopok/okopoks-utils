@@ -10,7 +10,7 @@ define('CONTROLLERS_DIR',     ENGINE_DIR.'controllers/');
 define('MODELS_DIR',          ENGINE_DIR.'models/');
 define('VIEWS_DIR',           ENGINE_DIR.'views/');
 define('UTILS_DIR',           ENGINE_DIR.'utils/');
-
+define('EXCELREADER_DIR',     UTILS_DIR.'Excel/');
 /* --------- */
 define('ARTICLES_PAGE_LIMIT', 10);
 define('ARTICLES_ALLOW_TAGS', '<img><b><i><u><a><br>');
