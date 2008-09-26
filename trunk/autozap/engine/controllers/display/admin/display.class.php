@@ -46,6 +46,9 @@ class controller_admin_display implements controller_interface
             $engine['subdir'] = 'brands_models';
             $engine['type']   = 'public';
           break;
+          case 'update':
+            Base::load('controller_admin_update')->run();
+          break;
 
           default: controller_index::run();
           // ----------------------------------------------------------

@@ -57,16 +57,26 @@
      .th .td      { background-color: #eeeeee;  }
      .tr_even .td { background-color: #ffffff; }
      .tr_odd .td  { background-color: #eeeeee; }
-
+     ul { padding:10px; }
     </style>
     {/literal}
   </head>
   <body>
     <div class="fl" style=" width:10%; border: 1px solid #cccccc; border-right:0px;padding: 10px;">
       <ul>
-        <li><a href="/">Главная</a></li>
-        <li><a href="/admin/">Admin</a></li>
-        <li><a href="/admin/brands/">Бренды и модели</a></li>
+        <li>
+            <a href="/">Главная</a>
+            <ul>
+                <li>
+                    <a href="/admin/">Admin</a>
+                    <ul>
+                        <li><a href="/admin/brands/">Бренды</a></li>
+                        <li><a href="/admin/models/">Модели</a></li>
+                    </ul>
+                </li>
+
+            </ul>
+        </li>
       </ul>
       {if $blocks.left_top.path}    {include file="`$blocks.left_top.path`"}{/if}
       {if $blocks.left_center.path} {include file="`$blocks.left_center.path`"}{/if}
