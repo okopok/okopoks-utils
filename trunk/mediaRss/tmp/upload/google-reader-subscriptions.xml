@@ -1,0 +1,299 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<opml version="1.0">
+    <head>
+        <title>SID subscriptions in Google Reader</title>
+    </head>
+    <body>
+        <outline title="Технологии" text="Технологии">
+            <outline text="dvice.ru - Двайсимся вместе!"
+                title="dvice.ru - Двайсимся вместе!" type="rss"
+                xmlUrl="http://feeds.feedburner.com/dviceru" htmlUrl="http://dvice.ru/"/>
+            <outline text="MOBBIT: Мобильные страсти"
+                title="MOBBIT: Мобильные страсти" type="rss"
+                xmlUrl="http://mobbit.info/rss.php" htmlUrl="http://mobbit.info/"/>
+            <outline text="Ru.Gizmodo.Com" title="Ru.Gizmodo.Com"
+                type="rss"
+                xmlUrl="http://feeds.feedburner.com/gizmodo/RuAtom" htmlUrl="http://ru.gizmodo.com/"/>
+            <outline text="Интернетные штучки"
+                title="Интернетные штучки" type="rss"
+                xmlUrl="http://feeds.feedburner.com/internetno" htmlUrl="http://internetno.net"/>
+        </outline>
+        <outline text="jevix.ru" title="jevix.ru" type="rss"
+            xmlUrl="http://jevix.ru/rss/" htmlUrl="http://jevix.ru/"/>
+        <outline text="Александр Молодцов's Recommendations"
+            title="Александр Молодцов's Recommendations" type="rss"
+            xmlUrl="http://www.google.com/reader/public/atom/user/12308422564101756960/state/com.google/broadcast" htmlUrl="http://www.google.com/reader/view/user%2F12308422564101756960%2Fstate%2Fcom.google%2Fbroadcast"/>
+        <outline text="Последние ролики" title="Последние ролики"
+            type="rss" xmlUrl="http://video.mail.ru/mail/muzinst69/rss" htmlUrl="http://video.mail.ru/mail/muzinst69/"/>
+        <outline text="Тина Чарльз" title="Тина Чарльз" type="rss"
+            xmlUrl="http://tinacharles.promodj.ru/podcast.xml" htmlUrl="http://tinacharles.promodj.ru/"/>
+        <outline title="Сообщества" text="Сообщества">
+            <outline text="Хабрахабр" title="Хабрахабр" type="rss"
+                xmlUrl="http://habrahabr.ru/rss/main/" htmlUrl="http://habrahabr.ru/rss/"/>
+            <outline text="Я Плакалъ" title="Я Плакалъ" type="rss"
+                xmlUrl="http://www.yaplakal.com/news.xml" htmlUrl="http://www.yaplakal.com/"/>
+        </outline>
+        <outline title="it_news" text="it_news">
+            <outline text="3DNews: Hardware" title="3DNews: Hardware"
+                type="rss" xmlUrl="http://www.3dnews.ru/news/rss/" htmlUrl="http://3dnews.ru/news/"/>
+            <outline text="3DNews: Software" title="3DNews: Software"
+                type="rss"
+                xmlUrl="http://www.3dnews.ru/software-news/rss/" htmlUrl="http://3dnews.ru/software-news/"/>
+            <outline text="Gameland - Новости"
+                title="Gameland - Новости" type="rss"
+                xmlUrl="http://gameland.ru/articles/rss/default.asp?rss_cat=news" htmlUrl="http://www.gameland.ru/articles/rss/"/>
+            <outline text="iXBT.com: Apple" title="iXBT.com: Apple"
+                type="rss"
+                xmlUrl="http://www.ixbt.com/export/applenews.rss" htmlUrl="http://www.ixbt.com/"/>
+            <outline text="iXBT.com: Games" title="iXBT.com: Games"
+                type="rss"
+                xmlUrl="http://www.ixbt.com/export/gamesnews.rss" htmlUrl="http://www.ixbt.com/"/>
+            <outline text="iXBT.com: Hard" title="iXBT.com: Hard"
+                type="rss"
+                xmlUrl="http://www.ixbt.com/export/hardnews.rss" htmlUrl="http://www.ixbt.com/"/>
+            <outline text="iXBT.com: IT news" title="iXBT.com: IT news"
+                type="rss"
+                xmlUrl="http://www.ixbt.com/export/marketnews.rss" htmlUrl="http://www.ixbt.com/"/>
+            <outline text="iXBT.com: Soft" title="iXBT.com: Soft"
+                type="rss"
+                xmlUrl="http://www.ixbt.com/export/softnews.rss" htmlUrl="http://www.ixbt.com/"/>
+            <outline text="Mobile-Review.com" title="Mobile-Review.com"
+                type="rss"
+                xmlUrl="http://www.mobile-review.com/newslistouter/rssnewsfull.xml" htmlUrl="http://www.mobile-review.com"/>
+            <outline text="Ru.Gizmodo.Com" title="Ru.Gizmodo.Com"
+                type="rss"
+                xmlUrl="http://feeds.feedburner.com/gizmodo/RuAtom" htmlUrl="http://ru.gizmodo.com/"/>
+            <outline text="Компьюлента" title="Компьюлента" type="rss"
+                xmlUrl="http://www.compulenta.ru/rss.xml" htmlUrl="http://www.compulenta.ru"/>
+        </outline>
+        <outline title="Podcasts" text="Podcasts">
+            <outline text="[ad] flash" title="[ad] flash" type="rss"
+                xmlUrl="http://adflash.promodj.ru/podcast.xml" htmlUrl="http://adflash.promodj.ru/"/>
+            <outline text="DJ Flash (Moscow)" title="DJ Flash (Moscow)"
+                type="rss"
+                xmlUrl="http://dj-flash.promodj.ru/podcast.xml" htmlUrl="http://dj-flash.promodj.ru/"/>
+            <outline text="DJ Max Ruby (MGPS 89.5FM)"
+                title="DJ Max Ruby (MGPS 89.5FM)" type="rss"
+                xmlUrl="http://maxruby.promodj.ru/podcast.xml" htmlUrl="http://maxruby.promodj.ru/"/>
+            <outline text="DJ Град (DJ Grad)" title="DJ Град (DJ Grad)"
+                type="rss" xmlUrl="http://djgrad.promodj.ru/podcast.xml" htmlUrl="http://djgrad.promodj.ru/"/>
+            <outline text="dj Кирилоff (SweetDJs)"
+                title="dj Кирилоff (SweetDJs)" type="rss"
+                xmlUrl="http://djkiriloff.promodj.ru/podcast.xml" htmlUrl="http://djKiriloff.promodj.ru/"/>
+            <outline text="Mike Spirit" title="Mike Spirit" type="rss"
+                xmlUrl="http://mikespirit.promodj.ru/podcast.xml" htmlUrl="http://mikespirit.promodj.ru/"/>
+            <outline text="superdjDan" title="superdjDan" type="rss"
+                xmlUrl="http://superdjdan.promodj.ru/podcast.xml" htmlUrl="http://superdjDan.promodj.ru/"/>
+            <outline text="SWANKY TUNES" title="SWANKY TUNES" type="rss"
+                xmlUrl="http://swankytunes.promodj.ru/podcast.xml" htmlUrl="http://swankytunes.promodj.ru/"/>
+            <outline text="ВИКТОР СТРОГОНОВ (дж Фашист)"
+                title="ВИКТОР СТРОГОНОВ (дж Фашист)" type="rss"
+                xmlUrl="http://fashist.promodj.ru/podcast.xml" htmlUrl="http://Fashist.promodj.ru/"/>
+            <outline text="Володя Фонарев на PROMODJ.RU"
+                title="Володя Фонарев на PROMODJ.RU" type="rss"
+                xmlUrl="http://fonarev.promodj.ru/podcast.xml" htmlUrl="http://Fonarev.promodj.ru/"/>
+            <outline text="Дмитрий Алмазов (Bobina)"
+                title="Дмитрий Алмазов (Bobina)" type="rss"
+                xmlUrl="http://bobina.promodj.ru/podcast.xml" htmlUrl="http://bobina.promodj.ru/"/>
+        </outline>
+        <outline title="mainnews" text="mainnews">
+            <outline text="GNews - Наука и техника"
+                title="GNews - Наука и техника" type="rss"
+                xmlUrl="http://news.google.com/?ned=ru_ru&amp;topic=t&amp;output=atom" htmlUrl="http://news.google.com/?ned=ru_ru&amp;topic=t"/>
+            <outline text="MEMBRANA" title="MEMBRANA" type="rss"
+                xmlUrl="http://www.membrana.ru/export/rss.xml" htmlUrl="http://www.membrana.ru/"/>
+        </outline>
+        <outline title="PSP" text="PSP">
+            <outline text="MADEINRUSSIA.TV | PSP"
+                title="MADEINRUSSIA.TV | PSP" type="rss"
+                xmlUrl="http://www.madeinrussia.tv/rss/video/psp.xml" htmlUrl="http://www.madeinrussia.tv/"/>
+            <outline text="PiSiPi.net" title="PiSiPi.net" type="rss"
+                xmlUrl="http://pisipi.net/rss.xml" htmlUrl="http://pisipi.net/"/>
+            <outline text="PSPinfo.ru" title="PSPinfo.ru" type="rss"
+                xmlUrl="http://www.pspinfo.ru/rss.xml" htmlUrl="http://www.pspinfo.ru/"/>
+            <outline text="PSPiso.ru" title="PSPiso.ru" type="rss"
+                xmlUrl="http://pspiso.ru/rss.xml" htmlUrl="http://pspiso.ru/"/>
+        </outline>
+        <outline title="Company" text="Company">
+            <outline text="Bestpersons.ru - Лента новостей"
+                title="Bestpersons.ru - Лента новостей" type="rss"
+                xmlUrl="http://www.bestpersons.ru/about/news/rss.jsp" htmlUrl="http://www.bestpersons.ru/about/news/"/>
+            <outline text="Blogger Buzz" title="Blogger Buzz" type="rss"
+                xmlUrl="http://buzz.blogger.com/feeds/posts/default" htmlUrl="http://buzz.blogger.com/"/>
+            <outline text="Computerra Inside" title="Computerra Inside"
+                type="rss"
+                xmlUrl="http://inside.computerra.ru/feed/atom/" htmlUrl="http://inside.computerra.ru"/>
+            <outline text="Mozilla" title="Mozilla" type="rss"
+                xmlUrl="http://www.mozilla.ru/rss/rss.xml" htmlUrl="http://forum.mozilla-russia.org/"/>
+            <outline text="Official Google Reader Blog"
+                title="Official Google Reader Blog" type="rss"
+                xmlUrl="http://googlereader.blogspot.com/atom.xml" htmlUrl="http://googlereader.blogspot.com/"/>
+            <outline text="TF2 Official Blog" title="TF2 Official Blog"
+                type="rss" xmlUrl="http://www.teamfortress.com/rss.xml" htmlUrl="http://www.teamfortress.com"/>
+            <outline text="Valve RSS News Feed"
+                title="Valve RSS News Feed" type="rss"
+                xmlUrl="http://www.steampowered.com/rss.xml" htmlUrl="http://www.steampowered.com/"/>
+            <outline text="Бизнес-линч" title="Бизнес-линч" type="rss"
+                xmlUrl="http://www.artlebedev.ru/kovodstvo/business-lynch/business-lynch.rdf" htmlUrl="http://www.artlebedev.ru/kovodstvo/business-lynch/"/>
+            <outline text="Все про Google" title="Все про Google"
+                type="rss" xmlUrl="http://www.googlemon.ru/?feed=rss2" htmlUrl="http://www.googlemon.ru"/>
+            <outline text="Мир Team Fortress 2"
+                title="Мир Team Fortress 2" type="rss"
+                xmlUrl="http://tf2world.ru/?feed=rss2" htmlUrl="http://tf2world.ru"/>
+            <outline text="Новости | Mozilla Россия"
+                title="Новости | Mozilla Россия" type="rss"
+                xmlUrl="http://news.mozilla-russia.org/?feed=rss2" htmlUrl="http://news.mozilla-russia.org:80"/>
+            <outline text="Новости МТС" title="Новости МТС" type="rss"
+                xmlUrl="http://www1.mts.ru/news/rss/" htmlUrl="http://www.mts.ru/news/"/>
+            <outline text="Официальный блог - Google Россия"
+                title="Официальный блог - Google Россия" type="rss"
+                xmlUrl="http://feeds.feedburner.com/blogspot/LMWz" htmlUrl="http://googlerussiablog.blogspot.com/"/>
+            <outline text="Яндекс.КорпБлог" title="Яндекс.КорпБлог"
+                type="rss"
+                xmlUrl="http://company.yandex.ru/blog/index.rss" htmlUrl="http://company.yandex.ru/blog/"/>
+        </outline>
+        <outline title="media" text="media">
+            <outline text="Electropeople" title="Electropeople"
+                type="rss" xmlUrl="http://electropeople.org/rss.xml" htmlUrl="http://electropeople.org/"/>
+        </outline>
+        <outline title="Pictures" text="Pictures">
+            <outline text="AnimeManiacs" title="AnimeManiacs" type="rss"
+                xmlUrl="http://www.nnm.ru/out/rss2.0/doci/a/n/i/animemaniacs.xml" htmlUrl="http://animemaniacs.nnm.ru/"/>
+            <outline text="Comic Strip in Russian"
+                title="Comic Strip in Russian" type="rss"
+                xmlUrl="http://community.livejournal.com/ru_comicstrip/data/atom" htmlUrl="http://community.livejournal.com/ru_comicstrip/"/>
+            <outline text="Earth Shots" title="Earth Shots" type="rss"
+                xmlUrl="http://feeds.feedburner.com/EarthShots" htmlUrl="http://www.earthshots.org/"/>
+            <outline text="несмешно" title="несмешно" type="rss"
+                xmlUrl="http://community.livejournal.com/ru_nichtlustig/data/atom" htmlUrl="http://community.livejournal.com/ru_nichtlustig/"/>
+            <outline text="Пародии на Comic Strip"
+                title="Пародии на Comic Strip" type="rss"
+                xmlUrl="http://community.livejournal.com/ru_comic_fake/data/atom" htmlUrl="http://community.livejournal.com/ru_comic_fake/"/>
+            <outline text="Фотки дня от Яндекса"
+                title="Фотки дня от Яндекса" type="rss"
+                xmlUrl="http://topfotki.livejournal.com/data/atom" htmlUrl="http://topfotki.livejournal.com/"/>
+            <outline text="Фотолента" title="Фотолента" type="rss"
+                xmlUrl="http://clubs.ya.ru/4611686018427388693/rss/posts.xml" htmlUrl="http://clubs.ya.ru/4611686018427388693/"/>
+        </outline>
+        <outline title="soft" text="soft">
+            <outline
+                text="AG.Tracker: Последние обновления для выбранных игр"
+                title="AG.Tracker: Последние обновления для выбранных игр"
+                type="rss"
+                xmlUrl="http://www.ag.ru/rss/personal/248493/a5155df646bd499fe9665147fe186077/rss.xml" htmlUrl="http://www.ag.ru"/>
+        </outline>
+        <outline title="blogs" text="blogs">
+            <outline text="Advertka.ru" title="Advertka.ru" type="rss"
+                xmlUrl="http://advertka.ru/?rss" htmlUrl="http://www.advertka.ru/"/>
+            <outline text="Alexei Lebedev" title="Alexei Lebedev"
+                type="rss"
+                xmlUrl="http://alexeilebedev.livejournal.com/data/rss" htmlUrl="http://alexeilebedev.livejournal.com/"/>
+            <outline text="Alexey S. Yushenkov"
+                title="Alexey S. Yushenkov" type="rss"
+                xmlUrl="http://yustas.livejournal.com/data/rss" htmlUrl="http://yustas.livejournal.com/"/>
+            <outline text="Anutik_cool" title="Anutik_cool" type="rss"
+                xmlUrl="http://www.liveinternet.ru/users/anutik_cool/rss/" htmlUrl="http://www.liveinternet.ru/users/anutik_cool/"/>
+            <outline text="Bagira" title="Bagira" type="rss"
+                xmlUrl="http://www.liveinternet.ru/users/irishka2006/rss/" htmlUrl="http://www.liveinternet.ru/users/irishka2006/"/>
+            <outline text="Bash.Org.Ru" title="Bash.Org.Ru" type="rss"
+                xmlUrl="http://bash.org.ru/rss/" htmlUrl="http://bash.org.ru/"/>
+            <outline text="DJ Dan" title="DJ Dan" type="rss"
+                xmlUrl="http://kotique-kotique.livejournal.com/data/atom" htmlUrl="http://kotique-kotique.livejournal.com/"/>
+            <outline text="egor" title="egor" type="rss"
+                xmlUrl="http://zhgun.livejournal.com/data/atom" htmlUrl="http://zhgun.livejournal.com/"/>
+            <outline text="Goblin" title="Goblin" type="rss"
+                xmlUrl="http://stalkers.ru/rss/rss_oper_ru.php" htmlUrl="http://oper.ru/"/>
+            <outline text="grad13" title="grad13" type="rss"
+                xmlUrl="http://grad13.livejournal.com/data/atom" htmlUrl="http://grad13.livejournal.com/"/>
+            <outline text="ione" title="ione" type="rss"
+                xmlUrl="http://zheltyj.livejournal.com/data/atom" htmlUrl="http://zheltyj.livejournal.com/"/>
+            <outline text="Kuteev" title="Kuteev" type="rss"
+                xmlUrl="http://kuteev.livejournal.com/data/atom" htmlUrl="http://kuteev.livejournal.com/"/>
+            <outline text="pixeloo" title="pixeloo" type="rss"
+                xmlUrl="http://pixeloo.blogspot.com/feeds/posts/default" htmlUrl="http://pixeloo.blogspot.com/"/>
+            <outline text="Tema.ru - Veni, Vidi"
+                title="Tema.ru - Veni, Vidi" type="rss"
+                xmlUrl="http://www.tema.ru/travel/travel.rdf" htmlUrl="http://tema.ru/travel/"/>
+            <outline text="Бегущая" title="Бегущая" type="rss"
+                xmlUrl="http://anime6ka.livejournal.com/data/atom" htmlUrl="http://anime6ka.livejournal.com/"/>
+            <outline text="Володя Фонарь" title="Володя Фонарь"
+                type="rss"
+                xmlUrl="http://fonarev-com.livejournal.com/data/atom" htmlUrl="http://fonarev-com.livejournal.com/"/>
+            <outline text="Глеб Андросов и его ЖЖ"
+                title="Глеб Андросов и его ЖЖ" type="rss"
+                xmlUrl="http://gleb-androsov.livejournal.com/data/atom" htmlUrl="http://gleb-androsov.livejournal.com/"/>
+            <outline text="Город в миниатюре" title="Город в миниатюре"
+                type="rss"
+                xmlUrl="http://community.livejournal.com/sup_city/data/atom" htmlUrl="http://community.livejournal.com/sup_city/"/>
+            <outline text="Дорис" title="Дорис" type="rss"
+                xmlUrl="http://www.liveinternet.ru/users/695654/rss/" htmlUrl="http://www.liveinternet.ru/users/695654/"/>
+            <outline text="Друзья на @mail.ru"
+                title="Друзья на @mail.ru" type="rss"
+                xmlUrl="http://blogs.mail.ru/mail/asid/friends?rss=1" htmlUrl="http://blogs.mail.ru/mail/asid/"/>
+            <outline text="Журнал Другого" title="Журнал Другого"
+                type="rss"
+                xmlUrl="http://drugoi.livejournal.com/data/atom" htmlUrl="http://drugoi.livejournal.com/"/>
+            <outline text="Комиксы Bash.Org.Ru"
+                title="Комиксы Bash.Org.Ru" type="rss"
+                xmlUrl="http://bash.org.ru/rss/comics.xml" htmlUrl="http://bash.org.ru/"/>
+            <outline text="Леонид Каганов. Онлайн дневник."
+                title="Леонид Каганов. Онлайн дневник." type="rss"
+                xmlUrl="http://lleo.aha.ru/dnevnik/rss.xml" htmlUrl="http://lleo.aha.ru/dnevnik/"/>
+            <outline text="Лилия Медведева" title="Лилия Медведева"
+                type="rss"
+                xmlUrl="http://lilibear.ru/index.php?option=com_rss&amp;feed=RSS2.0&amp;no_html=0" htmlUrl="http://lilibear.ru"/>
+            <outline text="Лично/общественный дневник Эльдара Муртазина"
+                title="Лично/общественный дневник Эльдара Муртазина"
+                type="rss"
+                xmlUrl="http://eldarmurtazin.livejournal.com/data/rss" htmlUrl="http://eldarmurtazin.livejournal.com/"/>
+            <outline text="Норвежский Лесной" title="Норвежский Лесной"
+                type="rss" xmlUrl="http://nl.livejournal.com/data/rss" htmlUrl="http://nl.livejournal.com/"/>
+            <outline text="офиц сайт Сергея Лукьяненко"
+                title="офиц сайт Сергея Лукьяненко" type="rss"
+                xmlUrl="http://www.lukianenko.ru/userdata/rss/rss.php" htmlUrl="http://www.lukianenko.ru"/>
+            <outline text="Пародия на рекламу"
+                title="Пародия на рекламу" type="rss"
+                xmlUrl="http://community.livejournal.com/ad_fake/data/atom" htmlUrl="http://community.livejournal.com/ad_fake/"/>
+            <outline text="Пепелсбей.net" title="Пепелсбей.net"
+                type="rss" xmlUrl="http://pepelsbey.net/feed/" htmlUrl="http://pepelsbey.net"/>
+            <outline text="Приемный Покой Доктора Пилюлькина"
+                title="Приемный Покой Доктора Пилюлькина" type="rss"
+                xmlUrl="http://dr-piliulkin.livejournal.com/data/rss" htmlUrl="http://dr-piliulkin.livejournal.com/"/>
+            <outline text="Семен Семеныч Горбунков"
+                title="Семен Семеныч Горбунков" type="rss"
+                xmlUrl="http://supehero.livejournal.com/data/atom" htmlUrl="http://supehero.livejournal.com/"/>
+            <outline text="Сергей Лукьяненко" title="Сергей Лукьяненко"
+                type="rss"
+                xmlUrl="http://doctor-livsy.livejournal.com/data/atom" htmlUrl="http://doctor-livsy.livejournal.com/"/>
+            <outline text="Сергей Стиллавин" title="Сергей Стиллавин"
+                type="rss"
+                xmlUrl="http://stillavinsergei.livejournal.com/data/atom" htmlUrl="http://stillavinsergei.livejournal.com/"/>
+            <outline text="Солнце" title="Солнце" type="rss"
+                xmlUrl="http://www.liveinternet.ru/users/975650/rss/" htmlUrl="http://www.liveinternet.ru/users/975650/"/>
+            <outline text="сообщество bash.org.ru"
+                title="сообщество bash.org.ru" type="rss"
+                xmlUrl="http://community.livejournal.com/russian_bashorg/data/atom" htmlUrl="http://community.livejournal.com/russian_bashorg/"/>
+            <outline text="Студия Артемия Лебедева"
+                title="Студия Артемия Лебедева" type="rss"
+                xmlUrl="http://www.artlebedev.ru/news.rdf" htmlUrl="http://www.artlebedev.ru/"/>
+            <outline text="Тина Чарльз" title="Тина Чарльз" type="rss"
+                xmlUrl="http://tinacharles.livejournal.com/data/atom" htmlUrl="http://tinacharles.livejournal.com/"/>
+            <outline
+                text="Только выйдя из дому понимаешь, насколько огромен мир"
+                title="Только выйдя из дому понимаешь, насколько огромен мир"
+                type="rss"
+                xmlUrl="http://dima-chatrov.livejournal.com/data/atom" htmlUrl="http://dima-chatrov.livejournal.com/"/>
+            <outline text="Тьома Льебьедьеф LJ"
+                title="Тьома Льебьедьеф LJ" type="rss"
+                xmlUrl="http://tema.livejournal.com/data/atom" htmlUrl="http://tema.livejournal.com/"/>
+            <outline text="Фдучун Гыфсрум" title="Фдучун Гыфсрум"
+                type="rss"
+                xmlUrl="http://usachev.livejournal.com/data/atom" htmlUrl="http://usachev.livejournal.com/"/>
+            <outline text="Хломида" title="Хломида" type="rss"
+                xmlUrl="http://www.liveinternet.ru/users/needle_anomaly/rss/" htmlUrl="http://www.liveinternet.ru/users/needle_anomaly/"/>
+            <outline text="Я СДЕЛАН В UPLIFTO"
+                title="Я СДЕЛАН В UPLIFTO" type="rss"
+                xmlUrl="http://pimenov-uplifto.livejournal.com/data/atom" htmlUrl="http://pavel-lesnevsky.livejournal.com/"/>
+        </outline>
+    </body>
+</opml>
