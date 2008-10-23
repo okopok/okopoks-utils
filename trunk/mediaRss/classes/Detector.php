@@ -6,34 +6,29 @@ class Detector{
 	
 	function __construct($xml = null)
 	{
-		if(is_object($xml))
-		{
-			$this->setXml($xml);
-			return $this->detect();
-		}
-		
+	   return $this->detect($xml);
 	}
+
 	
-	function setXml($xml)
-	{
-		$this->xml = $xml;
-	}
-	
-	function detect()
+	function detect($xml)
 	{
 		
 		foreach (glob(PLUGINS_DIR.'*.php') as $plugin)
 		{
 			$pluginClassName = substr(basename($plugin),0,strpos(basename($plugin),'.'));
-			print $plugin."\n".$pluginClassName."\n";
-			
 			require_once($plugin);
+			print $plugin."\n";
 			if(class_exists($pluginClassName))
 			{
-				$pluginClass = new $pluginClassName;
-			}
-			
+			    print 'asd'."\n";
+				$pluginClass = new $pluginClassName($xml);
+				if($pluginClass->isValid())
+				{
+				    return $pluginClass;
+				}
+			}			
 		}
+		throw new Exception("No match plugin");
 	}
 }
 
