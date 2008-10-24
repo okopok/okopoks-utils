@@ -15,8 +15,8 @@ class Main extends XmlAbstract
 	    }
 		require_once(CLASSES_DIR.'Detector.php');
 		$xml = $this->getXml();		
-		$detector = new Detector($this->getXmlString());
-		$this->parser = $detector;
+		$detector = new Detector();
+		$this->parser = $detector->detect($this->getXmlString());
 		return $this->parser;
 	}
 	
@@ -52,7 +52,7 @@ $name = Cache::setName("opml.my.itunes.xml.items",3600);
 
 if(!Cache::checkLifetime())
 {
-    $opmlXml = $opml->loadXmlFile(UPLOAD_DIR.'my.itunes.xml');
+    $opmlXml = $opml->loadXmlFile(UPLOAD_DIR.'Подкасты.itunes.xml');
     $items = $opml->getItems();
     Cache::store($items);
     print "FROM FILE OPML\n";
@@ -74,11 +74,19 @@ foreach ($items as $item)
         $xmlString = Cache::get($name);
         print "FROM CACHE XML";
     }
-    $xml = $aha->parceXml($xmlString)->getXml();
-    print_r($xml);
+    $xml    = $aha->parceXml($xmlString)->getXml();
+    $aha->parceXml($xmlString);
+    $parser = $aha->getParser();
+    while ($item = $parser->getItem()) 
+    {
+    	print $parser->getItemName()."\n";
+    }
+    print $parser->getChannelName();
+
+    die;
 }
-$aha->parceXml($xmlString);
-$aha->getParser();
+
+
 //print $opml->getTitle();
 //$aha->getType();
 ?>

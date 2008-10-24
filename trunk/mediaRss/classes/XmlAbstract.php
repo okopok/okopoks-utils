@@ -5,9 +5,9 @@
  */
 class XmlAbstract 
 {
-  private $xml = null;
-  private $file = null;
-  private $xmlString = null;
+  protected  $xml       = null;
+  protected $file      = null;
+  protected $xmlString = null;
   /**
    * Enter description here...
    *
@@ -64,6 +64,11 @@ class XmlAbstract
       return $this->xmlString;
   }
   
+  function parsedXml()
+  {
+      return is_object($this->xml);
+  }
+  
   /**
    * Enter description here...
    *
@@ -74,6 +79,7 @@ class XmlAbstract
   {      
       if($xml = simplexml_load_string($string))
       {
+          print 'aha';
           $this->xmlString = $string;
           $this->setXml($xml);
       }else{
