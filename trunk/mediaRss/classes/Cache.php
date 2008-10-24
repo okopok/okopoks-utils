@@ -44,6 +44,7 @@ class Cache
     }
     static function setName($tag, $lifetime)
     {
+       self::$errors = array();
        $tag = trim(preg_replace('|([^\w\d\.])|ism','',$tag));
        self::$name = $tag.'-'.$lifetime.'.cache';
        return self::getName();
