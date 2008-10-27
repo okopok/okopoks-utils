@@ -7,7 +7,7 @@ class Cache
     protected static $name = false;
     static function store($item)
     {
-        file_put_contents(self::$path.self::$name,serialize($item));
+        file_put_contents(self::$path.self::$name, serialize($item));
     }
     
     static function get($tag)

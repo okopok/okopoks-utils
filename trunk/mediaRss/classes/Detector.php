@@ -12,30 +12,27 @@ class Detector{
 	function detect($xml)
 	{
 		
-		foreach (glob(PLUGINS_DIR.'*.php') as $plugin)
+		foreach (glob(PLUGINS_RSS_DIR.'*.php') as $pluginRSS)
 		{
-			$pluginClassName = substr(basename($plugin),0,strpos(basename($plugin),'.')).'Plugin';
-			require_once($plugin);
-			print "\n".$plugin."\n";
-			if(class_exists($pluginClassName))
+			$pluginRSSClassName = substr(basename($pluginRSS),0,strpos(basename($pluginRSS),'.')).'Plugin';
+			require_once($pluginRSS);
+			if(class_exists($pluginRSSClassName))
 			{
 			    
-				$pluginClass = new $pluginClassName($xml);
-				if($pluginClass->isValid())
+				$pluginRSSClass = new $pluginRSSClassName($xml);
+				if($pluginRSSClass->isValid())
 				{
-				    print $pluginClassName."\n";
-				    return $pluginClass;
+				    return $pluginRSSClass;
 				}
 			}			
 		}
-		$pluginClassName = PLUGINS_DEFAULT.'Plugin';
-		if(file_exists(PLUGINS_DIR.$pluginClassName.'.php'))
+		$pluginRSSClassName = PLUGINS_RSS_DEFAULT.'Plugin';
+		if(file_exists(PLUGINS_RSS_DIR.$pluginRSSClassName.'.php'))
 		{
-		   if(class_exists($pluginClassName))
+		   if(class_exists($pluginRSSClassName))
 			{
-			    print PLUGINS_DEFAULT."\n";
-				$pluginClass = new $pluginClassName($xml);
-				return $pluginClass;
+				$pluginRSSClass = new $pluginRSSClassName($xml);
+				return $pluginRSSClass;
 			} 
 		}
 		throw new Exception("No match plugin");

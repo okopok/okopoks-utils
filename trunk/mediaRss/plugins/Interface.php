@@ -1,7 +1,7 @@
 <?php
 
 
-interface PluginInterface
+interface PluginRSSInterface
 {
     function isValid();
     function setXml($xml);
@@ -29,4 +29,12 @@ interface PluginInterface
     function getItemMediaType();
 }
 
+interface PlugingStoreInterface
+{
+    function getSubscriptions();    
+    function getItems();    
+    function saveSubscriptions();
+    function saveItems();    
+    function delete();
+}
 ?>
