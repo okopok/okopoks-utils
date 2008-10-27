@@ -10,6 +10,8 @@ define('TMP_DIR',           ROOT_DIR.'tmp/');
 define("UPLOAD_DIR",            TMP_DIR.'upload/');
 define('CACHE_DIR',             TMP_DIR.'cache/');
 
+define('UTILS_DIR',         ROOT_DIR.'utils/');
+
 set_include_path(ROOT_DIR);
 
 define('PLUGINS_RSS_DEFAULT', 'Default');
@@ -19,5 +21,5 @@ define('FLAG_DELETED',      'deleted');
 define('FLAG_DOWNLOADED',   'downloaded');
 define('FLAG_ERRORS',       'errors');
 
-
+define('CACHE_LISTS_ALL_NAME', 'lists.all');
 ?>

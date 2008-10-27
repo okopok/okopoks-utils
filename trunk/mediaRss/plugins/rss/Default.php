@@ -56,6 +56,7 @@ class DefaultPlugin extends XmlAbstract implements PluginRSSInterface
             $this->parceXml($this->getXmlString());
         }
         $this->data = array();
+        if(!isset($this->getXml()->channel->item)) throw new Exception('Bad XML GIVEN');
         foreach ($this->getXml()->channel->item as $item)
         {
             $this->data[] = $item;
@@ -83,16 +84,19 @@ class DefaultPlugin extends XmlAbstract implements PluginRSSInterface
         return (string)$this->data[$this->key]->author;
     }
     function getItemMedia(){
-        return (array)$this->data[$this->key]->enclosure;
+        return isset($this->data[$this->key]->enclosure)?$this->data[$this->key]->enclosure:false;
     }
-    function getItemMediaUrl(){
-        return (isset($this->data[$this->key]->enclosure))? $this->data[$this->key]->enclosure->attributes()->url: false;
+    function getItemMediaUrl()
+    {
+        return self::getItemMedia() ? (string)self::getItemMedia()->attributes()->url : false; 
     }
-    function getItemMediaLength(){
-        return (isset($this->data[$this->key]->enclosure))? (string)$this->data[$this->key]->enclosure->attributes()->length: false;
+    function getItemMediaLength()
+    {
+        return self::getItemMedia() ? (string)self::getItemMedia()->attributes()->length : false; 
     }
-    function getItemMediaType(){
-        return (isset($this->data[$this->key]->enclosure))? (string)$this->data[$this->key]->enclosure->attributes()->type: false;
+    function getItemMediaType()
+    {
+        return self::getItemMedia() ? (string)self::getItemMedia()->attributes()->type : false; 
     }
     function getItemImage(){}
     function getItemPubTime(){}

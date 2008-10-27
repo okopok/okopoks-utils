@@ -29,12 +29,12 @@ interface PluginRSSInterface
     function getItemMediaType();
 }
 
-interface PlugingStoreInterface
+interface PluginStoreInterface
 {
-    function getSubscriptions();    
-    function getItems();    
-    function saveSubscriptions();
-    function saveItems();    
+    function getAllLists();    
+    function getList($url);    
+    function saveAllLists($array);
+    function saveList($url,$array);    
     function delete();
 }
 ?>
