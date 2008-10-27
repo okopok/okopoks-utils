@@ -3,10 +3,14 @@ require_once(dirname(__FILE__).'/config.php');
 require_once(CLASSES_DIR.'/XmlAbstract.php');
 require_once(CLASSES_DIR.'Opml.php');
 require_once(CLASSES_DIR.'Cache.php');
+require_once(UTILS_DIR.'CurlGetContent.class.php');
+
 class Main extends XmlAbstract 
 {
     protected $parser        = false;
     protected $subscriptions = array();
+    public $ERRORS           = array();
+    protected $curl          = false;
     
 	function getParser()
 	{
@@ -17,15 +21,32 @@ class Main extends XmlAbstract
 		return $this->parser;
 	}
 	
-	
-	function download($file)
+	function getCurl()
 	{
-	    if($file = file_get_contents($file))
+	    if(is_object($this->curl))
 	    {
-	        return $file;
+	        return $this->curl;
 	    }else{
-	        throw new Exception('Cant get file '.$file);
+	        $this->curl = new CurlGetContent();
+	        return $this->curl;
 	    }
+	}
+	
+	function download($filename)
+	{	    
+	    $curl = $this->getCurl();
+	    $file = $curl->getPage($filename);
+	    if($curl->errno())
+	    {
+	        $info = $curl->info();
+	        throw new Exception(
+	        'Cant get url: '.$filename.' 
+	        Errno: '.$curl->errno().'
+	        Error: '.$curl->error().'
+	        httpCode: '.$info['http_code']);
+	    }
+	    return $file;
+	    
 	}
 	
 	function getStorePath($item)
@@ -73,6 +94,7 @@ class Main extends XmlAbstract
             $array['items'][$guid]['flags'][FLAG_ERRORS]            = false;            
         }
 	    $this->subscriptions[$subUrl] = $array;
+	    $this->setList($subUrl,$array);
 	    return $array;
 	}
 	
@@ -86,7 +108,15 @@ class Main extends XmlAbstract
 	    return false;
 	}
 	
-	
+	function getAllLists()
+	{
+	    return $this->subscriptions;
+	}
+	function setList($subUrl, $array)
+	{
+	    $this->subscriptions[$subUrl] = $array;
+	    return $this;
+	}
 }
 Cache::setPath(CACHE_DIR);
 
@@ -94,9 +124,9 @@ Cache::setPath(CACHE_DIR);
 $aha = new Main();
 
 //$aha->loadXmlFile(UPLOAD_DIR.'Подкасты.itunes.xml');
-$opml = new Opml();
-$name = Cache::setName("opml.my.itunes.xml.items",3600);
-$url = UPLOAD_DIR.'Подкасты.itunes.xml';
+$opml   = new Opml();
+$name   = Cache::setName("opml.my.itunes.xml.items",3600);
+$url    = UPLOAD_DIR.'Подкасты.itunes.xml';
 if(!Cache::checkLifetime())
 {
     $opmlXml = $opml->loadXmlFile($url);
@@ -114,20 +144,31 @@ foreach ($items as $item)
     if(!Cache::checkLifetime())
     {
         Cache::getErrors();
-        $xmlString = $aha->download($item['xmlUrl']);
+        try{
+            $xmlString = $aha->download($item['xmlUrl']);    
+        }    
+        catch (Exception $e)
+        {
+            $aha->ERRORS[] = $e->getMessage();
+            continue;
+        }
         $aha->parceXml( $xmlString )->getParser();
         $list = $aha->makeList( $item['xmlUrl']);
         
         Cache::store( $list );
-        print_r($list);die;
         print "FROM SITE XML - {$item['xmlUrl']}\n";
     }else{
         $list = Cache::get($name);
-        print_r($list);die;
+        $aha->setList($item['xmlUrl'],$list);
         print "FROM CACHE XML - {$item['xmlUrl']}\n";
     }
 }
 
+require_once(PLUGINS_STORE_DIR.PLUGINS_STORE_DEFAULT.'.php');
+$storage = new Store;
+$storage->saveAllLists($aha->getAllLists());
+
+print_r($aha->ERRORS);
 
 //print $opml->getTitle();
 //$aha->getType();
