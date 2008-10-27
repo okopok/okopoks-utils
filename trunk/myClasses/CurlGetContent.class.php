@@ -102,7 +102,20 @@ class CurlGetContent
     return $ret;
   }
 
-
+    function errno()
+    {
+        return curl_errno($this->curlSRC);
+    }
+    
+    function error()
+    {
+        return curl_error($this->curlSRC);
+    }
+    
+    function info()
+    {
+        return curl_getinfo($this->curlSRC);
+    }
 
   /**
    * Использовать прокси или нет
