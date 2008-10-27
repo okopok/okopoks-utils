@@ -79,7 +79,6 @@ class XmlAbstract
   {      
       if($xml = simplexml_load_string($string))
       {
-          print 'aha';
           $this->xmlString = $string;
           $this->setXml($xml);
       }else{
