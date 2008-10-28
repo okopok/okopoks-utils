@@ -1,40 +1,33 @@
 <?php
-require_once(dirname(__FILE__).'/config.php');
-require_once(CLASSES_DIR.'/XmlAbstract.php');
-require_once(CLASSES_DIR.'Opml.php');
-require_once(CLASSES_DIR.'Cache.php');
-require_once(UTILS_DIR.'CurlGetContent.class.php');
+require_once('Base.php');
+
+$Classes = Base::getConfig('dirs','classes');
+require_once($Classes.'XmlAbstract.php');
+require_once($Classes.'Opml.php');
+require_once($Classes.'Detector.php');
+Base::getCache();
 
 class Main extends XmlAbstract 
 {
     protected $parser        = false;
     protected $subscriptions = array();
     public $ERRORS           = array();
-    protected $curl          = false;
-    
+
 	function getParser()
 	{
-		require_once(CLASSES_DIR.'Detector.php');
-		$xml = $this->getXml();		
+		
 		$detector = new Detector();
 		$this->parser = $detector->detect($this->getXmlString());
 		return $this->parser;
 	}
 	
-	function getCurl()
-	{
-	    if(is_object($this->curl))
-	    {
-	        return $this->curl;
-	    }else{
-	        $this->curl = new CurlGetContent();
-	        return $this->curl;
-	    }
-	}
+
+	
+
 	
 	function download($filename)
 	{	    
-	    $curl = $this->getCurl();
+	    $curl = Base::getCurl();
 	    $file = $curl->getPage($filename);
 	    if($curl->errno())
 	    {
@@ -72,9 +65,7 @@ class Main extends XmlAbstract
         $array['channel']['info']       = $this->parser->getChannelInfo();
         $array['channel']['image']      = $this->parser->getChannelImage();
         $array['channel']['updateTime'] = $this->parser->getChannelUpdateTime();
-        $array['channel']['flags'][FLAG_DELETED]    = false;
-        $array['channel']['flags'][FLAG_DOWNLOADED] = false;
-        $array['channel']['flags'][FLAG_ERRORS]     = false;  
+        $array['channel']['flags']      = Base::getConfig('flags');
         
 	    while ($item = $this->parser->getItem()) 
         {
@@ -89,9 +80,7 @@ class Main extends XmlAbstract
             $array['items'][$guid]['mediaLength']   = $this->parser->getItemMediaLength();
             $array['items'][$guid]['image']         = $this->parser->getItemImage();
             $array['items'][$guid]['pubTime']       = $this->parser->getItemPubTime();
-            $array['items'][$guid]['flags'][FLAG_DELETED]           = false;
-            $array['items'][$guid]['flags'][FLAG_DOWNLOADED]        = false;
-            $array['items'][$guid]['flags'][FLAG_ERRORS]            = false;            
+            $array['items'][$guid]['flags']         = Base::getConfig('flags');
         }
 	    $this->subscriptions[$subUrl] = $array;
 	    $this->setList($subUrl,$array);
@@ -118,15 +107,15 @@ class Main extends XmlAbstract
 	    return $this;
 	}
 }
-Cache::setPath(CACHE_DIR);
+
 
 
 $aha = new Main();
-
+$cfg = Base::getConfig();
 //$aha->loadXmlFile(UPLOAD_DIR.'Подкасты.itunes.xml');
 $opml   = new Opml();
 $name   = Cache::setName("opml.my.itunes.xml.items",3600);
-$url    = UPLOAD_DIR.'Подкасты.itunes.xml';
+$url    = $cfg['dirs']['upload'].'Подкасты.itunes.xml';
 if(!Cache::checkLifetime())
 {
     $opmlXml = $opml->loadXmlFile($url);
@@ -164,7 +153,7 @@ foreach ($items as $item)
     }
 }
 
-require_once(PLUGINS_STORE_DIR.PLUGINS_STORE_DEFAULT.'.php');
+require_once($cfg['dirs']['plugins_store'].$cfg['plugins']['store_default'].'.php');
 $storage = new Store;
 $storage->saveAllLists($aha->getAllLists());
 

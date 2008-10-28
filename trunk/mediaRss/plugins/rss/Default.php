@@ -1,5 +1,6 @@
 <?php
-require_once(PLUGINS_DIR.'Interface.php');
+
+require_once(Base::getConfig('dirs','plugins').'Interface.php');
 class DefaultPlugin extends XmlAbstract implements PluginRSSInterface 
 {
     protected static $key  = false;
