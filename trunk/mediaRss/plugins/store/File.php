@@ -1,19 +1,19 @@
 <?php
-require_once(PLUGINS_DIR.'Interface.php');
+require_once(Base::getConfig('dirs','plugins').'Interface.php');
 class Store implements PluginStoreInterface 
 {
     
     function getAllLists()
     {
-        return Cache::get(CACHE_LISTS_ALL_NAME);
+        return Cache::get(Base::getConfig('cache','lists_all_name'));
     }
     
     function getList($url)
     {
-        Cache::setName(CACHE_LISTS_ALL_NAME);
+        Cache::setName(Base::getConfig('cache','lists_all_name'));
         if(Cache::checkLifetime())
         {
-            $list = Cache::get(CACHE_LISTS_ALL_NAME);
+            $list = Cache::get(Base::getConfig('cache','lists_all_name'));
             if(isset($list[$url]))
             {
                 return $list[$url];
@@ -24,7 +24,7 @@ class Store implements PluginStoreInterface
     
     function saveAllLists($array)
     {
-        Cache::setName(CACHE_LISTS_ALL_NAME);
+        Cache::setName(Base::getConfig('cache','lists_all_name'));
         Cache::store($array);
         return true;
     }

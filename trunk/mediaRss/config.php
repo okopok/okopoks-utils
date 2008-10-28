@@ -1,25 +1,31 @@
 <?php
-
 define("ROOT_DIR",          dirname(__FILE__).'/');
-define("PLUGINS_DIR",       ROOT_DIR.'plugins/');
-define("PLUGINS_RSS_DIR",       PLUGINS_DIR.'rss/');
-define("PLUGINS_STORE_DIR",     PLUGINS_DIR.'store/');
-
-define("CLASSES_DIR",       ROOT_DIR.'classes/');
-define('TMP_DIR',           ROOT_DIR.'tmp/');
-define("UPLOAD_DIR",            TMP_DIR.'upload/');
-define('CACHE_DIR',             TMP_DIR.'cache/');
-
-define('UTILS_DIR',         ROOT_DIR.'utils/');
-
 set_include_path(ROOT_DIR);
 
-define('PLUGINS_RSS_DEFAULT', 'Default');
-define('PLUGINS_STORE_DEFAULT', 'File');
-
-define('FLAG_DELETED',      'deleted');
-define('FLAG_DOWNLOADED',   'downloaded');
-define('FLAG_ERRORS',       'errors');
-
-define('CACHE_LISTS_ALL_NAME', 'lists.all');
+return array(
+    'dirs' => array(
+        'root'          => ROOT_DIR,
+        'plugins'       => ROOT_DIR.'plugins/',
+        'plugins_rss'   => ROOT_DIR.'plugins/rss/',
+        'plugins_store' => ROOT_DIR.'plugins/store/',
+        'classes'       => ROOT_DIR.'classes/',
+        'tmp'           => ROOT_DIR.'tmp/',
+        'upload'        => ROOT_DIR.'tmp/upload/',
+        'cache'         => ROOT_DIR.'tmp/cache/',
+        'utils'         => ROOT_DIR.'utils/'
+    ),
+    'cache' => array(
+        'lists_all_name'    => 'lists.all',
+        'lifetime'          => 3600
+    ),
+    'flags' => array(
+        'deleted'       => false,
+        'downloaded'    => false,
+        'errors'        => false
+    ),
+    'plugins' => array(
+        'rss_default'   => 'Default',
+        'store_default' => 'File'
+    )
+);
 ?>

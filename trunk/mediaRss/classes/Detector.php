@@ -11,8 +11,8 @@ class Detector{
 	
 	function detect($xml)
 	{
-		
-		foreach (glob(PLUGINS_RSS_DIR.'*.php') as $pluginRSS)
+		$cfg = Base::getConfig();
+		foreach (glob($cfg['dirs']['plugins_rss'].'*.php') as $pluginRSS)
 		{
 			$pluginRSSClassName = substr(basename($pluginRSS),0,strpos(basename($pluginRSS),'.')).'Plugin';
 			require_once($pluginRSS);
@@ -26,8 +26,9 @@ class Detector{
 				}
 			}			
 		}
-		$pluginRSSClassName = PLUGINS_RSS_DEFAULT.'Plugin';
-		if(file_exists(PLUGINS_RSS_DIR.$pluginRSSClassName.'.php'))
+		
+		$pluginRSSClassName = $cfg['plugins']['rss_default'].'Plugin';
+		if(file_exists($cfg['dirs']['plugins_rss'].$pluginRSSClassName.'.php'))
 		{
 		   if(class_exists($pluginRSSClassName))
 			{
