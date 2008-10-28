@@ -10,10 +10,11 @@ class Store implements PluginStoreInterface
     
     function getList($url)
     {
-        Cache::setName(Base::getConfig('cache','lists_all_name'));
+        $cfg = Base::getConfig('cache');
+        Cache::setName($cfg['lists_all_name'], $cfg['lifetime']['lists']);
         if(Cache::checkLifetime())
         {
-            $list = Cache::get(Base::getConfig('cache','lists_all_name'));
+            $list = Cache::get($cfg['lists_all_name']);
             if(isset($list[$url]))
             {
                 return $list[$url];
