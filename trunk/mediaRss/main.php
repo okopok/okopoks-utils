@@ -15,15 +15,11 @@ class Main extends XmlAbstract
 
 	function getParser()
 	{
-		
-		$detector = new Detector();
+		$detector     = new Detector();
 		$this->parser = $detector->detect($this->getXmlString());
 		return $this->parser;
 	}
 	
-
-	
-
 	
 	function download($filename)
 	{	    
@@ -39,7 +35,6 @@ class Main extends XmlAbstract
 	        httpCode: '.$info['http_code']);
 	    }
 	    return $file;
-	    
 	}
 	
 	function getStorePath($item)
@@ -101,7 +96,8 @@ class Main extends XmlAbstract
 	{
 	    return $this->subscriptions;
 	}
-	function setList($subUrl, $array)
+	
+	function addList($subUrl, $array)
 	{
 	    $this->subscriptions[$subUrl] = $array;
 	    return $this;
@@ -114,7 +110,7 @@ $aha = new Main();
 $cfg = Base::getConfig();
 //$aha->loadXmlFile(UPLOAD_DIR.'Подкасты.itunes.xml');
 $opml   = new Opml();
-$name   = Cache::setName("opml.my.itunes.xml.items",3600);
+$name   = Cache::setName("opml.my.itunes.xml.items", $cfg['cache']['lifetime']['opml']);
 $url    = $cfg['dirs']['upload'].'Подкасты.itunes.xml';
 if(!Cache::checkLifetime())
 {
@@ -129,7 +125,7 @@ if(!Cache::checkLifetime())
 
 foreach ($items as $item)
 {
-    $name = Cache::setName('xml.'.$item['text'],3600);
+    $name = Cache::setName('xml.'.$item['text'],$cfg['cache']['lifetime']['xml']);
     if(!Cache::checkLifetime())
     {
         Cache::getErrors();
@@ -148,7 +144,7 @@ foreach ($items as $item)
         print "FROM SITE XML - {$item['xmlUrl']}\n";
     }else{
         $list = Cache::get($name);
-        $aha->setList($item['xmlUrl'],$list);
+        $aha->addList($item['xmlUrl'], $list);
         print "FROM CACHE XML - {$item['xmlUrl']}\n";
     }
 }
