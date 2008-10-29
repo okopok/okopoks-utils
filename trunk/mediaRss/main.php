@@ -5,6 +5,7 @@ $Classes = Base::getConfig('dirs','classes');
 require_once($Classes.'XmlAbstract.php');
 require_once($Classes.'Opml.php');
 require_once($Classes.'Detector.php');
+require_once($Classes.'Download.php');
 Base::getCache();
 
 class Main extends XmlAbstract 
@@ -21,21 +22,7 @@ class Main extends XmlAbstract
 	}
 	
 	
-	function download($filename)
-	{	    
-	    $curl = Base::getCurl();
-	    $file = $curl->getPage($filename);
-	    if($curl->errno())
-	    {
-	        $info = $curl->info();
-	        throw new Exception(
-	        'Cant get url: '.$filename.' 
-	        Errno: '.$curl->errno().'
-	        Error: '.$curl->error().'
-	        httpCode: '.$info['http_code']);
-	    }
-	    return $file;
-	}
+
 	
 	function getStorePath($item)
 	{
@@ -106,12 +93,13 @@ class Main extends XmlAbstract
 
 
 
-$aha = new Main();
-$cfg = Base::getConfig();
+$aha        = new Main();
+$cfg        = Base::getConfig();
 //$aha->loadXmlFile(UPLOAD_DIR.'Подкасты.itunes.xml');
-$opml   = new Opml();
-$name   = Cache::setName("opml.my.itunes.xml.items", $cfg['cache']['lifetime']['opml']);
-$url    = $cfg['dirs']['upload'].'Подкасты.itunes.xml';
+$opml       = new Opml();
+$download   = new Download();
+$name       = Cache::setName("opml.my.itunes.xml.items", $cfg['cache']['lifetime']['opml']);
+$url        = $cfg['dirs']['upload'].'Подкасты.itunes.xml';
 if(!Cache::checkLifetime())
 {
     $opmlXml = $opml->loadXmlFile($url);
@@ -130,7 +118,7 @@ foreach ($items as $item)
     {
         Cache::getErrors();
         try{
-            $xmlString = $aha->download($item['xmlUrl']);    
+            $xmlString = $download->downloadFile($item['xmlUrl']);    
         }    
         catch (Exception $e)
         {
