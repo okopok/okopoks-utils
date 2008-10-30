@@ -21,6 +21,13 @@ class ImageResizer
         define('IMAGE_FLIP_BOTH', 3);
     }
     
+    
+    /**
+     * Установить текущий файл для обработки
+     *
+     * @param string $file
+     * @return object (this)
+     */
     public function setFile($file)
     {
         if(!file_exists($file) or !is_readable($file))
@@ -49,6 +56,7 @@ class ImageResizer
         }
         return $this;
     }
+    
     /**
     * функция создания новых директорий
     *
@@ -84,9 +92,8 @@ class ImageResizer
     * Заодно проверяет расширение файла и выдаёт нужный формат
     *
     * @param string $file     - путь нового файла
-    * @param resourse $source - ресурс фотки
     * @param int $quality     - качество фотки от 0 до 100
-    * @return bool
+    * @return object (this)
     */
     public function save($file, $quality = '75')
     {
@@ -177,7 +184,11 @@ class ImageResizer
     }
 
 
-    
+  /**
+   * Получить текущий файл
+   *
+   * @return string
+   */
   public function getCurFile()
   {
       if(!$this->curFile)
@@ -187,6 +198,11 @@ class ImageResizer
       return $this->curFile;
   }
 
+  /**
+   * получить текущий ресурс
+   *
+   * @return string
+   */
   public function getSrc()
   {
       if(!is_resource($this->src))
@@ -209,11 +225,10 @@ class ImageResizer
   /**
    * Устанавливаем прозрачности
    *
-   * @param resourse $src
    * @param bool $ImageAlphaBlending = If blendmode is TRUE, then blending mode is enabled, otherwise disabled.
    * @param bool $imagesavealpha = if false alphablending is unset (in PNG ONLY)
    * @param int $imagecolortransparent = color to be the transparent color, any regions of the image in that color that were drawn previously will be transparent.
-   * @return resourse
+   * @return object (this)
    */
   public function setAlpha($ImageAlphaBlending = false, $imagesavealpha = true, $imagecolortransparent = false )
   {
@@ -229,9 +244,8 @@ class ImageResizer
   /**
    * Flips image
    *
-   * @param resource $imgsrc
    * @param int $type = 1 - IMAGE_FLIP_HORIZONTAL; 2 - IMAGE_FLIP_VERTICAL; 3 - IMAGE_FLIP_BOTH;
-   * @return resource
+   * @return object (this)
    */
   public function flip($type)
   {
@@ -282,13 +296,11 @@ class ImageResizer
   /**
    * Отрезает от сторон картинки заданное кол-во пикселей
    *
-   * @param resourse $sourceSRC - исходный файл
    * @param int $top            - сколько резать сверху
    * @param int $bottom         - сколько резать снизу
    * @param int $left           - сколько резать слева
    * @param int $right          - сколько резать справо
-   * @param int $quality_num    - качество картинки
-   * @return resourse
+   * @return object (this)
    */
   public function crop($top = 0, $bottom = 0, $left = 0, $right = 0)
   {
@@ -321,7 +333,7 @@ class ImageResizer
    * @return array [x] - координата на оси Х. [y] - координата на оси y
    */
 
-  public function getCoords($place,$sizeX,$sizeY,$sizeXL,$sizeYL, $marginTop = 0, $marginBottom = 0, $marginLeft = 0, $marginRight = 0){
+  public function getCoords($place, $sizeX,$sizeY,$sizeXL,$sizeYL, $marginTop = 0, $marginBottom = 0, $marginLeft = 0, $marginRight = 0){
 
     switch($place){
       case 'top-left':      return array('x'=>$marginLeft,'y'=>$marginTop);                                           break;
@@ -348,7 +360,6 @@ class ImageResizer
   /**
    * Накладывает одну картинку на другую.
    *
-   * @param resourse $sourceSRC     - SRC фон
    * @param resourse $layerSRC      - SRC то что накладываем (должна быть меньше чем фон)
    * @param string $place         - место для наложения
    * @param int    $marginTop     - отступ сверху
@@ -357,7 +368,7 @@ class ImageResizer
    * @param int    $marginRight   - отступ справа
    * @param int    $alpha         - степень прозрачности от 0 до 100
    * @param int    $quality_num   - качество
-   * @return resourse
+   * @return object (this)
    */
   public function addLayer($layerSRC, $place = 'top-left', $marginTop = 0, $marginBottom = 0, $marginLeft = 0, $marginRight = 0, $alpha = 0, $quality_num = 75 )
   {
@@ -381,9 +392,9 @@ class ImageResizer
   /**
    * Получаем
    *
-   * @param resource $src
    * @param 16 bit color $color
-   * @return unknown
+   * @param resource $src
+   * @return resourse color RGB
    */
   public function getColor($color = 'FFFFFF',$src)
   {
