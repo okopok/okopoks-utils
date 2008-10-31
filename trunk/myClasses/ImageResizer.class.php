@@ -35,7 +35,7 @@ class ImageResizer
             throw new Exception("File $file not readable");
         }
         $this->curFile  = $file;
-        $file_type      = $this->getSize();
+        $file_type      = $this->getFileSize();
         switch($file_type['mime'])
         {
             case 'image/jpeg': 
@@ -77,7 +77,7 @@ class ImageResizer
     * @param string $filename - путь до фотки
     * @return string
     */
-    public function getFileType($filename)
+    public function getFileType()
     {
         if(!$this->curFileType)
         {
@@ -219,9 +219,17 @@ class ImageResizer
    */
   public function getSize()
   {      
+    if(!is_resource($this->src))
+    {
+      throw new Exception("SRC Not Set");          
+    } 
+    return array(imagesx($this->getSrc()), imagesy($this->getSrc()));
+  }
+  
+  function getFileSize()
+  {
     return getimagesize($this->getCurFile());
   }
-
   /**
    * Устанавливаем прозрачности
    *
