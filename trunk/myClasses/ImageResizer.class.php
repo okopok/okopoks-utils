@@ -13,6 +13,20 @@ class ImageResizer
     protected $curFile     = false;
     protected $curFileType = false;
     
+    private $errorCodes    = array(
+        'IMAGERESIZER_INPUT_FILE_TYPE_BAD'     => 'Input file type is bad!',
+        'IMAGERESIZER_INPUT_FILE_TYPE_NOT_SET' => 'Input file type not set',
+        'IMAGERESIZER_INPUT_FILE_NOT_SET'      => 'Input file Not Set',
+        'IMAGERESIZER_OUTPUT_FILE_TYPE_BAD'    => 'Output file format is bad!',
+        'IMAGERESIZER_SRC_NOT_SET'             => 'SRC Not Set',
+        'IMAGERESIZER_INPUT_FILE_NOT_READBLE'  => 'Input file not readble'
+    );
+    
+    private function _error($code)
+    {
+        throw new Exception($code);
+    }
+    
     public function __construct($file = false)
     {
         if($file) $this->setFile($file);
@@ -20,7 +34,6 @@ class ImageResizer
         define('IMAGE_FLIP_VERTICAL', 2);
         define('IMAGE_FLIP_BOTH', 3);
     }
-    
     
     /**
      * Установить текущий файл для обработки
@@ -32,7 +45,7 @@ class ImageResizer
     {
         if(!file_exists($file) or !is_readable($file))
         {
-            throw new Exception("File $file not readable");
+            throw new Exception("IMAGERESIZER_INPUT_FILE_NOT_READBLE");
         }
         $this->curFile  = $file;
         $file_type      = $this->getFileSize();
@@ -45,28 +58,53 @@ class ImageResizer
             case 'image/gif':  
                 $this->src         = imagecreatefromgif($file); 
                 $this->curFileType = 'gif';
+                $this->setAlpha(false, false);
                 break;
             case 'image/png':  
                 $this->src         = imagecreatefrompng($file);  
                 $this->curFileType = 'png';
+                $this->setAlpha(false, true);
                 break;            
             default:
-                throw new Exception("Bad file type");
+                throw new Exception("IMAGERESIZER_INPUT_FILE_TYPE_BAD");
                 return false;
         }
         return $this;
     }
+    
+    function newSrc($x, $y)
+    {
+        $type = $this->getFileType();
+        switch($type)
+        {
+            case 'png':
+                $src  = imagecreatetruecolor($x, $y);
+                imagesavealpha($src, true);
+                imagealphablending($src, false);
+                break;
+            case 'gif':
+                $src = imagecreate($x,$y);
+                imagealphablending($src, false);
+                imagecolortransparent($src,$this->getColor('ffffff',127,$src));
+                break;
+            default: 
+                $src = imagecreatetruecolor($x, $y);
+            
+        }
+        return $src;
+    }
+    
     
     /**
     * функция создания новых директорий
     *
     * @param string $path путь
     */
-    public function RecursiveMkdir( $path )
+    public function recursiveMkdir( $path )
     {
     	if( !file_exists( $path ) )
     	{
-    	  $this->RecursiveMkdir( dirname( $path ) );
+    	  $this->recursiveMkdir( dirname( $path ) );
     	  mkdir( $path );
     	}
     }
@@ -81,7 +119,7 @@ class ImageResizer
     {
         if(!$this->curFileType)
         {
-            throw new Exception("File type not set");
+            throw new Exception("IMAGERESIZER_INPUT_FILE_TYPE_NOT_SET");
         }
         return $this->curFileType;
     }
@@ -98,16 +136,21 @@ class ImageResizer
     public function save($file, $quality = '75')
     {
         $source = $this->getSrc();
+        if(!is_dir(dirname($file)))
+        {
+            $this->recursiveMkdir(dirname($file));
+        }
         if(eregi('\.jpeg$|\.jpg$', $file)){
             imagejpeg( $source , $file , $quality); 
         }elseif(eregi('\.gif$',         $file)){
-            imagegif( $source , $file , $quality);  
+            imagegif( $source , $file);  
         }elseif(eregi('\.png$',         $file)){
-            imagepng( $source , $file , $quality);  
+            imagepng( $source , $file); 
+             
         }else{
-            throw new Exception('this file format is not supported');
+            throw new Exception('IMAGERESIZER_OUTPUT_FILE_TYPE_BAD');
         }
-        return $this;
+        return $this->setFile($file);
     }
 
     /**
@@ -175,8 +218,8 @@ class ImageResizer
           	}
     	}
     
-    	$output = imagecreatetruecolor( $newCanvasSX, $newCanvasSY );
-    	if($fill_in_box) imagefill($output, 0,0, $this->getColor($box_color, $output)); // вычисляем цвет из 16ричной системы в РГБ и заполняем фон
+    	$output = $this->newSrc( $newCanvasSX, $newCanvasSY );
+    	if($fill_in_box) imagefill($output, 0,0, $this->getColor($box_color, 0, $output)); // вычисляем цвет из 16ричной системы в РГБ и заполняем фон
     	imagecopyresampled( $output, $source, $dist_x, $dist_y, 0, 0, $last_x, $last_y, $imagesx, $imagesy);
     	
     	$this->src = $output;
@@ -193,7 +236,7 @@ class ImageResizer
   {
       if(!$this->curFile)
       {
-          throw new Exception("File Not Set");
+          throw new Exception("IMAGERESIZER_INPUT_FILE_NOT_SET");
       }
       return $this->curFile;
   }
@@ -207,7 +250,7 @@ class ImageResizer
   {
       if(!is_resource($this->src))
       {
-          throw new Exception("SRC Not Set");          
+          throw new Exception("IMAGERESIZER_SRC_NOT_SET");          
       }
       return $this->src;
   }
@@ -221,7 +264,7 @@ class ImageResizer
   {      
     if(!is_resource($this->src))
     {
-      throw new Exception("SRC Not Set");          
+      throw new Exception("IMAGERESIZER_SRC_NOT_SET");          
     } 
     return array(imagesx($this->getSrc()), imagesy($this->getSrc()));
   }
@@ -238,12 +281,12 @@ class ImageResizer
    * @param int $imagecolortransparent = color to be the transparent color, any regions of the image in that color that were drawn previously will be transparent.
    * @return object (this)
    */
-  public function setAlpha($ImageAlphaBlending = false, $imagesavealpha = true, $imagecolortransparent = false )
+  public function setAlpha($ImageAlphaBlending = false, $ImageSaveAlpha = true, $ImageColorTransparent = false )
   {
     $src = $this->getSrc();
     ImageAlphaBlending($src,    $ImageAlphaBlending);
-    imagesavealpha($src,        $imagesavealpha);
-    imagecolortransparent($src, $imagecolortransparent);
+    ImageSaveAlpha($src,        $ImageSaveAlpha);
+    if($ImageColorTransparent)  ImageColorTransparent($src, $ImageColorTransparent);
     $this->src = $src;
     return $this;
   }
@@ -260,7 +303,7 @@ class ImageResizer
     $imgsrc   = $this->getSrc();
     $width    = imagesx($imgsrc);
     $height   = imagesy($imgsrc);
-    $imgdest  = imagecreatetruecolor($width, $height);
+    $imgdest  = $this->newSrc($width, $height);
 
     switch( $type )
     {
@@ -284,7 +327,7 @@ class ImageResizer
       {
         imagecopy($imgdest, $imgsrc, $width-$x-1, 0, $x, 0, 1, $height);
       }
-      $rowBuffer = imagecreatetruecolor($width, 1);
+      $rowBuffer = $this->newSrc($width, 1);
       for( $y=0 ; $y<($height/2) ; $y++ )
       {
         imagecopy($rowBuffer, $imgdest  , 0, 0, 0, $height-$y-1, $width, 1);
@@ -315,8 +358,8 @@ class ImageResizer
     $sourceSRC  = $this->getSrc();
     $sizeX      = imagesx($sourceSRC);
     $sizeY      = imagesy($sourceSRC);
-    $destin     = imagecreatetruecolor( $sizeX,  $sizeY );
-    $output     = imagecreatetruecolor( $sizeX - $left - $right,  $sizeY - $top - $bottom );
+    $destin     = $this->newSrc( $sizeX,  $sizeY );
+    $output     = $this->newSrc( $sizeX - $left - $right,  $sizeY - $top - $bottom );
     imagecopyresampled( $destin,  $sourceSRC, 0, 0, $left, $top, $sizeX,  $sizeY, $sizeX,  $sizeY);
     imagecopyresampled( $output, $destin, 0, 0, 0, 0, $sizeX,  $sizeY, $sizeX,  $sizeY);
     $this->src  = $output;
@@ -398,17 +441,18 @@ class ImageResizer
   }
 
   /**
-   * Получаем
+   * Получаем цвет
    *
    * @param 16 bit color $color
+   * @param int $alpha - (0) from 0 to 127. 127 - is a full transparent
    * @param resource $src
    * @return resourse color RGB
    */
-  public function getColor($color = 'FFFFFF',$src)
+  public function getColor($color = 'FFFFFF',$alpha = 0, $src = false)
   {
     if(!$src) $src = $this->getSrc();
     sscanf($color, "%2x%2x%2x", $red, $green, $blue);
-    return imagecolorallocate($src, $red, $green, $blue);
+    return imagecolorallocatealpha($src, $red, $green, $blue, $alpha);
   }
 
 
