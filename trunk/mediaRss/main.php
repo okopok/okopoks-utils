@@ -3,9 +3,7 @@ require_once('Base.php');
 
 $Classes = Base::getConfig('dirs','classes');
 require_once($Classes.'XmlAbstract.php');
-require_once($Classes.'Opml.php');
-require_once($Classes.'Detector.php');
-require_once($Classes.'Download.php');
+
 Base::getCache();
 
 class Main extends XmlAbstract 
@@ -21,9 +19,6 @@ class Main extends XmlAbstract
 		return $this->parser;
 	}
 	
-	
-
-	
 	function getStorePath($item)
 	{
 	    return '';
@@ -32,6 +27,133 @@ class Main extends XmlAbstract
 	function store($item,$file)
 	{
 	    file_put_contents($this->getStorePath($item),$file);	    
+	}
+	
+	function run()
+	{	    
+        $Classes = Base::getConfig('dirs','classes');
+	    require_once($Classes.'Opml.php');
+        require_once($Classes.'Detector.php');
+        require_once($Classes.'Download.php');
+        $cfg        = Base::getConfig();
+        
+        //$aha->loadXmlFile(UPLOAD_DIR.'Подкасты.itunes.xml');
+        $opml       = new Opml();
+        $download   = new Download();
+        $name       = Cache::setName("opml.my.itunes.xml.items", $cfg['cache']['lifetime']['opml']);
+        $url        = $cfg['dirs']['upload'].'Подкасты.itunes.xml';
+        if(!Cache::checkLifetime())
+        {
+            $opmlXml = $opml->loadXmlFile($url);
+            $items = $opml->getItems();
+            Cache::store($items);
+            print "FROM FILE OPML\n";
+        }else{
+            $items = Cache::get($name);
+            print "FROM CACHE OPML\n";
+        }
+        require_once($cfg['dirs']['plugins_store'].$cfg['plugins']['store_default'].'.php');
+                
+        $storage             = new Store;
+        $this->subscriptions = $storage->getAllLists();
+        
+        // получаем список того, что уже скачали
+        $downloadedCacheName = Cache::setName('downloaded' ,$cfg['cache']['lifetime']['downloaded']);        
+        if(!Cache::checkLifetime())
+        {
+            Cache::getErrors();
+            $downloaded = array();
+        }else{
+            $downloaded = Cache::get($downloadedCacheName);
+        }
+        
+        // закручиваем цикл по всем подпискам
+        foreach ($items as $channel)
+        {
+            $name = Cache::setName('xml.'.$channel['text'],$cfg['cache']['lifetime']['xml']);
+            if(!Cache::checkLifetime())
+            {
+                Cache::getErrors();
+                try{
+                    $xmlString = $download->downloadFile($channel['xmlUrl']);    
+                }    
+                catch (Exception $e)
+                {
+                    $aha->ERRORS[] = $e->getMessage();
+                    continue;
+                }
+                $this->parceXml( $xmlString )->getParser();
+                $list = $this->makeList( $channel['xmlUrl']);
+                
+                Cache::store( $list );
+                print "FROM SITE XML - {$channel['xmlUrl']}\n";
+            }else{
+                $list = Cache::get($name);
+                $this->addList($channel['xmlUrl'], $list);
+                print "FROM CACHE XML - {$channel['xmlUrl']}\n";
+            }
+
+            $storage->setChannel($list['channel']);            
+            $i = 0;
+            
+            // закручиваем цикл на всех ссылках одной подписки
+            foreach ($list['items'] as $key => $item)
+            {
+                if(!isset($item['mediaUrl'])) continue;
+                $i++;
+                // если мы проверили или скачали уже три или больше ссылок, то выходим из скачки
+                if($cfg['download']['count'] <= $i)
+                {
+                    break;
+                }
+                
+                // если ссылка есть в скачанных или есть скачанный файл, то пишем это в лог и пропускаем
+                if(isset($downloaded[$item['guid']]))
+                {
+                    $item['flags']['downloaded'] = $downloaded[$item['guid']]['downloaded'];
+                    Cache::setName('xml.'.$channel['text'],$cfg['cache']['lifetime']['xml']);
+                    $list['items'][$key] = $item;
+                    $this->addList($channel['xmlUrl'], $list);
+                    Cache::store($list);
+                    print "\t".$item['guid'].' downloaded'."\n";
+                    continue;
+                }
+                
+                if((strlen($item['flags']['downloaded']) and file_exists($item['flags']['downloaded'])))
+                {
+                    $downloaded[$item['guid']]['mediaUrl']   = $item['mediaUrl'];
+                    $downloaded[$item['guid']]['downloaded'] = $item['flags']['downloaded'];
+                    Cache::setName('downloaded', $cfg['cache']['lifetime']['downloaded']);
+                    Cache::store($downloaded);
+                    print "\t".$item['guid'].' downloaded'."\n";
+                    continue;
+                }
+                
+                // качаем файл
+                $item = $storage->setItem($item)->storeItem();
+                
+                // есди файд скачали, пишем его в лог
+                if(strlen($item['flags']['downloaded']))
+                {
+                    $downloaded[$item['guid']]['mediaUrl']   = $item['mediaUrl'];
+                    $downloaded[$item['guid']]['downloaded'] = $item['flags']['downloaded'];
+                    
+                    Cache::setName('downloaded', $cfg['cache']['lifetime']['downloaded']);
+                    Cache::store($downloaded);
+                }
+                
+                // полюбому пишем лог если добрались до сюда
+                Cache::setName('xml.'.$channel['text'] ,$cfg['cache']['lifetime']['xml']);
+                $list['items'][$key] = $item;
+                $this->addList($channel['xmlUrl'], $list);
+                Cache::store($list);
+            }
+            
+            // пишем лог о все ссылках
+            $storage->saveAllLists($this->getAllLists());
+            die;
+        }
+
 	}
 	
 	function makeList($subUrl)
@@ -64,8 +186,7 @@ class Main extends XmlAbstract
             $array['items'][$guid]['pubTime']       = $this->parser->getItemPubTime();
             $array['items'][$guid]['flags']         = Base::getConfig('flags');
         }
-	    $this->subscriptions[$subUrl] = $array;
-	    $this->setList($subUrl,$array);
+	    $this->addList($subUrl,$array);
 	    return $array;
 	}
 	
@@ -94,53 +215,8 @@ class Main extends XmlAbstract
 
 
 $aha        = new Main();
-$cfg        = Base::getConfig();
-//$aha->loadXmlFile(UPLOAD_DIR.'Подкасты.itunes.xml');
-$opml       = new Opml();
-$download   = new Download();
-$name       = Cache::setName("opml.my.itunes.xml.items", $cfg['cache']['lifetime']['opml']);
-$url        = $cfg['dirs']['upload'].'Подкасты.itunes.xml';
-if(!Cache::checkLifetime())
-{
-    $opmlXml = $opml->loadXmlFile($url);
-    $items = $opml->getItems();
-    Cache::store($items);
-    print "FROM FILE OPML\n";
-}else{
-    $items = Cache::get($name);
-    print "FROM CACHE OPML\n";
-}
-
-foreach ($items as $item)
-{
-    $name = Cache::setName('xml.'.$item['text'],$cfg['cache']['lifetime']['xml']);
-    if(!Cache::checkLifetime())
-    {
-        Cache::getErrors();
-        try{
-            $xmlString = $download->downloadFile($item['xmlUrl']);    
-        }    
-        catch (Exception $e)
-        {
-            $aha->ERRORS[] = $e->getMessage();
-            continue;
-        }
-        $aha->parceXml( $xmlString )->getParser();
-        $list = $aha->makeList( $item['xmlUrl']);
-        
-        Cache::store( $list );
-        print "FROM SITE XML - {$item['xmlUrl']}\n";
-    }else{
-        $list = Cache::get($name);
-        $aha->addList($item['xmlUrl'], $list);
-        print "FROM CACHE XML - {$item['xmlUrl']}\n";
-    }
-}
-
-require_once($cfg['dirs']['plugins_store'].$cfg['plugins']['store_default'].'.php');
-$storage = new Store;
-$storage->saveAllLists($aha->getAllLists());
-
+$aha->run();
+print "\n\n\n";
 print_r($aha->ERRORS);
 
 //print $opml->getTitle();

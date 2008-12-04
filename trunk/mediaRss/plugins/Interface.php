@@ -37,4 +37,10 @@ interface PluginStoreInterface
     function saveList($url,$array);    
     function delete();
 }
+
+interface ChannelItemInterface
+{
+    function setChannel(&$channel);
+    function setItem(&$item);    
+}
 ?>

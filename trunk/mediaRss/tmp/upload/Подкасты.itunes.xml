@@ -6,13 +6,16 @@
 	<dateModified>Thu, 23 Oct 2008 05:33:56 GMT</dateModified>
 </head>
 <body>
+	<outline text="Володя Фонарев" type="rss" xmlUrl="http://fonarev.promodj.ru/podcast.xml" htmlUrl="http://Fonarev.promodj.ru/" />
+	<outline text="SWANKY TUNES" type="rss" xmlUrl="http://swankytunes.promodj.ru/podcast.xml" htmlUrl="http://swankytunes.promodj.ru/" />
+	
 	<outline text="Last.fm free &#34;electro house&#34; downloads" type="rss" xmlUrl="http://ws.audioscrobbler.com/2.0/tag/electro%2Bhouse/podcast.rss" htmlUrl="http://www.last.fm/tag/electro%20house" />
 	<outline text="Radio 538: Tiësto`s club life podcast" type="rss" xmlUrl="http://www.radio538.nl/clubnouveau/podcast.xml" htmlUrl="http://www.radio538.nl/clublife" />
 	<outline text="A State Of Trance Official Podcast" type="rss" xmlUrl="http://www3.armadamusic.com/podcasts/podcast.php" htmlUrl="http://www3.armadamusic.com/podcasts/" />
 	<outline text="Beatport.com Burners" type="rss" xmlUrl="http://feeds.feedburner.com/beatport" htmlUrl="http://www.beatport.com" />
 	<outline text="Drum&#38;BassArena Podcast" type="rss" xmlUrl="http://www.breakbeat.co.uk/podcast/DNBArena_Podcast.xml" htmlUrl="http://breakbeat.co.uk" />
 	<outline text="GROOVELECTRIC: House, Progressive House, &#38; Funky Tech House Journeys" type="rss" xmlUrl="http://www.djsteveboy.com/audio/groovelectric.xml" htmlUrl="http://www.djsteveboy.com/mixes.html" />
-	<outline text="Володя Фонарев" type="rss" xmlUrl="http://fonarev.promodj.ru/podcast.xml" htmlUrl="http://Fonarev.promodj.ru/" />
 	<outline text="test" type="rss" xmlUrl="http://123.123" htmlUrl="http://123.123/" />
+	
 </body>
 </opml>
