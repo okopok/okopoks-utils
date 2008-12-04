@@ -44,10 +44,10 @@ class Cache
         return self::$errors;
     }
     
-    static function tagger($tag)
+    static function tagger($tag, $delim = '.')
     {
         $tag = @iconv('UTF-8','cp1251',$tag);
-        return strtolower(trim(preg_replace('|([\.]{2,})|','.',preg_replace('|([^\w\d\.])|ism','.',$tag))));
+        return strtolower(trim(preg_replace("|([$delim]{2,})|",$delim,preg_replace('|([^\w\d\.])|ism',$delim,$tag))));
     }
     
     static function setName($tag, $lifetime = self::defaultCacheLifeTime)

@@ -1,13 +1,22 @@
 <?php
 
-class Templater
+class Templater implements ChannelItemInterface
 {
-    protected $item = false;
-    function setItem($item)
+    protected $channel = false;
+    protected $item    = false;
+    
+    function setChannel(&$channel)
+    {
+        $this->channel = $channel;
+        return $this;
+    }
+    
+    function setItem(&$item)
     {
         $this->item = $item;
         return $this;
     }
+    
 
     
     /**
@@ -33,17 +42,16 @@ class Templater
         );
         return str_ireplace(array_keys($pattern), array_values($pattern), $string);        
     }
-    
-    
-    private function _getAuthor()
-    {
-        
-    }
-    
+
     public function filenameTrimmer($tag)
     {
         $tag = @iconv('UTF-8','cp1251',$tag);
         return trim(preg_replace('|([\.]{2,})|',' ',preg_replace('|([^a-zà-ÿ\d\.\-\_\(\)\[\]\s])|ism','.',$tag)));
+    }
+    
+    private function _getAuthor()
+    {
+        return Base::pathCleaner($this->item['author']);
     }
     
     private function _getAlbum()
@@ -53,12 +61,12 @@ class Templater
 
     private function _getItemTitle()
     {
-        
+        return Base::pathCleaner($this->item['name']);
     }
     
     private function _getChannelTitle()
     {
-        
+        return Base::pathCleaner($this->channel['name']);
     }
     
     private function _getFilename()

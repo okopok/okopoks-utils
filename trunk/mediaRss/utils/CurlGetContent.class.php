@@ -11,7 +11,7 @@ class CurlGetContent
   protected $inputs    = array();  // посты
   public    $cookies   = '';       // путь до кук
   public    $debug     = false;    // печатать состояния запросов
-  public    $timeOut   = 10;       // ДЕФОЛТНЫЙ таймаут соединения в секундах
+  public    $timeOut   = 300;       // ДЕФОЛТНЫЙ таймаут соединения в секундах
 
 
   /**

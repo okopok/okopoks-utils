@@ -2,7 +2,7 @@
 
 class Base
 {
-    protected $curl          = false;
+    protected static $curl   = false;
     protected static $config = array();
     
     public static function getConfig($key = false)
@@ -29,19 +29,19 @@ class Base
 	    return self::$config;
 	}
 	
-	function getCurl()
+	public static function getCurl()
 	{
-	    if(is_object($this->curl))
+	    if(is_object(self::$curl))
 	    {
-	        return $this->curl;
+	        return self::$curl;
 	    }else{
 	        require_once(self::getConfig('dirs','utils').'CurlGetContent.class.php');
-	        $this->curl = new CurlGetContent();
-	        return $this->curl;
+	        self::$curl = new CurlGetContent();
+	        return self::$curl;
 	    }
 	}
 	
-	function getCache($path = false)
+	public static function getCache($path = false)
 	{
 	    $dirs = self::getConfig('dirs');
 	    require_once($dirs['classes'].'Cache.php');
@@ -49,4 +49,10 @@ class Base
 	    Cache::setPath($path);
 	}
 	
+    
+	public static function pathCleaner($tag, $delim = ' ')
+    {
+        $tag = @iconv('UTF-8','cp1251',$tag);
+        return trim(preg_replace("|([$delim]{2,})|",$delim,preg_replace('|([^\w\d\.\-\_\(\)\[\]])|ism',$delim,$tag)));
+    }
 }
