@@ -219,9 +219,9 @@ class My_Curl
 	 */
 	public function setProxy($host = false, $user = false, $pass = false)
 	{
-
 		if($host)
 		{
+			$this->getSrc();
 			curl_setopt ($this->__curlSRC, CURLOPT_PROXY,   $host);
 			if($user and $pass)
 			{

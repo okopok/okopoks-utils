@@ -2,8 +2,7 @@
 /**
 * Универсальный класс для ресайза картинок
 * @author Саша Молодцов <asid@mail.ru>
-* @since .09.2006
-* @version 2.30.10.2008
+* @category External
 *
 */
 
@@ -12,7 +11,7 @@ class ImageResizer
     protected $src         = false;
     protected $curFile     = false;
     protected $curFileType = false;
-    
+
     private $errorCodes    = array(
         'IMAGERESIZER_INPUT_FILE_TYPE_BAD'     => 'Input file type is bad!',
         'IMAGERESIZER_INPUT_FILE_TYPE_NOT_SET' => 'Input file type not set',
@@ -21,12 +20,12 @@ class ImageResizer
         'IMAGERESIZER_SRC_NOT_SET'             => 'SRC Not Set',
         'IMAGERESIZER_INPUT_FILE_NOT_READBLE'  => 'Input file not readble'
     );
-    
+
     private function _error($code)
     {
         throw new Exception($code);
     }
-    
+
     public function __construct($file = false)
     {
         if($file) $this->setFile($file);
@@ -34,7 +33,7 @@ class ImageResizer
         define('IMAGE_FLIP_VERTICAL', 2);
         define('IMAGE_FLIP_BOTH', 3);
     }
-    
+
     /**
      * Установить текущий файл для обработки
      *
@@ -51,27 +50,27 @@ class ImageResizer
         $file_type      = $this->getFileSize();
         switch($file_type['mime'])
         {
-            case 'image/jpeg': 
-                $this->src         = imagecreatefromjpeg($file); 
+            case 'image/jpeg':
+                $this->src         = imagecreatefromjpeg($file);
                 $this->curFileType = 'jpg';
                 break;
-            case 'image/gif':  
-                $this->src         = imagecreatefromgif($file); 
+            case 'image/gif':
+                $this->src         = imagecreatefromgif($file);
                 $this->curFileType = 'gif';
                 $this->setAlpha(false, false);
                 break;
-            case 'image/png':  
-                $this->src         = imagecreatefrompng($file);  
+            case 'image/png':
+                $this->src         = imagecreatefrompng($file);
                 $this->curFileType = 'png';
                 $this->setAlpha(false, true);
-                break;            
+                break;
             default:
                 throw new Exception("IMAGERESIZER_INPUT_FILE_TYPE_BAD");
                 return false;
         }
         return $this;
     }
-    
+
     function newSrc($x, $y)
     {
         $type = $this->getFileType();
@@ -87,14 +86,14 @@ class ImageResizer
                 imagealphablending($src, false);
                 imagecolortransparent($src,$this->getColor('ffffff',127,$src));
                 break;
-            default: 
+            default:
                 $src = imagecreatetruecolor($x, $y);
-            
+
         }
         return $src;
     }
-    
-    
+
+
     /**
     * функция создания новых директорий
     *
@@ -141,12 +140,12 @@ class ImageResizer
             $this->recursiveMkdir(dirname($file));
         }
         if(eregi('\.jpeg$|\.jpg$', $file)){
-            imagejpeg( $source , $file , $quality); 
+            imagejpeg( $source , $file , $quality);
         }elseif(eregi('\.gif$',         $file)){
-            imagegif( $source , $file);  
+            imagegif( $source , $file);
         }elseif(eregi('\.png$',         $file)){
-            imagepng( $source , $file); 
-             
+            imagepng( $source , $file);
+
         }else{
             throw new Exception('IMAGERESIZER_OUTPUT_FILE_TYPE_BAD');
         }
@@ -162,22 +161,22 @@ class ImageResizer
     * @param bool $size_check - проверять ли размер входной и выходной картинки (true)
     * @param bool $fill_in_box - вписывать ли в рамку картинку (false)
     * @param string $box_color - цвет рамки (ffffff)
-    * @param bool $expand - расширять ли исходную картинку (false)
+    * @param bool $expand - расширять ли исходную картинку (true)
     * @return object (this)
     */
     public function resize($resize_x, $resize_y, $proportion = true, $size_check = true,  $fill_in_box = false, $box_color = 'ffffff', $expand = true)
     {
         $source  = $this->getSrc();
-        
+
         $imagesx = imagesx($source);
         $imagesy = imagesy($source);
-        
+
         $last_x  = $resize_x;
         $last_y  = $resize_y;
-        
+
         $dist_x  = 0;
         $dist_y  = 0;
-    
+
     	if($size_check AND $imagesx == $resize_x AND $imagesy == $resize_y)
     	{
             return $source;
@@ -204,10 +203,13 @@ class ImageResizer
           	}
             $newCanvasSX = $last_x;
             $newCanvasSY = $last_y;
-            if(!$expand AND ($imagesx < $resize_x OR $imagesy < $resize_y)) // если расширять исходную картинку запрещено, то возвращаем её исходные размеры
+            if(!$expand) // если расширять исходную картинку запрещено, то возвращаем её исходные размеры
             {
-                $last_x = $imagesx;
-                $last_y = $imagesy;
+            	if(($imagesx > $imagesy && $imagesx < $resize_x) || ($imagesx < $imagesy && $imagesy < $resize_y))
+            	{
+	                $last_x = $imagesx;
+	                $last_y = $imagesy;
+            	}
             }
           	if($fill_in_box) // если сохраняем пропорции, то вписываем ли в коробку картинку?
           	{
@@ -217,11 +219,11 @@ class ImageResizer
                 $dist_y      = ($resize_y - $last_y)/2;
           	}
     	}
-    
+
     	$output = $this->newSrc( $newCanvasSX, $newCanvasSY );
     	if($fill_in_box) imagefill($output, 0,0, $this->getColor($box_color, 0, $output)); // вычисляем цвет из 16ричной системы в РГБ и заполняем фон
     	imagecopyresampled( $output, $source, $dist_x, $dist_y, 0, 0, $last_x, $last_y, $imagesx, $imagesy);
-    	
+
     	$this->src = $output;
     	return $this;
     }
@@ -250,7 +252,7 @@ class ImageResizer
   {
       if(!is_resource($this->src))
       {
-          throw new Exception("IMAGERESIZER_SRC_NOT_SET");          
+          throw new Exception("IMAGERESIZER_SRC_NOT_SET");
       }
       return $this->src;
   }
@@ -261,14 +263,14 @@ class ImageResizer
    * @return array           - массив с размерами и данными о картинке
    */
   public function getSize()
-  {      
+  {
     if(!is_resource($this->src))
     {
-      throw new Exception("IMAGERESIZER_SRC_NOT_SET");          
-    } 
+      throw new Exception("IMAGERESIZER_SRC_NOT_SET");
+    }
     return array(imagesx($this->getSrc()), imagesy($this->getSrc()));
   }
-  
+
   function getFileSize()
   {
     return getimagesize($this->getCurFile());
@@ -291,7 +293,7 @@ class ImageResizer
     return $this;
   }
 
-  
+
   /**
    * Flips image
    *
