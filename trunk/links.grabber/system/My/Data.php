@@ -7,13 +7,30 @@ class My_Data
 	protected $__outputPath	= false;
 	protected $__output		= array();
 	protected $__badLinks 	= array();
+	protected $timestamp	= null;
+	protected $__cache 		= null;
+	protected $__loaded_file= array();
+
+	const ALL_LINKS = 'ALL_LINKS';
+	const BAD_PAGES = 'BAD.PAGES';
+	const ALL_PAGES = 'ALL.PAGES';
+	const ALL_OUTPUT = 'ALL.OUTPUT';
 
 	public function __construct()
 	{
-
+		//$this->timestamp = date('Y.m.d-His');
+		$this->timestamp = 'prefix';
+		$this->__cache = My_Main::getCache();
+		My_Main::debug('loading cache '.self::ALL_OUTPUT);
+		$this->__output[self::ALL_OUTPUT]	= $this->__loadCache(self::ALL_OUTPUT);
+		My_Main::debug('done');
+		My_Main::debug('loading cache '.self::BAD_PAGES);
+		$this->__output[self::BAD_PAGES] 	= $this->__loadCache(self::BAD_PAGES);
+		My_Main::debug('done');
+		My_Main::debug('loading cache '.self::BAD_PAGES);
+		$this->__output[self::ALL_PAGES] 	= $this->__loadCache(self::ALL_PAGES);
+		My_Main::debug('done');
 	}
-
-
 
 	public function load($path)
 	{
@@ -24,15 +41,14 @@ class My_Data
 
 		if(!is_array($lines) || !count($lines)) return array();
 
-		$glue = ($config->csv->quotes)? '"'.$config->csv->delimiter.'"':$config->csv->delimiter;
 		$output = array();
 
 		foreach ($lines as $line)
 		{
 			$lineNum 	= count($output);
 			$line 	= trim($line,"\n\r\t\"");
-			$row 	= explode($glue, $line);
-
+			$row 	= explode($config->csv->delimiter, $line);
+			foreach($row as $key => $val) $row[$key] = trim($val, '"');
 			if(count($row) != count($config->csv->vars)) continue;
 
 			foreach ($config->csv->vars as $key => $value)
@@ -40,7 +56,6 @@ class My_Data
 				$output[$lineNum][$key] = $row[$value];
 			}
 
-			// если есть пагер, то распарсиваем его на ссылки.
 			if((int)$output[$lineNum]['limitFrom'] && (int)$output[$lineNum]['limitTo'] && eregi(preg_quote($config->csv->pagerRegex), $output[$lineNum]['link']))
 			{
 				$temp = $output[$lineNum];
@@ -55,82 +70,106 @@ class My_Data
 			}
 
 		}
+		My_Main::debug('loaded '.$path.' file');
 		return $output;
 	}
 
 	public function loadAll()
 	{
+		My_Main::debug('check __inputPath');
 		if(!is_dir($this->__inputPath)) return false;
+		My_Main::debug('__inputPath is exists');
 		$output = array();
 		foreach (scandir($this->__inputPath) as $path)
 		{
 			if($path == '.' || $path == '..' || is_dir($this->__inputPath.'/'.$path)) continue;
-
+			My_Main::debug('file '.$this->__inputPath.'/'.$path);
 			$ext = strtolower(substr($path,strrpos($path,'.')+1));
 
 			if($ext != 'csv') continue;
 
+			My_Main::debug('loading '.$this->__inputPath.'/'.$path.' file');
 			$output[$path] = $this->load($this->__inputPath.'/'.$path);
 		}
 		return $output;
 	}
 
-
-	public function parse($array)
+	public function parse($array,$key)
 	{
 		$output = array();
+		$proxyList = My_Main::getProxyList();
+		Zend_Loader::loadClass('My_Main');
+
+		$config = My_Main::getConfig();
+		shuffle($proxyList);
+		$proxyList = array_fill_keys($proxyList,0);
 		foreach ($array as $line)
 		{
+			sleep($config->timeout);
 			$curl = My_Main::getCurl();
 			$html = '';
+			arsort($proxyList);
 			$links = array();
-			print $line['link'].' :: ';
+			print My_Logger::log($line['link'].' :: ');
 			if($line['proxy'])
 			{
-				print 'USIGN PROXY:';
-				$proxyList = My_Main::getProxyList();
-				foreach ($proxyList as $proxy)
+				print My_Logger::log('USIGN PROXY:');
+
+				$bad = 0;
+				foreach ($proxyList as $proxy => $okTimes)
 				{
-					print "\n\t".$proxy.': ';
+					print My_Logger::log("\n\t".$proxy.': ');
 					$curl->setProxy($proxy);
 					$html = $curl->getPage($line['link']);
 
 					if($curl->getError())
 					{
-						print $curl->getErrno();
-						print " - ";
-						print $curl->getError();
-						print " - ";
+						print My_Logger::log($curl->getErrno());
+						print My_Logger::log(" - ");
+						print My_Logger::log($curl->getError());
+						print My_Logger::log(" - ");
 						$html = '';
-						print ' FALSE ; ';
+						print My_Logger::log(' FALSE ; ');
+						$bad++;
 					}else{
 						break;
 					}
 				}
 
+				if($bad == count($proxyList))
+				{
+				  DIE('EVERY PROXY URLS are FAILED');
+				}
+				$proxyList[$proxy] = $okTimes+1;
 			}else{
 				$html = $curl->getPage($line['link']);
+
 				if($curl->getError())
 				{
-					print $curl->getErrno();
-					print " - ";
-					print $curl->getError();
+					print My_Logger::log($curl->getErrno());
+					print My_Logger::log(" - ");
+					print My_Logger::log($curl->getError());
 					$html = '';
 				}
 			}
 
 			if(!$html)
 			{
-				$this->__badLinks[] = $line['link'];
-				print "FALSE";
-				print "\n\n";
+				$this->__output[self::BAD_PAGES][] = $line['link'];
+				print My_Logger::log("FALSE");
+				print My_Logger::log("\n\n");
 				continue;
 			}
-			print "OK";
-			print "\n\n";
-			$links = $this->__parseHTML($html, $line);
-			$output[] = $links;
 
+			$links = $this->__parseHTML($html, $line);
+			print My_Logger::log("OK -> ".count($links).' links');
+			print My_Logger::log("\n\n");
+			if(!isset($this->__output[self::ALL_OUTPUT]) || !is_array($this->__output[self::ALL_OUTPUT]))
+			{
+				$this->__output[self::ALL_OUTPUT] = array();
+			}
+			$this->__output[self::ALL_OUTPUT] = array_merge($this->__output[self::ALL_OUTPUT], $links);
+			$this->save();
 		}
 		return $output;
 	}
@@ -139,22 +178,17 @@ class My_Data
 
 	public function parseAll()
 	{
-		$array = $this->loadAll();
-		foreach ($array as $key => $arr)
+		My_Main::debug("\t".'parsing!');
+		$this->__loaded_file = $this->loadAll();
+
+		foreach ($this->__loaded_file as $key => $arr)
 		{
-			$this->__output[$key] = $this->parse($arr);
+			My_Main::debug('parsing  '.$key);
+			$this->parse($arr,$key);
+			//$this->__output[self::ALL_OUTPUT][$key] = $this->parse($arr,$key);
 		}
+		My_Main::debug("\t".'parsing done!');
 		return $this;
-	}
-
-	public function getOutput()
-	{
-		return $this->__output;
-	}
-
-	public function getBadlinks()
-	{
-		return $this->__badLinks;
 	}
 
 	public function setInputPath($path)
@@ -171,45 +205,48 @@ class My_Data
 
 	public function save()
 	{
+		My_Main::debug("\t\t".'saving start');
+
 		$file = array();
 		$out = array();
-		$date = date('Y.m.d-His');
-		foreach ($this->__output as $key => $pages)
+		foreach ($this->__output[self::ALL_OUTPUT] as $link)
 		{
-			$file[$key] =array();
-			foreach ($pages as $links)
-			{
-				foreach ($links as $link)
-				{
-					$plar = parse_url($link);
-					$domen = substr($plar['host'], strrpos($plar['host'], '.')+1);
-					$file[$key][$domen][] = $link;
-				}
-			}
+			//print_r($this->__output[self::ALL_OUTPUT]);die;
 
-			foreach ($file[$key] as $domen => $links)
+			$plar = parse_url($link);
+			$domen = substr($plar['host'], strrpos($plar['host'], '.')+1);
+			$file[$domen][] = $link;
+
+			foreach ($file as $domen => $links)
 			{
-				$file[$key][$domen] = array_unique($links);
-				$path = $this->__outputPath.'/'.$date.'.'.$domen.'.'.$key.'.txt';
-				$out = array_merge($out, $file[$key][$domen]);
-				$this->__save2file($path, $file[$key][$domen]);
+				//$file[$domen] = array_unique($links);
+				$path = $this->__outputPath.'/'.$domen.'.txt';
+				//$out = array_merge($out, $file[$key][$domen]);
+				$this->__save2file($path, $file[$domen], true);
 			}
 		}
 
-		$this->__save2file($this->__outputPath.'/'.$date.'.ALL.LINKS.txt', array_unique($out));
-		$this->__save2file($this->__outputPath.'/'.$date.'.BAD.LINKS.txt', array_unique($this->__badLinks));
+		//$this->__cache(self::ALL_OUTPUT, $this->__output[self::ALL_OUTPUT]);
+		$this->__cache(self::BAD_PAGES,  $this->__output[self::BAD_PAGES]);
 
-		$out = array();
-		foreach ($this->loadAll() as $links)
+		$this->__save2file($this->__outputPath.'/'. self::ALL_LINKS .'.txt', $this->__output[self::ALL_OUTPUT], true);
+		$this->__save2file($this->__outputPath.'/'. self::BAD_PAGES .'.txt', $this->__output[self::BAD_PAGES], true);
+
+
+		foreach ($this->__loaded_file as $links)
 		{
 			foreach ($links as $row)
 			{
-				$out[] = $row['link'];
+				$this->__output[self::ALL_PAGES][] = $row['link'];
 			}
 		}
 
-		$this->__save2file($this->__outputPath.'/'.$date.'.ALL.PAGES.txt', array_unique($out));
+		$this->__cache(self::ALL_PAGES, $this->__output[self::ALL_PAGES]);
+		$this->__save2file($this->__outputPath.'/'. self::ALL_PAGES .'.txt', $this->__output[self::ALL_PAGES], true);
+		My_Main::debug("\t\t".'saving end');
 
+		// reset arrays for memory save
+		$this->__output[self::ALL_OUTPUT] = $this->__output[self::BAD_PAGES] = $this->__output[self::ALL_PAGES] = array();
 		return true;
 	}
 
@@ -234,10 +271,10 @@ class My_Data
 						$newLink .= $settingLinkArr['scheme'].'://'.$settingLinkArr['host'];
 						if(substr($link, 0, 1) != '/')
 						{
-							$newLink .= ($settingLinkArr['path']? $settingLinkArr['path'] : '');
+							$newLink .= (isset($settingLinkArr['path'])? $settingLinkArr['path'] : '');
 						}
 					}
-					$newLink .= $link.($linkArr['query']? '?'.$linkArr['query']:'').($linkArr['fragment']? '?'.$linkArr['fragment']:'');
+					$newLink .= $link.(isset($linkArr['query'])? '?'.$linkArr['query']:'').(isset($linkArr['fragment'])? '?'.$linkArr['fragment']:'');
 					$output[] = $newLink;
 				}
 			}
@@ -245,10 +282,38 @@ class My_Data
 		return $output;
 	}
 
-	private function __save2file($filename, $array)
+	private function __loadCache($key)
 	{
-		natcasesort($array);
-		file_put_contents($filename, implode("\r\n",$array));
+		$key = preg_replace('/[^a-z0-9]/ism','', $key);
+		if($this->__cache->test($key))
+		{
+			return $this->__cache->load($key);
+		}
+		return array();
+	}
+
+	private function __cache($key, $array)
+	{
+		$key = preg_replace('/[^a-z0-9]/ism','', $key);
+		$data = $this->__cache->load($key);
+		if(is_array($data))
+		{
+			$array = array_merge_recursive($data, $array);
+		}
+		//$array = array_unique($array);
+		$this->__cache->save($array);
+	}
+
+	private function __save2file($sFilename, $aArray, $bAdd = false)
+	{
+		//file_put_contents($filename, implode("\r\n",array_unique($array)));
+		if($bAdd){
+		  file_put_contents($sFilename, implode("\r\n",$aArray));
+		}else{
+		  $rFile = fopen($sFilename, 'a+');
+		  fwrite($rFile, implode("\r\n",$aArray));
+		  fclose($rFile);
+		}
 		return true;
 	}
 

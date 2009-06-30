@@ -7,37 +7,43 @@ set_include_path(
 	);
 
 require_once('Zend/Loader.php');
+Zend_Loader::loadClass('My_Logger');
+
+	My_Logger::setConfig(array(
+		'extension' 		=> '.log',
+		'timestampFormat' 	=> 'Y-m-d H:i:s',
+		'timestamp'			=> true,
+		'dirs'				=> array(
+			'LOG' 		=> __ROOTDIR__.'output'.'/LOG.LOG.txt',
+		)
+	));
+
+	My_Logger::startTag('LOG');
 
 Zend_Loader::loadClass('My_Main');
-Zend_Loader::loadClass('My_Data');
-$config = My_Main::getConfig();
-//print_r($config);
-//$out = $config->setDir(__ROOTDIR__.'system/configs/')->setExtension('csv')->load('main');
-//print_r($out);
-$cache = My_Main::getCache();
+	My_Main::getConfig();
+	My_Main::debug('My_Logger Loaded');
+	My_Main::debug('My_Main Loaded');
 
-$data = new My_Data();
+Zend_Loader::loadClass('My_Data');
+
+	My_Main::debug('My_Data Loaded');
+
+
+$data  = new My_Data();
+
+	My_Main::debug('setInputPath '.__ROOTDIR__.'input');
 
 $data->setInputPath(__ROOTDIR__.'input');
+
+	My_Main::debug('setOutputPath '.__ROOTDIR__.'output');
+
 $data->setOutputPath(__ROOTDIR__.'output');
-//$data->parseAll();
+
+	My_Main::debug('parseAll');
+
 $data->parseAll()->save();
-//print_r($out);
-$curl = My_Main::getCurl();
 
-die;
-foreach (My_Main::getProxyList() as $proxy)
-{
-	print $proxy.': ';
-		$curl->setTimeout(20)
-			->setDebug(false)
-			->setProxy($proxy)
-			->getPage('http://ya.ru');
-			print $curl->getErrno();
-			print " - ";
-			print $curl->getError();
-			print "\n\n";
-			//->getPage('http://ya.ru'));
-}
-
+	My_Logger::endTag('LOG');
+die(__LINE__."\n");
 ?>
