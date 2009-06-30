@@ -1,8 +1,11 @@
 <?php
+ini_set(”memory_limit”,”768M”);
+define('DEBUG',true);
 return array(
 
 	'cache' => array(
 		'frontendOptions' => array(
+		   'automatic_serialization' => true,
 		   'lifetime' => 7200,
 		   'debug_header' => true, // for debugging
 		   'regexps' => array(
@@ -28,7 +31,7 @@ return array(
 		   )
 		),
 		'backendOptions' => array(
-		    'cache_dir' => get_include_path().'tmp/cache/'
+		    'cache_dir' => dirname(__FILE__).'/tmp/cache/'
 		)
 	),
 
@@ -46,8 +49,10 @@ return array(
 	),
 
 	'curl' => array(
-		'cookies' => get_include_path().'tmp/cookies/'
-	)
+		'cookies' => dirname(__FILE__).'/tmp/cookies/',
+		'timeout' => 6
+	),
+	'timeout' => 3
 
 );
 ?>

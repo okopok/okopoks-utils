@@ -7,11 +7,14 @@ class My_Main
 	protected static $__cache 		= false;
 	protected static $__curl		= false;
 
+
+
 	public function getCurl()
 	{
 		Zend_Loader::loadClass('My_Curl');
 		$__curl = new My_Curl();
 		$__curl = $__curl->setCookiesDir(self::getConfig()->curl->cookies);
+		$__curl = $__curl->setTimeout(self::getConfig()->curl->timeout);
 		return $__curl;
 	}
 
@@ -60,10 +63,21 @@ class My_Main
 				}
 			}
 		}
-		shuffle(self::$__proxyList);
 		return self::$__proxyList;
 	}
 
+	public static function debug($string, $console = true)
+	{
+		if(defined('DEBUG') and DEBUG === true)
+		{
+			if($console === false)
+			{
+				print My_Logger::log("<pre>".$string."</pre>\n");
+			}else{
+				print My_Logger::log($string."\n");
+			}
+		}
+	}
 }
 
 ?>
