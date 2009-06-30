@@ -19,7 +19,7 @@ class My_Data
 	public function __construct()
 	{
 		//$this->timestamp = date('Y.m.d-His');
-		$this->timestamp = 'prefix';
+/*		$this->timestamp = 'prefix';
 		$this->__cache = My_Main::getCache();
 		My_Main::debug('loading cache '.self::ALL_OUTPUT);
 		$this->__output[self::ALL_OUTPUT]	= $this->__loadCache(self::ALL_OUTPUT);
@@ -30,6 +30,7 @@ class My_Data
 		My_Main::debug('loading cache '.self::BAD_PAGES);
 		$this->__output[self::ALL_PAGES] 	= $this->__loadCache(self::ALL_PAGES);
 		My_Main::debug('done');
+*/
 	}
 
 	public function load($path)
@@ -227,7 +228,7 @@ class My_Data
 		}
 
 		//$this->__cache(self::ALL_OUTPUT, $this->__output[self::ALL_OUTPUT]);
-		$this->__cache(self::BAD_PAGES,  $this->__output[self::BAD_PAGES]);
+		//$this->__cache(self::BAD_PAGES,  $this->__output[self::BAD_PAGES]);
 
 		$this->__save2file($this->__outputPath.'/'. self::ALL_LINKS .'.txt', $this->__output[self::ALL_OUTPUT], true);
 		$this->__save2file($this->__outputPath.'/'. self::BAD_PAGES .'.txt', $this->__output[self::BAD_PAGES], true);
@@ -241,7 +242,7 @@ class My_Data
 			}
 		}
 
-		$this->__cache(self::ALL_PAGES, $this->__output[self::ALL_PAGES]);
+		//$this->__cache(self::ALL_PAGES, $this->__output[self::ALL_PAGES]);
 		$this->__save2file($this->__outputPath.'/'. self::ALL_PAGES .'.txt', $this->__output[self::ALL_PAGES], true);
 		My_Main::debug("\t\t".'saving end');
 
@@ -307,7 +308,7 @@ class My_Data
 	private function __save2file($sFilename, $aArray, $bAdd = false)
 	{
 		//file_put_contents($filename, implode("\r\n",array_unique($array)));
-		if($bAdd){
+		if($bAdd == false){
 		  file_put_contents($sFilename, implode("\r\n",$aArray));
 		}else{
 		  $rFile = fopen($sFilename, 'a+');
