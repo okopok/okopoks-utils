@@ -1,9 +1,11 @@
 <?php
 
 define('__ROOTDIR__', dirname(__FILE__).'/');
-
+define('__ZEND_DIR__',__ROOTDIR__.'../Zend_Framework/library/');
 set_include_path(
-	__ROOTDIR__.'system/'
+	  get_include_path() 	. PATH_SEPARATOR . 
+	  __ROOTDIR__.'system/' . PATH_SEPARATOR .
+	  __ZEND_DIR__
 	);
 
 require_once('Zend/Loader.php');
