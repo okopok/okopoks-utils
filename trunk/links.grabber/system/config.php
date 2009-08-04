@@ -1,5 +1,5 @@
 <?php
-ini_set(”memory_limit”,”768M”);
+ini_set('memory_limit' , '768Mb');
 define('DEBUG',true);
 return array(
 
