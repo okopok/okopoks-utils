@@ -1,9 +1,12 @@
 <?php
-
+/**
+ * Enter description here...
+ * @version $Id$
+ */
 define('__ROOTDIR__', dirname(__FILE__).'/');
 define('__ZEND_DIR__',__ROOTDIR__.'../Zend_Framework/library/');
 set_include_path(
-	  get_include_path() 	. PATH_SEPARATOR . 
+	  get_include_path() 	. PATH_SEPARATOR .
 	  __ROOTDIR__.'system/' . PATH_SEPARATOR .
 	  __ZEND_DIR__
 	);

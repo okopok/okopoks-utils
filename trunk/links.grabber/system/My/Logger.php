@@ -54,8 +54,17 @@ class My_Logger{
 		self::$__aTags[] = $sTag;
 	}
 
-	public static function endTag($sTag){
-		array_pop(self::$__aTags);
+	public static function endTag($sTag = false){
+		if($sTag and in_array($sTag, self::$__aTags)){
+			foreach(array_reverse(self::$__aTags, true) as $key=>$value){
+				unset(self::$__aTags[$key]);
+				if($sTag == $value){
+					break;
+				}
+			}
+		}else{
+			array_pop(self::$__aTags);
+		}
 	}
 
 
