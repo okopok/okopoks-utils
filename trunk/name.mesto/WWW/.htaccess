@@ -1,8 +1,0 @@
-#php_flag register_globals Off
-#Включение преобразования
-RewriteEngine On
-RewriteRule ^index.html index.php [NC]
-RewriteRule ^photos.html photos.php [NC]
-RewriteRule ^texts.html texts.php [NC]
-RewriteRule ^we.html we.php [NC]
-RewriteRule ^guest.html guest.php [NC]
