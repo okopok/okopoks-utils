@@ -1,3 +1,8 @@
+/*
+ * simple AJAX class
+ * @author Sasha Molodtsov <asid@mail.ru>
+ * 
+ */
 function Ajax()
 {
      this.requestObj = null;
