@@ -1,4 +1,4 @@
-<?php
+$<?php
 
 /**
  * @package utils
@@ -7,13 +7,28 @@
  */
 class My_Curl
 {
-	protected $__curlSRC   = null;     			// курл сурс
-	protected $__cookiesDir= '';       			// путь до кук
-	protected $__defaultTimeout   = 10;       	// ДЕФОЛТНЫЙ таймаут соединения в секундах
+	/**
+	 * @var resourse
+	 */
+	protected $__curlSRC   = null;
+
+	/**
+	 * Cookie path
+	 *
+	 * @var string
+	 */
+	protected $__cookiesDir= '';
+
+	/**
+	 * default curl timeout
+	 *
+	 * @var integer
+	 */
+	protected $__defaultTimeout   = 10;
 
 
 	/**
-	* Получение сурса. Если был, то просто возвращаем, если небыло, то создаём
+	* Get curl resourse. If it wasn't created - create it ^__^
 	*
 	* @return resourse
 	*/
@@ -28,7 +43,7 @@ class My_Curl
 	}
 
 	/**
-	* Получаем новый ресурс соединения
+	* Get NEW curl resourse
 	* @return source
 	*/
 	public function getNewSrc()
@@ -57,10 +72,10 @@ class My_Curl
 	}
 
 	/**
-	 * Enter description here...
+	 * set cookie store path
 	 *
-	 * @param unknown_type $path
-	 * @return unknown
+	 * @param string $path
+	 * @return this
 	 */
 	public function setCookiesDir($path)
 	{
@@ -69,18 +84,18 @@ class My_Curl
 	}
 
 	/**
-	 * если есть инпуты, то добавляем отправку постов
+	 * set post data or reset it
 	 *
-	 * @param unknown_type $inputs
-	 * @return unknown
+	 * @param hash $inputs
+	 * @return this
 	 */
-	public function setInputs($inputs)
+	public function setPostData($data)
 	{
 		$this->getSrc();
-		if(is_array($inputs) and count($inputs) > 0)
+		if(is_array($data) and count($data) > 0)
 		{
 			curl_setopt($this->__curlSRC, CURLOPT_POST, 1);
-			curl_setopt($this->__curlSRC, CURLOPT_POSTFIELDS, $inputs);
+			curl_setopt($this->__curlSRC, CURLOPT_POSTFIELDS, $data);
 		}else{
 			curl_setopt($this->__curlSRC, CURLOPT_POST, 0);
 			curl_setopt($this->__curlSRC, CURLOPT_POSTFIELDS, array());
@@ -89,10 +104,10 @@ class My_Curl
 	}
 
 	/**
-	 * следовать за редиректами
+	 * set timeout
 	 *
-	 * @param unknown_type $time
-	 * @return unknown
+	 * @param integer $time - if false, then set default timeout
+	 * @return this
 	 */
 	public function setTimeout($time = false)
 	{
@@ -107,10 +122,10 @@ class My_Curl
 	}
 
 	/**
-	 * устанавливаем таймаут обрыва соединения
+	 * set follow redirects
 	 *
-	 * @param unknown_type $follow
-	 * @return unknown
+	 * @param boolean $follow
+	 * @return this
 	 */
 	public function setFollow($follow = false)
 	{
@@ -125,10 +140,10 @@ class My_Curl
 	}
 
 	/**
-	 * если есть реферер, то добаляем его
+	 * set referer header
 	 *
-	 * @param unknown_type $refer
-	 * @return unknown
+	 * @param string $refer
+	 * @return this
 	 */
 	public function setRefer($refer = false)
 	{
@@ -142,6 +157,12 @@ class My_Curl
 		return $this;
 	}
 
+	/**
+	 * Switch debug handler for verbose curl processing
+	 *
+	 * @param boolean $flag
+	 * @return this
+	 */
 	public function setDebug($flag = false)
 	{
 		$this->getSrc();
@@ -157,13 +178,9 @@ class My_Curl
 	}
 
 	/**
-	 * Отправляем посты на страницу
+	 * exec curl request
 	 *
 	 * @param string $page  - url
-	 * @param string $refer - referer = если есть реферер, то добаляем его
-	 * @param array $inputs - inputs = если есть инпуты, то добавляем отправку постов
-	 * @param bool $follow  - follow redirects = следовать за редиректами
-	 * @param int $timeOut  - timeout = таймаут обрыва соединения
 	 * @return string
 	 */
 	public function getPage($url)
@@ -174,16 +191,15 @@ class My_Curl
 
 		$ret = curl_exec ( $this->__curlSRC );
 
-		// сбрасываем инпуты и устанавливаем будущий реферер на текущую страницу.
-		$this->setInputs(false)->setRefer($url);
+		$this->setPostData(false)->setRefer($url);
 
 		return $ret;
 	}
 
 	/**
-	 * Enter description here...
+	 * get error number
 	 *
-	 * @return unknown
+	 * @return integer
 	 */
 	public function getErrno()
 	{
@@ -191,9 +207,9 @@ class My_Curl
 	}
 
 	/**
-	 * Enter description here...
+	 * get errors
 	 *
-	 * @return unknown
+	 * @return string
 	 */
 	public function getError()
 	{
@@ -201,9 +217,9 @@ class My_Curl
 	}
 
 	/**
-	 * Enter description here...
+	 * get curl info
 	 *
-	 * @return unknown
+	 * @return hash
 	 */
 	public function getInfo()
 	{
@@ -211,21 +227,22 @@ class My_Curl
 	}
 
 	/**
-	 * Использовать прокси или нет
+	 * Set curl proxy
 	 *
-	 * @param string $host адресс прокси сервера. Если 0, то работает новое собенение без прокси. Все сессии сбрасываются
-	 * @param string $user логин
-	 * @param string $pass пароль
+	 * @param string $host proxy host
+	 * @param string $user login
+	 * @param string $pass pass
+	 * @return this
 	 */
-	public function setProxy($host = false, $user = false, $pass = false)
+	public function setProxy($host = false, $login = false, $pass = false)
 	{
 		if($host)
 		{
 			$this->getSrc();
 			curl_setopt ($this->__curlSRC, CURLOPT_PROXY,   $host);
-			if($user and $pass)
+			if($login and $pass)
 			{
-				curl_setopt ($this->__curlSRC, CURLOPT_PROXYUSERPWD, "$user : $pass");
+				curl_setopt ($this->__curlSRC, CURLOPT_PROXYUSERPWD, "$login : $pass");
 			}
 		}else{
 		  	$this->getNewSrc();
