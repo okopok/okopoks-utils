@@ -37,9 +37,9 @@ class ProgressBar
   protected $midIterTime        = 0;
   protected $startTime          = 0;
   protected $allItersTimes      = array();
-  var $printReady               = false;
+  protected $printReady         = false;
 
-  function ProgressBar($total = 0, $every = 5)
+  public function __construct($total = 0, $every = 5)
   {
     if($total > 0)
     {
@@ -47,8 +47,6 @@ class ProgressBar
     }
     $this->setEvery($every);
   }
-
-
 
   /**
    * set total iterations
@@ -67,7 +65,7 @@ class ProgressBar
    *
    * @param int $num
    */
-  function setEvery($num)
+  public function setEvery($num)
   {
     if(!is_numeric($num) or $num == 0) die($num . ' - is not a number');
     $this->every    = $num;
@@ -92,7 +90,7 @@ class ProgressBar
    * @param int $num
    * @return int
    */
-  function getLeftProc($num)
+  public function getLeftProc($num)
   {
     if(!is_numeric($num)) die($num . ' - is not a number');
     return (100 - $this->getCurrentProc($num));
@@ -104,13 +102,11 @@ class ProgressBar
    * @param int $num
    * @return int
    */
-  function getLeftIters($num)
+  public function getLeftIters($num)
   {
     if(!is_numeric($num)) die($num . ' - is not a number');
     return ($this->total - $num);
   }
-
-
 
   /**
    * set's iterations and timer
@@ -118,7 +114,7 @@ class ProgressBar
    * @param int $num
    * @return bool
    */
-  function iterator($num)
+  public function iterator($num)
   {
      $this->currIter = $num;
      $this->timer();
@@ -146,7 +142,7 @@ class ProgressBar
    * @param string $shab
    * @return string
    */
-  function printOut($shab = '::cp::% - ::pl::% - ::il:: - ::tl:: - ::ti:: - ::ft::')
+  public function printOut($shab = '::cp::% - ::pl::% - ::il:: - ::tl:: - ::ti:: - ::ft::')
   {
     $shab = str_ireplace('::CURRENTPROC::', $this->getCurrentProc($this->currIter), $shab);
     $shab = str_ireplace('::LEFTPROC::',    $this->getLeftProc($this->currIter), $shab);
@@ -158,12 +154,11 @@ class ProgressBar
     return $shab;
   }
 
-
   /**
    * set times
    *
    */
-  function timer()
+  public function timer()
   {
     if($this->startTime == 0)
     {
@@ -188,7 +183,7 @@ class ProgressBar
    *
    * @return int
    */
-  function getThisIterTime()
+  public function getThisIterTime()
   {
     if($this->lastIterTimeStamp > 0)
     {
@@ -198,18 +193,13 @@ class ProgressBar
     }
   }
 
-  function getTotalTime()
-  {
-
-  }
-
   /**
    * middle iteration time
    *
    * @param int $num
    * @return int
    */
-  function getMidIterTime()
+  public function getMidIterTime()
   {
     return $this->midIterTime;
   }
@@ -220,7 +210,7 @@ class ProgressBar
    * @param int $num
    * @return int
    */
-  function getFinishTime($num)
+  public function getFinishTime($num)
   {
     return ceil($this->getLeftTime($num) + time());
   }
@@ -231,7 +221,7 @@ class ProgressBar
    * @param int $num
    * @return int
    */
-  function getLeftTime($num)
+  public function getLeftTime($num)
   {
     if(count($this->allItersTimes) > 0)
     {

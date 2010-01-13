@@ -35,7 +35,7 @@ class ImageResizer
     }
 
     /**
-     * Установить текущий файл для обработки
+     * set new file
      *
      * @param string $file
      * @return object (this)
@@ -71,6 +71,13 @@ class ImageResizer
         return $this;
     }
 
+    /**
+     * create new src canvas
+     *
+     * @param integer $x
+     * @param integer $y
+     * @return resourse
+     */
     function newSrc($x, $y)
     {
         $type = $this->getFileType();
@@ -95,9 +102,9 @@ class ImageResizer
 
 
     /**
-    * функция создания новых директорий
+    * recursive make dirs
     *
-    * @param string $path путь
+    * @param string $path
     */
     public function recursiveMkdir( $path )
     {
@@ -109,9 +116,8 @@ class ImageResizer
     }
 
     /**
-    * Определяет тип фотки по mime типу
+    * get image mime-type
     *
-    * @param string $filename - путь до фотки
     * @return string
     */
     public function getFileType()
@@ -125,11 +131,10 @@ class ImageResizer
 
 
     /**
-    * Выводит в файл текущий ресурс фотки.
-    * Заодно проверяет расширение файла и выдаёт нужный формат
+    * save image to file
     *
-    * @param string $file     - путь нового файла
-    * @param int $quality     - качество фотки от 0 до 100
+    * @param string $file
+    * @param int $quality
     * @return object (this)
     */
     public function save($file, $quality = '75')
@@ -153,31 +158,31 @@ class ImageResizer
     }
 
     /**
-    * функция обработки картинки (ресайза)
+    * resize image to new params
     *
-    * @param int $resize_x ширина картинки
-    * @param int $resize_y высота картинки
-    * @param bool $proportion - сохранять ли пропорции (true)
-    * @param bool $size_check - проверять ли размер входной и выходной картинки (true)
-    * @param bool $fill_in_box - вписывать ли в рамку картинку (false)
-    * @param string $box_color - цвет рамки (ffffff)
-    * @param bool $expand - расширять ли исходную картинку (true)
-    * @return object (this)
+    * @param int $newWidth
+    * @param int $newHeight
+    * @param bool $proportion - keep propotions
+    * @param bool $size_check - check size. If image sizes and new sizes is equal, then stop resizing
+    * @param bool $fill_in_box - set color box to image
+    * @param string $box_color - boxColor
+    * @param bool $expand - expands original image to bigger size
+    * @return this
     */
-    public function resize($resize_x, $resize_y, $proportion = true, $size_check = true,  $fill_in_box = false, $box_color = 'ffffff', $expand = true)
+    public function resize($newWidth, $newHeight, $proportion = true, $size_check = true,  $fill_in_box = false, $box_color = 'ffffff', $expand = true)
     {
         $source  = $this->getSrc();
 
         $imagesx = imagesx($source);
         $imagesy = imagesy($source);
 
-        $last_x  = $resize_x;
-        $last_y  = $resize_y;
+        $last_x  = $newWidth;
+        $last_y  = $newHeight;
 
         $dist_x  = 0;
         $dist_y  = 0;
 
-    	if($size_check AND $imagesx == $resize_x AND $imagesy == $resize_y)
+    	if($size_check AND $imagesx == $newWidth AND $imagesy == $newHeight)
     	{
             return $source;
     	}
@@ -185,19 +190,19 @@ class ImageResizer
     	{
             if($imagesx > $imagesy)
           	{
-                $last_x = $resize_x;
-                $last_y = $resize_x / ($imagesx / $imagesy);
-                if($last_y > $resize_y)
+                $last_x = $newWidth;
+                $last_y = $newWidth / ($imagesx / $imagesy);
+                if($last_y > $newHeight)
                 {
-                    $last_y = $resize_y;
+                    $last_y = $newHeight;
                     $last_x = $last_y * ($imagesx / $imagesy);
                 }
           	}else{
-                $last_y = $resize_y;
-                $last_x = $resize_y / ($imagesy / $imagesx);
-                if ($last_x > $resize_x)
+                $last_y = $newHeight;
+                $last_x = $newHeight / ($imagesy / $imagesx);
+                if ($last_x > $newWidth)
                 {
-                    $last_x = $resize_x;
+                    $last_x = $newWidth;
                     $last_y = $last_x * ($imagesy / $imagesx);
                 }
           	}
@@ -205,7 +210,7 @@ class ImageResizer
             $newCanvasSY = $last_y;
             if(!$expand) // если расширять исходную картинку запрещено, то возвращаем её исходные размеры
             {
-            	if(($imagesx > $imagesy && $imagesx < $resize_x) || ($imagesx < $imagesy && $imagesy < $resize_y))
+            	if(($imagesx > $imagesy && $imagesx < $newWidth) || ($imagesx < $imagesy && $imagesy < $newHeight))
             	{
 	                $last_x = $imagesx;
 	                $last_y = $imagesy;
@@ -213,10 +218,10 @@ class ImageResizer
             }
           	if($fill_in_box) // если сохраняем пропорции, то вписываем ли в коробку картинку?
           	{
-                $newCanvasSX = $resize_x;
-                $newCanvasSY = $resize_y;
-                $dist_x      = ($resize_x - $last_x)/2;
-                $dist_y      = ($resize_y - $last_y)/2;
+                $newCanvasSX = $newWidth;
+                $newCanvasSY = $newHeight;
+                $dist_x      = ($newWidth - $last_x)/2;
+                $dist_y      = ($newHeight - $last_y)/2;
           	}
     	}
 
@@ -230,7 +235,7 @@ class ImageResizer
 
 
   /**
-   * Получить текущий файл
+   * get current file
    *
    * @return string
    */
@@ -244,7 +249,7 @@ class ImageResizer
   }
 
   /**
-   * получить текущий ресурс
+   * get currenr image resourse
    *
    * @return string
    */
@@ -257,10 +262,9 @@ class ImageResizer
       return $this->src;
   }
   /**
-   * Получает размер фотографии
+   * get image sizes
    *
-   * @param string $filename - путь до фотографии
-   * @return array           - массив с размерами и данными о картинке
+   * @return array
    */
   public function getSize()
   {
@@ -271,17 +275,23 @@ class ImageResizer
     return array(imagesx($this->getSrc()), imagesy($this->getSrc()));
   }
 
+  /**
+   * get image file size
+   *
+   * @return unknown
+   */
   function getFileSize()
   {
     return getimagesize($this->getCurFile());
   }
+
   /**
-   * Устанавливаем прозрачности
+   * set transporent
    *
    * @param bool $ImageAlphaBlending = If blendmode is TRUE, then blending mode is enabled, otherwise disabled.
    * @param bool $imagesavealpha = if false alphablending is unset (in PNG ONLY)
    * @param int $imagecolortransparent = color to be the transparent color, any regions of the image in that color that were drawn previously will be transparent.
-   * @return object (this)
+   * @return this
    */
   public function setAlpha($ImageAlphaBlending = false, $ImageSaveAlpha = true, $ImageColorTransparent = false )
   {
@@ -298,7 +308,7 @@ class ImageResizer
    * Flips image
    *
    * @param int $type = 1 - IMAGE_FLIP_HORIZONTAL; 2 - IMAGE_FLIP_VERTICAL; 3 - IMAGE_FLIP_BOTH;
-   * @return object (this)
+   * @return this
    */
   public function flip($type)
   {
@@ -347,12 +357,12 @@ class ImageResizer
 
 
   /**
-   * Отрезает от сторон картинки заданное кол-во пикселей
+   * crop image
    *
-   * @param int $top            - сколько резать сверху
-   * @param int $bottom         - сколько резать снизу
-   * @param int $left           - сколько резать слева
-   * @param int $right          - сколько резать справо
+   * @param int $top            - crop from top (px)
+   * @param int $bottom         - crop from bottom (px)
+   * @param int $left           - crop from left (px)
+   * @param int $right          - crop from right (px)
    * @return object (this)
    */
   public function crop($top = 0, $bottom = 0, $left = 0, $right = 0)
@@ -370,20 +380,19 @@ class ImageResizer
 
 
   /**
-   * Получаем координаты для фотографии из исходной фразы
+   * get coord for new start point (top left x and bottom right y) by text phrase
    *
-   * @param string $place     - фраза для получения координат действительны следующие фразы.
-   * top-left, top-right, top, top-center, middle-left, left, middle, center, middle-right, center-right, right, bottom-left, bottom-right, bottom-center, bottom
-   * @param int $sizeX        - ширина большей картинки
-   * @param int $sizeY        - высота большей картиники
-   * @param int $sizeXL       - ширина нового слоя
-   * @param int $sizeYL       - высота нового слоя
-   * @param int $marginTop    - отступ сверху
-   * @param int $marginBottom - отступ снизу
-   * @param int $marginLeft   - отступ слева
-   * @param int $marginRight  - отступ справа
+   * @param string $place     - (top-left, top-right, top, top-center, middle-left, left, middle, center, middle-right, center-right, right, bottom-left, bottom-right, bottom-center, bottom)
+   * @param int $sizeX        - width canvas
+   * @param int $sizeY        - height canvas
+   * @param int $sizeXL       - width layer
+   * @param int $sizeYL       - height layer
+   * @param int $marginTop    - margin top
+   * @param int $marginBottom - margin bottom
+   * @param int $marginLeft   - margin left
+   * @param int $marginRight  - mergin right
    *
-   * @return array [x] - координата на оси Х. [y] - координата на оси y
+   * @return array [x] - top left Х. [y] - bottom right y
    */
 
   public function getCoords($place, $sizeX,$sizeY,$sizeXL,$sizeYL, $marginTop = 0, $marginBottom = 0, $marginLeft = 0, $marginRight = 0){
@@ -411,16 +420,16 @@ class ImageResizer
 
 
   /**
-   * Накладывает одну картинку на другую.
+   * Add layer
    *
-   * @param resourse $layerSRC      - SRC то что накладываем (должна быть меньше чем фон)
-   * @param string $place         - место для наложения
-   * @param int    $marginTop     - отступ сверху
-   * @param int    $marginBottom  - отступ снизу
-   * @param int    $marginLeft    - отступ слева
-   * @param int    $marginRight   - отступ справа
-   * @param int    $alpha         - степень прозрачности от 0 до 100
-   * @param int    $quality_num   - качество
+   * @param resourse $layerSRC    - SRC of new layer (must be smaller then bottom layer)
+   * @param string $place
+   * @param int    $marginTop
+   * @param int    $marginBottom
+   * @param int    $marginLeft
+   * @param int    $marginRight
+   * @param int    $alpha         - transparency 0 до 100
+   * @param int    $quality_num   - quality
    * @return object (this)
    */
   public function addLayer($layerSRC, $place = 'top-left', $marginTop = 0, $marginBottom = 0, $marginLeft = 0, $marginRight = 0, $alpha = 0, $quality_num = 75 )
@@ -443,7 +452,7 @@ class ImageResizer
   }
 
   /**
-   * Получаем цвет
+   * get color
    *
    * @param 16 bit color $color
    * @param int $alpha - (0) from 0 to 127. 127 - is a full transparent
@@ -456,11 +465,6 @@ class ImageResizer
     sscanf($color, "%2x%2x%2x", $red, $green, $blue);
     return imagecolorallocatealpha($src, $red, $green, $blue, $alpha);
   }
-
-
-
-
-
 
 }
 
