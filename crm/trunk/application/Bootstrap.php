@@ -22,7 +22,7 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     protected function _initCache()
     {
     	$frontendOptions = array(
-		   'lifetime' => null,
+		   'lifetime' => 1,
 		   'debug_header' => true, // for debugging
 		);
 
