@@ -9,15 +9,45 @@ echo $this->doctype() ?>
   <?php echo $this->headLink()->appendStylesheet('/css/global.css') ?>
 </head>
 <body>
-<div id="header" style="background-color: #EEEEEE; height: 30px;">
+<div id="header" style="background-color: #EEEEEE;>
     <div id="header-logo" style="float: left">
         <b>ZF Quickstart Application</b>
     </div>
-    <div id="header-navigation" style="float: right">
-        <a href="<?php echo $this->url(
-            array('controller'=>'guestbook'),
-            'default',
-            true) ?>">Guestbook</a>
+    <div id="header-navigation">
+    	<ul>
+    		<li>
+    			<a href="/index">MAIN</a>
+    		</li>
+    		<li>
+    			<a href="/client">client</a>
+    			<ul>
+    				<li><a href="/client/index">index</a></li>
+    				<li><a href="/client/briefcase">briefcase</a></li>
+    				<li><a href="/client/flows">flows</a></li>
+    				<li><a href="/client/inout">inout</a></li>
+    				<li><a href="/client/limits">limits</a></li>
+    				<li><a href="/client/modelling">modelling</a></li>
+    				<li><a href="/client/reports">reports</a></li>
+    			</ul>
+    		</li>
+    		<li>
+    			<a href="/emission">emission</a>
+    			<ul>
+    				<li><a href="/emission/index">index</a></li>
+    				<li><a href="/emission/search">search</a></li>
+    			</ul>
+    		</li>
+    		<li>
+    			<a href="/ticket">ticket</a>
+    			<ul>
+    				<li>buy-sell</li>
+    				<li>sell-buy</li>
+    				<li><a href="/ticket/buy">buy</a></li>
+    				<li><a href="/ticket/sell">sell</a></li>
+    				<li><a href="/ticket/index">index</a></li>
+    			</ul>
+    		</li>
+    	</ul>
     </div>
 </div>
 
