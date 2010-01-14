@@ -10,12 +10,237 @@
       <controllersDirectory>
         <controllerFile controllerName="index">
           <actionMethod actionName="index"/>
+          <actionMethod actionName="test"/>
         </controllerFile>
         <controllerFile controllerName="error"/>
+        <controllerFile controllerName="test">
+          <actionMethod actionName="index"/>
+        </controllerFile>
+        <controllerFile controllerName="test1">
+          <actionMethod actionName="index"/>
+        </controllerFile>
+        <controllerFile controllerName="buy">
+          <actionMethod actionName="index"/>
+          <actionMethod actionName="add"/>
+          <actionMethod actionName="delete"/>
+        </controllerFile>
+        <controllerFile controllerName="sell">
+          <actionMethod actionName="index"/>
+          <actionMethod actionName="add"/>
+          <actionMethod actionName="delete"/>
+        </controllerFile>
+        <controllerFile controllerName="buy-sell">
+          <actionMethod actionName="index"/>
+          <actionMethod actionName="delete"/>
+          <actionMethod actionName="add"/>
+        </controllerFile>
+        <controllerFile controllerName="sell-buy">
+          <actionMethod actionName="index"/>
+          <actionMethod actionName="delete"/>
+          <actionMethod actionName="add"/>
+        </controllerFile>
+        <controllerFile controllerName="new">
+          <actionMethod actionName="index"/>
+        </controllerFile>
+        <controllerFile controllerName="view">
+          <actionMethod actionName="index"/>
+        </controllerFile>
+        <controllerFile controllerName="list">
+          <actionMethod actionName="index"/>
+        </controllerFile>
       </controllersDirectory>
       <layoutsDirectory enabled="false"/>
       <modelsDirectory/>
-      <modulesDirectory enabled="false"/>
+      <modulesDirectory>
+        <moduleDirectory moduleName="client">
+          <apisDirectory enabled="false"/>
+          <configsDirectory enabled="false"/>
+          <controllersDirectory>
+            <controllerFile controllerName="index">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="edit"/>
+              <actionMethod actionName="add"/>
+              <actionMethod actionName="delete"/>
+              <actionMethod actionName="inout"/>
+              <actionMethod actionName="briefcase"/>
+              <actionMethod actionName="flows"/>
+              <actionMethod actionName="info"/>
+              <actionMethod actionName="limits"/>
+            </controllerFile>
+            <controllerFile controllerName="info">
+              <actionMethod actionName="index"/>
+            </controllerFile>
+            <controllerFile controllerName="reports">
+              <actionMethod actionName="index"/>
+            </controllerFile>
+            <controllerFile controllerName="inout">
+              <actionMethod actionName="index"/>
+            </controllerFile>
+            <controllerFile controllerName="briefcase">
+              <actionMethod actionName="index"/>
+            </controllerFile>
+            <controllerFile controllerName="flows">
+              <actionMethod actionName="index"/>
+            </controllerFile>
+            <controllerFile controllerName="modelling">
+              <actionMethod actionName="index"/>
+            </controllerFile>
+            <controllerFile controllerName="limits">
+              <actionMethod actionName="index"/>
+            </controllerFile>
+          </controllersDirectory>
+          <layoutsDirectory enabled="false"/>
+          <modelsDirectory/>
+          <viewsDirectory>
+            <viewScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="index">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="index">
+                <viewScriptFile forActionName="edit"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="index">
+                <viewScriptFile forActionName="add"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="index">
+                <viewScriptFile forActionName="delete"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="index">
+                <viewScriptFile forActionName="inout"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="index">
+                <viewScriptFile forActionName="briefcase"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="index">
+                <viewScriptFile forActionName="flows"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="index">
+                <viewScriptFile forActionName="info"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="info">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="reports">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="inout">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="briefcase">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="flows">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="modelling">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="index">
+                <viewScriptFile forActionName="limits"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="limits">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+            </viewScriptsDirectory>
+            <viewHelpersDirectory/>
+            <viewFiltersDirectory/>
+          </viewsDirectory>
+        </moduleDirectory>
+        <moduleDirectory moduleName="ticket">
+          <apisDirectory enabled="false"/>
+          <configsDirectory enabled="false"/>
+          <controllersDirectory>
+            <controllerFile controllerName="index">
+              <actionMethod actionName="index"/>
+            </controllerFile>
+            <controllerFile controllerName="buy">
+              <actionMethod actionName="index"/>
+            </controllerFile>
+            <controllerFile controllerName="sell">
+              <actionMethod actionName="index"/>
+            </controllerFile>
+            <controllerFile controllerName="buy-sell">
+              <actionMethod actionName="index"/>
+            </controllerFile>
+            <controllerFile controllerName="sell-buy">
+              <actionMethod actionName="index"/>
+            </controllerFile>
+          </controllersDirectory>
+          <layoutsDirectory enabled="false"/>
+          <modelsDirectory/>
+          <viewsDirectory>
+            <viewScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="index">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="buy">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="sell">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="buy-sell">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="sell-buy">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+            </viewScriptsDirectory>
+            <viewHelpersDirectory/>
+            <viewFiltersDirectory/>
+          </viewsDirectory>
+        </moduleDirectory>
+        <moduleDirectory moduleName="emission">
+          <apisDirectory enabled="false"/>
+          <configsDirectory enabled="false"/>
+          <controllersDirectory>
+            <controllerFile controllerName="index">
+              <actionMethod actionName="index"/>
+              <actionMethod actionName="add"/>
+              <actionMethod actionName="delete"/>
+              <actionMethod actionName="view"/>
+              <actionMethod actionName="list"/>
+              <actionMethod actionName="search"/>
+              <actionMethod actionName="edit"/>
+            </controllerFile>
+            <controllerFile controllerName="search">
+              <actionMethod actionName="index"/>
+            </controllerFile>
+          </controllersDirectory>
+          <layoutsDirectory enabled="false"/>
+          <modelsDirectory/>
+          <viewsDirectory>
+            <viewScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="index">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="index">
+                <viewScriptFile forActionName="add"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="index">
+                <viewScriptFile forActionName="delete"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="index">
+                <viewScriptFile forActionName="view"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="index">
+                <viewScriptFile forActionName="list"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="index">
+                <viewScriptFile forActionName="search"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="index">
+                <viewScriptFile forActionName="edit"/>
+              </viewControllerScriptsDirectory>
+              <viewControllerScriptsDirectory forControllerName="search">
+                <viewScriptFile forActionName="index"/>
+              </viewControllerScriptsDirectory>
+            </viewScriptsDirectory>
+            <viewHelpersDirectory/>
+            <viewFiltersDirectory/>
+          </viewsDirectory>
+        </moduleDirectory>
+      </modulesDirectory>
       <viewsDirectory>
         <viewScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="index">
@@ -23,6 +248,60 @@
           </viewControllerScriptsDirectory>
           <viewControllerScriptsDirectory forControllerName="error">
             <viewScriptFile forActionName="error"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="test">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="index">
+            <viewScriptFile forActionName="test"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="test1">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="buy">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="sell">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="buy-sell">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="sell-buy">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="buy">
+            <viewScriptFile forActionName="add"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="buy">
+            <viewScriptFile forActionName="delete"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="sell">
+            <viewScriptFile forActionName="add"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="sell">
+            <viewScriptFile forActionName="delete"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="sell-buy">
+            <viewScriptFile forActionName="delete"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="buy-sell">
+            <viewScriptFile forActionName="delete"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="buy-sell">
+            <viewScriptFile forActionName="add"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="sell-buy">
+            <viewScriptFile forActionName="add"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="new">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="view">
+            <viewScriptFile forActionName="index"/>
+          </viewControllerScriptsDirectory>
+          <viewControllerScriptsDirectory forControllerName="list">
+            <viewScriptFile forActionName="index"/>
           </viewControllerScriptsDirectory>
         </viewScriptsDirectory>
         <viewHelpersDirectory/>
@@ -54,6 +333,32 @@
       <testPHPUnitConfigFile/>
       <testApplicationDirectory>
         <testApplicationBootstrapFile/>
+        <testApplicationControllerDirectory>
+          <testApplicationControllerFile/>
+          <testApplicationControllerFile/>
+          <testApplicationControllerFile/>
+          <testApplicationControllerFile/>
+          <testApplicationControllerFile/>
+          <testApplicationControllerFile/>
+          <testApplicationControllerFile/>
+          <testApplicationControllerFile/>
+          <testApplicationControllerFile/>
+          <testApplicationControllerFile/>
+          <testApplicationControllerFile/>
+          <testApplicationControllerFile/>
+          <testApplicationControllerFile/>
+          <testApplicationControllerFile/>
+          <testApplicationControllerFile/>
+          <testApplicationControllerFile/>
+          <testApplicationControllerFile/>
+          <testApplicationControllerFile/>
+          <testApplicationControllerFile/>
+          <testApplicationControllerFile/>
+          <testApplicationControllerFile/>
+          <testApplicationControllerFile/>
+          <testApplicationControllerFile/>
+          <testApplicationControllerFile/>
+        </testApplicationControllerDirectory>
       </testApplicationDirectory>
       <testLibraryDirectory>
         <testLibraryBootstrapFile/>
