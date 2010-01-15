@@ -1,0 +1,36 @@
+body{
+	background:#eee;
+	margin:0;
+	padding:1em 0;
+	font-family:"Lucida Grande","Lucida Sans Unicode",Verdana,Helvetica,Arial,sans-serif;
+	font-size:small;
+	line-height:130%;
+}
+#container{
+	background:#fff url(http://) no-repeat 99% 10px;
+	text-align:left;
+	margin:0 auto;
+	width:750px;
+	padding:1em;
+	border:1px solid #ccc
+}
+
+ul{margin:0 0 0 2.5em;
+padding:0}
+
+h1{margin:0;
+padding:0.5em 0 1em 0;
+letter-spacing:-0.1ex;
+font-size:1.8em}
+
+h2{margin:0;
+padding:0.5em 0;
+letter-spacing:-0.1ex;
+font-size:1.5em}
+
+hr{clear:both;
+height:1px;
+color:#ccc;
+background:#ccc;
+border:none}
+p{margin:0;padding:0.5em 0}
