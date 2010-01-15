@@ -22,19 +22,20 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
     protected function _initCache()
     {
     	$frontendOptions = array(
-		   'lifetime' => 1,
-		   'debug_header' => true, // for debugging
+		   'lifetime' => null,
+		   'debug_header' => true, // for debugging,
+		   'automatic_serialization' => true
 		);
 
 		$backendOptions = array(
-		    'cache_dir' => '/tmp/'
+		    'cache_dir' => APPLICATION_PATH . '/../tmp/'
 		);
-
 		// getting a Zend_Cache_Frontend_Page object
 		$cache = Zend_Cache::factory('Core',
 		                             'File',
 		                             $frontendOptions,
 		                             $backendOptions);
+         Zend_Registry::set('Cache', $cache);
     }
 }
 
