@@ -19,13 +19,12 @@ class Emission_IndexController extends Zend_Controller_Action
         $id = ''; // cache id of "what we want to cache"
         $dataNew = array();
 		if( $_POST['save']) {
-			$dataNew[$_POST['login']] = array_map('trim', $_POST);
 			$data = $cache->load('emissions');
 			if ($data) {
-				array_push($data, $data);
+				array_push($data, $_POST);
 		    	$cache->save($data);
 			} else {
-				$cache->save($dataNew);
+				$cache->save(array($_POST));
 			}
 			$this->_redirector->gotoSimple('all', 'index', 'emission');
 		}
