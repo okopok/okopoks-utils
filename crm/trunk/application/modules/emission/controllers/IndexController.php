@@ -15,6 +15,28 @@ class Emission_IndexController extends Zend_Controller_Action
 
     public function addAction()
     {
+        $cache = Zend_Registry::get('Cache');
+        $id = ''; // cache id of "what we want to cache"
+        $dataNew = array();
+		if( $_POST['save']) {
+			$dataNew[$_POST['login']] = array_map('trim', $_POST);
+			$data = $cache->load('emissions');
+			if ($data) {
+				array_push($data, $data);
+		    	$cache->save($data);
+			} else {
+				$cache->save($dataNew);
+			}
+			$this->_redirector->gotoSimple('all', 'index', 'emission');
+		}
+    }
+
+    public function allAction()
+    {
+    	$cache = Zend_Registry::get('Cache');
+    	if ($data = $cache->load('emissions')) {
+		   $this->view->assign('emissions', $data);
+		}
         // action body
     }
 
@@ -33,16 +55,10 @@ class Emission_IndexController extends Zend_Controller_Action
         // action body
     }
 
-    public function searchAction()
-    {
-        // action body
-    }
-
     public function editAction()
     {
         // action body
     }
-
 
 }
 

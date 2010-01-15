@@ -1,1 +1,22 @@
-<br /><br /><center>View script for controller <b>index</b> and script/action name <b>add</b></center>
+<h1>Добавление клиента</h1>
+
+<form method="post">
+	Сокращенное имя клиента:<br /><input type="text" name="login" /><br />
+	Кодовое слово:<br /><input type="text" name="codePhrase" /><br />
+	Имя клиента:<br /><input type="text" name="first_name" /><br />
+	Фамилия клиента:<br /><input type="text" name="last_name" /><br />
+	Обращение к клиенту:<br /><input type="text" name="title" /><br />
+	Свободные средства клиента:<br /><input type="text" name="money" /><br />
+	Дата  начала обслуживания:<br /><input type="text" name="dateStartPending" /><br />
+	Дата  окончания обслуживания:<br /><input type="text" name="dateStopPending" /><br />
+	Телефон клиента 1:<br /><input type="text" name="phone1" /><br />
+	Телефон клиента 2:<br /><input type="text" name="phone2" /><br />
+	e-mail клиента:<br /><input type="text" name="email" /><br />
+	адрес клиента:<br /><input type="text" name="adress" /><br />
+	дата  рождения:<br /><input type="text" name="birthdate" /><br />
+	комментарий:<br /><input type="text" name="comment" /><br />
+	Лимиты  клиента:<br /><input type="text" name="limits" />
+	<input type="hidden" name="save" value="1" />
+	<input type="submit" value="save" />
+
+</form>
