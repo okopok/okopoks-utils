@@ -1,25 +1,13 @@
 <?php
-// application/layouts/scripts/layout.phtml
-
 echo $this->doctype() ?>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <title>UFS CRM</title>
-  <link href="/css/global.css" media="screen" rel="stylesheet" type="text/css" />
-  <link href="/css/menu.css" media="screen" rel="stylesheet" type="text/css" />
-  <script type="text/javascript">
-  <!--//--><![CDATA[//><!--
-	jsHover = function() {
-		var hEls = document.getElementById("nav").getElementsByTagName("LI");
-		for (var i=0, len=hEls.length; i<len; i++) {
-			hEls[i].onmouseover=function() { this.className+=" jshover"; }
-			hEls[i].onmouseout=function() { this.className=this.className.replace(" jshover", ""); }
-		}
-	}
-	if (window.attachEvent && navigator.userAgent.indexOf("Opera")==-1) window.attachEvent("onload", jsHover);
-//--><!]]>
-	</script>
+  <?php echo $this->headTitle('My ZF site'); ?>
+  <?php echo $this->headTitle() ?>
+  <?php $this->headLink()->appendStylesheet('/css/global.css'); ?>
+  <?php print $this->headLink(); ?>
+  <?php print $this->headTitle(); ?>
 </head>
 <body>
 <div id="header" style="background-color: #EEEEEE;">
@@ -27,60 +15,10 @@ echo $this->doctype() ?>
         <b>ZF Quickstart Application</b>
     </div>
     <br />
-    <div id="header-navigation">
-    	<ul id="nav">
-    		<li>
-    			<a href="/index">MAIN</a>
-    		</li>
-    		<li><a href="/client">client</a>
-    			<ul>
-    				<li><a href="/client/index">index</a>
-    					<ul>
-    						<li><a href="/client/limits">limits</a></li>
-    						<li><a href="/client/index/add">add</a></li>
-    						<li><a href="/client/index/all">all</a></li>
-    						<li><a href="/client/reports">reports</a></li>
-    						<li><a href="/client/limits">limits</a></li>
-    						<li><a href="/client/search">search</a></li>
-    					</ul>
-    				</li>
-    				<li><a href="/client/briefcase">briefcase</a>
-    					<ul>
-    						<li><a href="/client/modelling">modelling</a></li>
-    					</ul>
-    				</li>
-    				<li><a href="/client/inout">inout</a></li>
-    				<li><a href="/client/flows">flows</a></li>
-    				<li><a href="/client/reports">reports</a></li>
-    			</ul>
-    		</li>
-    		<li><a href="/emission">emission</a>
-    			<ul>
-    				<li><a href="/emission/index">index</a>
-    					<ul>
-    						<li><a href="/emission/index/all">all</a></li>
-    						<li><a href="/emission/index/add">add</a></li>
-						</ul>
-    				</li>
-    				<li><a href="/emission/search">search</a></li>
-    			</ul>
-    		</li>
-    		<li><a href="/ticket">ticket</a>
-    			<ul>
-    				<li><a href="#null">buy-sell</a></li>
-    				<li><a href="#null">sell-buy</a></li>
-    				<li><a href="/ticket/buy">buy</a></li>
-    				<li><a href="/ticket/sell">sell</a></li>
-    				<li><a href="/ticket/index">index</a></li>
-    			</ul>
-    		</li>
-    		<li>
-    			<a href="/modelling">modelling</a>
-    		</li>
-    	</ul>
-    </div>
-
-
+<?php echo $this->navigation()->breadcrumbs($this->menu)->setMinDepth(0)->setLinkLast(false); ?>
+<br>
+<?php echo $this->navigation()->menu($this->menu)->setUlClass('nav'); ?>
+<?php echo $this->navigation()->links(); ?>
 </div>
 <br />
 <br />

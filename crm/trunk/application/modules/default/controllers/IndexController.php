@@ -10,9 +10,22 @@ class IndexController extends Zend_Controller_Action
 
     public function indexAction()
     {
-        // action body
+
+    }
+
+
+    public function beerAction()
+    {
+        print Default_Model_Beer_Beer::getTest();
+        print "<br>";
+        print Default_Model_Beer::getTest();
+    }
+
+    public function testAction()
+    {
         print Default_Model_Test::getTest();
     }
+
 
 
 }
