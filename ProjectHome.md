@@ -1,0 +1,1 @@
+This project contains my personal php utils, that i use every day on work
